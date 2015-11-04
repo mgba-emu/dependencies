@@ -1,0 +1,27 @@
+[submodule "qt5"]
+	path = qt5
+	url = https://github.com/qtproject/qt5.git
+[submodule "libepoxy"]
+	path = libepoxy
+	url = https://github.com/yaronct/libepoxy.git
+[submodule "x264"]
+	path = x264
+	url = http://git.videolan.org/git/x264.git/
+[submodule "imagemagick"]
+	path = imagemagick
+	url = http://git.imagemagick.org/repos/ImageMagick.git
+[submodule "libpng"]
+	path = libpng
+	url = git://git.code.sf.net/p/libpng/code
+[submodule "libvpx"]
+	path = libvpx
+	url = https://chromium.googlesource.com/webm/libvpx
+[submodule "zlib"]
+	path = zlib
+	url = https://github.com/madler/zlib.git
+[submodule "ffmpeg"]
+	path = ffmpeg
+	url = git://source.ffmpeg.org/ffmpeg.git
+[submodule "opus"]
+	path = opus
+	url = git://git.opus-codec.org/opus.git
