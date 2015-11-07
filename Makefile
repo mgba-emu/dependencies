@@ -44,6 +44,8 @@ ffmpeg: lame opus x264 xvidcore libvpx
 
 lame: CONFIGURE_FLAGS=--disable-frontend SHELL=bash
 
+libepoxy: CONFIGURE=autoreconf --force --install && ./configure --host=$(HOST) --prefix=$(ROOT)
+
 libpng: zlib
 
 libvpx: CONFIGURE=../buildscripts/configure-libvpx.sh $(CROSS_PREFIX) $(ROOT)
