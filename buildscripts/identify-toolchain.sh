@@ -28,7 +28,12 @@ elif [ -x "$(which "$CROSS_COMPILE"ar)" ]; then
 	export AR="$CROSS_COMPILE"ar
 fi
 
-export RANLIB="$CROSS_COMPILE"ranlib
+if [ -x "$(which "$CROSS_COMPILE"gcc-ranlib)" ]; then
+	export RANLIB="$CROSS_COMPILE"gcc-ranlib
+elif [ -x "$(which "$CROSS_COMPILE"ranlib)" ]; then
+	export RANLIB="$CROSS_COMPILE"ranlib
+fi
+export STRIP="$CROSS_COMPILE"strip
 
 export CPPFLAGS=-I$ROOT/include
 export LDFLAGS=-L$ROOT/lib

@@ -46,6 +46,8 @@ lame: CONFIGURE_FLAGS=--disable-frontend SHELL=bash
 
 libpng: zlib
 
+libvpx: CONFIGURE=../buildscripts/configure-libvpx.sh $(CROSS_PREFIX) $(ROOT)
+
 libzip: zlib
 
 qt5: CONFIGURE=../buildscripts/configure-qt.sh $(CROSS_PREFIX) $(ROOT)
