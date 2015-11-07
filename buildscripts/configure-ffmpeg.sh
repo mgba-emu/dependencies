@@ -1,6 +1,9 @@
 #!/bin/sh
-if [ -z "$(CROSS_COMPILE)" ]; then
+if [ -z "$CROSS_COMPILE" ]; then
 	export CROSS_COMPILE=$1
+fi
+if [ -z "$ROOT" ]; then
+	export ROOT=$2
 fi
 
 BASEDIR=$(dirname $0)

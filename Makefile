@@ -30,31 +30,34 @@ $(foreach PROJECT, $(PROJECTS),$(PROJECT)-clean):
 	-$(MAKE) -C $(subst -clean,,$@) distclean
 
 
-$(foreach PROJECT, $(PROJECTS),$(PROJECT)): CONFIGURE=autoreconf --force --install && bash ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared $(CONFIGURE_FLAGS)
+$(foreach PROJECT, $(PROJECTS),$(PROJECT)): CONFIGURE=bash ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared $(CONFIGURE_FLAGS)
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)): BASEDIR=$@
+$(foreach PROJECT, $(PROJECTS),$(PROJECT)): TARGET=install
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)):
-	cd $(BASEDIR) && $(CONFIGURE) && $(MAKE) install
+	cd $(BASEDIR) && $(CONFIGURE) && $(MAKE) $(TARGET)
 
 imagemagick: CONFIGURE_FLAGS=--with-quantum-depth=8 --with-x=no --with-bzlib=no
 imagemagick: libpng
 
-ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh $(CROSS_PREFIX)
-ffmpeg: lame opus x264 xvidcore
+ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh $(CROSS_PREFIX) $(ROOT)
+ffmpeg: lame opus x264 xvidcore libvpx
 
-lame: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared
+lame: CONFIGURE_FLAGS=--disable-frontend SHELL=bash
 
 libpng: zlib
 
 libzip: zlib
 
-qt5: CONFIGURE=../buildscripts/configure-qt.sh $(CROSS_PREFIX)
+qt5: CONFIGURE=../buildscripts/configure-qt.sh $(CROSS_PREFIX) $(ROOT)
 qt5: libpng
 
 sdl2: CONFIGURE_FLAGS=--disable-video-x11 --disable-power
 
 x264: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared --disable-cli --enable-strip
 
+xvidcore: CONFIGURE=./configure --host=$(HOST) --prefix=$(ROOT)
 xvidcore: BASEDIR=$@/build/generic
+xvidcore: TARGET=all install
 
 zlib: CONFIGURE=./configure --static --prefix=$(ROOT)
 

@@ -30,6 +30,9 @@ fi
 
 export RANLIB="$CROSS_COMPILE"ranlib
 
+export CPPFLAGS=-I$ROOT/include
+export LDFLAGS=-L$ROOT/lib
+
 identify_os() {
 	local CC=$1
 	local PREPROC="$($CC -E -dM -x c - < /dev/null)"
