@@ -10,7 +10,7 @@ if [ -x "$(which "$CROSS_COMPILE"cc)" ]; then
 	export CC="$CROSS_COMPILE"cc
 elif [ -x "$(which "$CROSS_COMPILE"gcc)" ]; then
 	export CC="$CROSS_COMPILE"gcc
-elif [ -x "$(which "$CROS_COMPILE"clang)" ]; then
+elif [ -x "$(which "$CROSS_COMPILE"clang)" ]; then
 	export CC="$CROSS_COMPILE"clang
 fi
 
@@ -59,11 +59,11 @@ identify_os() {
 
 identify_compiler() {
 	local CXX=$1
-	if [ -n "$($CXX --version 2>&1 | grep clang)" ]; then
+	if $CXX --version 2>&1 | grep -q clang; then
 		echo clang
 		return 0
 	fi
-	if [ -n "$($CXX --version 2>&1 | grep GCC)" ]; then
+	if $CXX --version 2>&1 | grep GCC; then
 		echo g++
 		return 0
 	fi
