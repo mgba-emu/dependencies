@@ -48,7 +48,7 @@ ffmpeg: lame libvpx opus x264 xvidcore
 
 lame: CONFIGURE_FLAGS=--disable-frontend
 
-libepoxy: CONFIGURE=autoreconf --force --install && ./configure --host=$(HOST) --prefix=$(ROOT) CFLAGS="$(CFLAGS) -DEPOXY_STATIC_LIB=ON"
+libepoxy: CONFIGURE_FLAGS=CFLAGS="$(CFLAGS) -DEPOXY_STATIC_LIB=ON"
 
 libpng: zlib
 libpng: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared --disable-cli --enable-strip
