@@ -19,6 +19,9 @@ Linux*)
 OSX*)
 	OS=x86_64-darwin13-gcc
 	;;
+Windows64)
+	OS=x86_64-win64-gcc
+	;;
 Windows*)
 	OS=x86-win32-gcc
 	;;

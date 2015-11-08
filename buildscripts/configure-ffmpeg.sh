@@ -9,6 +9,7 @@ fi
 BASEDIR=$(dirname $0)
 . $BASEDIR/identify-toolchain.sh
 OS=$(identify_os $CC)
+ARCH=x86
 case $OS in
 FreeBSD*)
 	OS=freebsd
@@ -21,6 +22,7 @@ OSX*)
 	;;
 Windows64)
 	OS=win64
+	ARCH=x86_64
 	;;
 Windows*)
 	OS=win32
@@ -165,5 +167,5 @@ esac
 	--enable-bsf=h264_mp4toannexb \
 	--enable-bsf=mp3_header_decompress \
 	\
-	--enable-memalign-hack --arch=x86 --target-os=$OS --enable-gpl --cross-prefix=$CROSS_COMPILE --pkg-config=pkg-config --prefix=$ROOT --disable-programs --enable-static --disable-shared \
+	--enable-memalign-hack --arch=$ARCH --target-os=$OS --enable-gpl --cross-prefix=$CROSS_COMPILE --pkg-config=pkg-config --prefix=$ROOT --disable-programs --enable-static --disable-shared \
 	--enable-libvpx --enable-libmp3lame --enable-libx264 --enable-avresample --enable-libopus --enable-libxvid --cc="$CC" --cxx="$CXX" --as="$AS"
