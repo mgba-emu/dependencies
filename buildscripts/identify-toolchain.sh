@@ -71,7 +71,7 @@ identify_compiler() {
 		echo clang
 		return 0
 	fi
-	if $CXX --version 2>&1 | grep GCC; then
+	if $CXX --version 2>&1 | grep -q GCC; then
 		echo g++
 		return 0
 	fi
@@ -88,6 +88,12 @@ if [ -n "$2" ]; then
 		;;
 	CXX)
 		echo $CXX
+		;;
+	RANLIB)
+		echo $RANLIB
+		;;
+	STRIP)
+		echo $STRIP
 		;;
 	esac
 fi

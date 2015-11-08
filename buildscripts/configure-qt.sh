@@ -25,12 +25,34 @@ Windows*)
 esac
 COMPILER=$(identify_compiler $CXX)
 
+case `uname` in
+FreeBSD)
+	HOST=freebsd-g++
+	;;
+Linux)
+	OS=linux-g++
+	;;
+Darwin)
+	OS=macx-clang
+	;;
+esac
+
+unset CC
+unset CXX
+unset AR
+unset RANLIB
+unset STRIP
+unset CPPFLAGS
+unset CFLAGS
+unset CXXFLAGS
+unset LDFLAGS
+
 ./configure -prefix $ROOT -opensource -confirm-license -xplatform $OS-$COMPILER \
-	-device-option CROSS_COMPILE=$CROSS_COMPILE -no-icu -nomake examples \
+	-device-option CROSS_COMPILE=$CROSS_COMPILE -release -platform $HOST \
 	-skip 3d -skip activeqt -skip canvas3d -skip connectivity -skip declarative \
 	-skip doc -skip docgallery -skip enginio -skip feedback -skip graphicaleffects \
 	-skip location -skip pim -skip qa -skip quick1 -skip quickcontrols -skip repotools \
 	-skip script -skip sensors -skip serialport -skip svg -skip systems -skip tools \
 	-skip wayland -skip webchannel -skip webengine -skip webkit -skip webkit-examples \
 	-skip websockets -skip xmlpatterns \
-	-nomake tools -qt-harfbuzz -v
+	-no-icu -nomake examples -nomake tools -qt-harfbuzz -v

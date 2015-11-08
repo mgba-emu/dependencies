@@ -3,13 +3,13 @@
 	url = https://github.com/qtproject/qt5.git
 [submodule "libepoxy"]
 	path = libepoxy
-	url = https://github.com/yaronct/libepoxy.git
+	url = https://github.com/mgba-emu/libepoxy.git
 [submodule "x264"]
 	path = x264
 	url = http://git.videolan.org/git/x264.git/
 [submodule "imagemagick"]
 	path = imagemagick
-	url = http://git.imagemagick.org/repos/ImageMagick.git
+	url = https://github.com/mgba-emu/ImageMagick.git
 [submodule "libpng"]
 	path = libpng
 	url = git://git.code.sf.net/p/libpng/code
