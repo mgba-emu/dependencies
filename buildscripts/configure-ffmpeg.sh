@@ -45,7 +45,7 @@ esac
 	--enable-encoder=libvpx_vp9 \
 	--enable-encoder=libx264 \
 	--enable-encoder=libx264rgb \
-	--enable-encoder=libxvid \
+	--enable-encoder=mjpeg \
 	--enable-encoder=mpeg4 \
 	--enable-encoder=pcm_alaw \
 	--enable-encoder=pcm_f32be \
@@ -168,4 +168,4 @@ esac
 	--enable-bsf=mp3_header_decompress \
 	\
 	--enable-memalign-hack --arch=$ARCH --target-os=$OS --enable-gpl --cross-prefix=$CROSS_COMPILE --pkg-config=pkg-config --prefix=$ROOT --disable-programs --enable-static --disable-shared \
-	--enable-libvpx --enable-libmp3lame --enable-libx264 --enable-avresample --enable-libopus --enable-libxvid --cc="$CC" --cxx="$CXX" --as="$AS"
+	--enable-libvpx --enable-libmp3lame --enable-libx264 --enable-avresample --enable-libopus --cc="$CC" --cxx="$CXX" --as="$AS" --enable-lto
