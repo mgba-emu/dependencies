@@ -1,4 +1,4 @@
-PROJECTS := ffmpeg imagemagick lame libepoxy libpng libvpx libzip opus qt5 sdl2 x264 xvidcore zlib
+PROJECTS := ffmpeg imagemagick lame libepoxy libpng libvpx libzip opus qt5 sqlite3 sdl2 x264 xvidcore zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 CFLAGS += -O3 -msse2 $(CPPFLAGS) -ffat-lto-objects
