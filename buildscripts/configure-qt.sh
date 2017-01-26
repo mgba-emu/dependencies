@@ -51,20 +51,22 @@ Darwin)
 esac
 
 ./configure -prefix $ROOT -opensource -confirm-license -xplatform $OS-$COMPILER \
-	-device-option CROSS_COMPILE=$CROSS_COMPILE -release -platform $HOST \
+	-device-option CROSS_COMPILE=$CROSS_COMPILE -device-option QMAKE_LIBS=-lz \
+	-release -platform $HOST -system-libpng -opengl desktop \
 	-skip 3d -skip activeqt -skip canvas3d -skip connectivity -skip declarative \
 	-skip doc -skip docgallery -skip enginio -skip feedback -skip graphicaleffects \
 	-skip imageformats -skip location -skip pim -skip qa -skip quick1 \
 	-skip quickcontrols -skip repotools -skip script -skip sensors \
 	-skip serialport -skip svg -skip systems -skip tools -skip wayland \
 	-skip webchannel -skip webengine -skip webkit -skip webkit-examples \
-	-skip websockets -skip xmlpatterns -skip multimedia -nomake examples \
-	-nomake tools -nomake tests -no-icu -no-compile-examples -no-gif -no-sql-odbc \
+	-skip websockets -skip xmlpatterns -skip multimedia \
+	-nomake examples -nomake tools -nomake tests -no-compile-examples \
 	-no-feature-printer -no-feature-printpreviewwidget -no-feature-printdialog \
 	-no-feature-ftp -no-feature-http -no-feature-udpsocket -no-feature-socks5 \
-	-no-feature-networkproxy -no-feature-networkdiskcache \
+	-no-feature-networkproxy -no-feature-networkdiskcache -no-feature-dbus \
 	-no-feature-bearermanagement -no-feature-fontcombobox -no-feature-mdiarea \
 	-no-feature-colordialog -no-feature-fontdialog -no-feature-wizard \
-	-no-feature-imageformat-ppm -no-feature-imageformat-xbm -no-feature-pdf \
-	-no-harfbuzz -no-openssl -I $ROOT/include -L $ROOT/lib -v -static -ltcg \
-	-c++std c++14
+	-no-feature-imageformat_ppm -no-feature-imageformat_xbm -no-feature-pdf \
+	-no-feature-style-fusion -no-feature-style-windowsxp \
+	-no-icu -no-gif -no-sql-odbc -no-harfbuzz -no-openssl -no-dbus \
+	-I $ROOT/include -L $ROOT/lib -v -static -c++std c++11
