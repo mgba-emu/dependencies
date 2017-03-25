@@ -59,7 +59,7 @@ esac
 	-skip quickcontrols -skip repotools -skip script -skip sensors \
 	-skip serialport -skip svg -skip systems -skip tools -skip wayland \
 	-skip webchannel -skip webengine -skip webkit -skip webkit-examples \
-	-skip websockets -skip xmlpatterns -skip multimedia \
+	-skip websockets -skip xmlpatterns \
 	-nomake examples -nomake tools -nomake tests -no-compile-examples \
 	-no-feature-printer -no-feature-printpreviewwidget -no-feature-printdialog \
 	-no-feature-ftp -no-feature-http -no-feature-udpsocket -no-feature-socks5 \
@@ -67,6 +67,5 @@ esac
 	-no-feature-bearermanagement -no-feature-fontcombobox -no-feature-mdiarea \
 	-no-feature-colordialog -no-feature-fontdialog -no-feature-wizard \
 	-no-feature-imageformat_ppm -no-feature-imageformat_xbm -no-feature-pdf \
-	-no-feature-style-fusion -no-feature-style-windowsxp \
 	-no-icu -no-gif -no-sql-odbc -no-harfbuzz -no-openssl -no-dbus \
 	-I $ROOT/include -L $ROOT/lib -v -static -c++std c++11
