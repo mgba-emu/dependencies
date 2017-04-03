@@ -43,6 +43,7 @@ identify_os() {
 	local PREPROC="$($CC -E -dM -x c - < /dev/null)"
 	local OSX=$(echo "$PREPROC" | grep __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ | awk -F' ' '{ print $3 }')
 	local LINUX=$(echo "$PREPROC" | grep __linux__)
+	local WINDOW64=$(echo "$PREPROC" | grep _WIN64)
 	local WINDOWS=$(echo "$PREPROC" | grep _WIN32)
 	local FREEBSD=$(echo "$PREPROC" | grep __FreeBSD__ | awk -F' ' '{ print $3 }')
 
@@ -52,6 +53,10 @@ identify_os() {
 	fi
 	if [ -n "$LINUX" ]; then
 		echo "Linux"
+		return 0
+	fi
+	if [ -n "$WINDOW64" ]; then
+		echo "Windows64"
 		return 0
 	fi
 	if [ -n "$WINDOWS" ]; then
