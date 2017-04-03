@@ -83,7 +83,6 @@ esac
 	--enable-parser=mjpeg \
 	--enable-parser=mpeg4video \
 	--enable-parser=mpegaudio \
-	--enable-parser=mpegvideo \
 	--enable-parser=opus \
 	--enable-parser=png \
 	--enable-parser=vorbis \
