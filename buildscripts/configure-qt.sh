@@ -50,6 +50,10 @@ Darwin)
 	;;
 esac
 
+INCPATH=-I$ROOT/include
+LIBDIR=-L$ROOT/lib
+export INCPATH
+export LIBDIR
 ./configure -prefix $ROOT -opensource -confirm-license -xplatform $OS-$COMPILER \
 	-device-option CROSS_COMPILE=$CROSS_COMPILE -device-option QMAKE_LIBS=-lz \
 	-release -platform $HOST -system-libpng -opengl desktop \
