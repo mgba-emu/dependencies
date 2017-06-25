@@ -66,10 +66,21 @@ export LIBDIR
 	-skip websockets -skip xmlpatterns \
 	-nomake examples -nomake tools -nomake tests -no-compile-examples \
 	-no-feature-printer -no-feature-printpreviewwidget -no-feature-printdialog \
-	-no-feature-ftp -no-feature-http -no-feature-udpsocket -no-feature-socks5 \
+	-no-feature-ftp -no-feature-udpsocket -no-feature-socks5 \
 	-no-feature-networkproxy -no-feature-networkdiskcache -no-feature-dbus \
-	-no-feature-bearermanagement -no-feature-fontcombobox -no-feature-mdiarea \
-	-no-feature-colordialog -no-feature-fontdialog -no-feature-wizard \
+	-no-feature-bearermanagement -no-feature-mdiarea -no-feature-wizard \
 	-no-feature-imageformat_ppm -no-feature-imageformat_xbm -no-feature-pdf \
+	-no-feature-desktopservices \
+	-no-feature-dial \
+	-no-feature-dom \
+	-no-feature-gestures \
+	-no-feature-graphicseffect \
+	-no-feature-lcdnumber \
+	-no-feature-printpreviewdialog \
+	-no-feature-textodfwriter \
+	-no-feature-xmlstream \
+	-no-feature-xmlstreamreader \
+	-no-feature-xmlstreamwriter \
+	-no-pch -no-freetype \
 	-no-icu -no-gif -no-sql-odbc -no-harfbuzz -no-openssl -no-dbus \
 	-I $ROOT/include -L $ROOT/lib -v -static -c++std c++11
