@@ -69,7 +69,7 @@ export LIBDIR
 	-no-feature-ftp -no-feature-http -no-feature-udpsocket -no-feature-socks5 \
 	-no-feature-networkproxy -no-feature-networkdiskcache -no-feature-dbus \
 	-no-feature-bearermanagement -no-feature-fontcombobox -no-feature-mdiarea \
-	-no-feature-colordialog -no-feature-fontdialog -no-feature-wizard \
-	-no-feature-imageformat_ppm -no-feature-imageformat_xbm -no-feature-pdf \
+	-no-feature-fontdialog -no-feature-wizard -no-feature-imageformat_ppm \
+	-no-feature-imageformat_xbm -no-feature-pdf -no-freetype \
 	-no-icu -no-gif -no-sql-odbc -no-harfbuzz -no-openssl -no-dbus \
 	-I $ROOT/include -L $ROOT/lib -v -static -c++std c++11
