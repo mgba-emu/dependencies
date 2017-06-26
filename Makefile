@@ -64,8 +64,8 @@ libzip: CONFIGURE=autoreconf --force --install && ./configure --enable-static --
 opus: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared
 
 qt5: CONFIGURE=../buildscripts/configure-qt.sh "$(CROSS_PREFIX)" $(ROOT)
-qt5: TARGET=clean all
 qt5: libpng
+qt5: TARGET=first
 
 sdl2: CONFIGURE_FLAGS=--disable-video-x11 --disable-power
 
