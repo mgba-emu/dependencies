@@ -61,7 +61,7 @@ export LIBDIR
 	-skip doc -skip docgallery -skip enginio -skip feedback -skip graphicaleffects \
 	-skip imageformats -skip location -skip pim -skip qa -skip quick1 \
 	-skip quickcontrols -skip repotools -skip script -skip sensors \
-	-skip serialport -skip svg -skip systems -skip tools -skip wayland \
+	-skip serialport -skip svg -skip systems -skip wayland \
 	-skip webchannel -skip webengine -skip webkit -skip webkit-examples \
 	-skip websockets -skip xmlpatterns \
 	-nomake examples -nomake tools -nomake tests -no-compile-examples \
@@ -78,9 +78,6 @@ export LIBDIR
 	-no-feature-lcdnumber \
 	-no-feature-printpreviewdialog \
 	-no-feature-textodfwriter \
-	-no-feature-xmlstream \
-	-no-feature-xmlstreamreader \
-	-no-feature-xmlstreamwriter \
 	-no-pch -no-freetype \
 	-no-icu -no-gif -no-sql-odbc -no-harfbuzz -no-openssl -no-dbus \
 	-I $ROOT/include -L $ROOT/lib -v -static -c++std c++11
