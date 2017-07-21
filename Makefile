@@ -1,4 +1,4 @@
-PROJECTS := ffmpeg imagemagick lame libepoxy libpng libvpx libzip opus qt5 sqlite3 sdl2 x264 xvidcore zlib
+PROJECTS := ffmpeg imagemagick lame libelf libepoxy libpng libvpx libzip opus qt5 sqlite3 sdl2 x264 xvidcore zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 CFLAGS += -O3 -msse2 $(CPPFLAGS) -ffat-lto-objects
@@ -30,10 +30,13 @@ export STRIP
 
 all: $(PROJECTS)
 
-clean: $(foreach PROJECT, $(PROJECTS),$(PROJECT)-clean)
+clean: $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
 
-$(foreach PROJECT, $(PROJECTS),$(PROJECT)-clean):
-	-$(MAKE) -C $(subst -clean,,$@) distclean
+CLEAN_PROJECTS = $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
+CUSTOM_CLEAN = clean-qt5
+
+$(foreach PROJECT, $(filter-out $(CUSTOM_CLEAN),$(CLEAN_PROJECTS)),$(PROJECT)):
+	-$(MAKE) -C $(subst clean-,,$@) distclean
 
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)): CONFIGURE=bash ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared SHELL=bash $(CONFIGURE_FLAGS)
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)): BASEDIR=$@
@@ -42,10 +45,12 @@ $(foreach PROJECT, $(PROJECTS),$(PROJECT)):
 	cd $(BASEDIR) && $(CONFIGURE) && $(MAKE) $(TARGET) && $(MAKE) install
 
 imagemagick: CONFIGURE_FLAGS=--with-quantum-depth=8 --with-x=no --with-bzlib=no --without-magick-plus-plus
+imagemagick: TARGET=install-libLTLIBRARIES install-data
 imagemagick: libpng
 
 ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh "$(CROSS_PREFIX)" $(ROOT)
 ffmpeg: lame libvpx opus x264 xvidcore
+ffmpeg: clean-ffmpeg
 
 lame: CONFIGURE_FLAGS=--disable-frontend
 
@@ -56,7 +61,7 @@ libpng: CONFIGURE=autoreconf --force --install && ./configure --enable-static --
 
 libvpx: CONFIGURE=../buildscripts/configure-libvpx.sh "$(CROSS_PREFIX)" $(ROOT)
 libvpx: MAKEFLAGS+=-j1
-libvpx: libvpx-clean
+libvpx: clean-libvpx
 
 libzip: zlib
 libzip: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared CFLAGS+="-DZIP_STATIC"
@@ -66,6 +71,9 @@ opus: CONFIGURE=autoreconf --force --install && ./configure --enable-static --ho
 qt5: CONFIGURE=../buildscripts/configure-qt.sh "$(CROSS_PREFIX)" $(ROOT)
 qt5: libpng
 qt5: TARGET=first
+
+clean-qt5:
+	(cd qt5 && git clean -dfx && git submodule foreach git clean -dfx)
 
 sdl2: CONFIGURE_FLAGS=--disable-video-x11 --disable-power
 
