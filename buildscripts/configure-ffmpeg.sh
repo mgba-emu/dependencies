@@ -167,5 +167,5 @@ esac
 	--enable-bsf=h264_mp4toannexb \
 	--enable-bsf=mp3_header_decompress \
 	\
-	--enable-memalign-hack --arch=$ARCH --target-os=$OS --enable-gpl --cross-prefix=$CROSS_COMPILE --pkg-config=pkg-config --prefix=$ROOT --disable-programs --enable-static --disable-shared \
+	--arch=$ARCH --target-os=$OS --enable-gpl --cross-prefix=$CROSS_COMPILE --pkg-config=pkg-config --prefix=$ROOT --disable-programs --enable-static --disable-shared \
 	--enable-libvpx --enable-libmp3lame --enable-libx264 --enable-avresample --enable-libopus --enable-nvenc --cc="$CC" --cxx="$CXX" --as="$AS"
