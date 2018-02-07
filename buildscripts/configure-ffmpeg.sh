@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 if [ -z "$CROSS_COMPILE" ]; then
 	export CROSS_COMPILE=$1
 fi

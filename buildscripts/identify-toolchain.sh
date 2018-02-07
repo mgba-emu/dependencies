@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -z "$CROSS_COMPILE" ]; then
 	CROSS_COMPILE=$1
