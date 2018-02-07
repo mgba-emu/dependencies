@@ -1,27 +1,37 @@
 [submodule "qt5"]
 	path = qt5
 	url = https://github.com/qtproject/qt5.git
+	ignore = untracked
 [submodule "libepoxy"]
 	path = libepoxy
 	url = https://github.com/mgba-emu/libepoxy.git
+	ignore = untracked
 [submodule "x264"]
 	path = x264
 	url = http://git.videolan.org/git/x264.git/
+	ignore = untracked
 [submodule "imagemagick"]
 	path = imagemagick
 	url = https://github.com/mgba-emu/ImageMagick.git
+	branch = ImageMagick-6
+	ignore = untracked
 [submodule "libpng"]
 	path = libpng
 	url = git://git.code.sf.net/p/libpng/code
+	ignore = untracked
 [submodule "libvpx"]
 	path = libvpx
 	url = https://chromium.googlesource.com/webm/libvpx
+	ignore = untracked
 [submodule "zlib"]
 	path = zlib
 	url = https://github.com/madler/zlib.git
+	ignore = untracked
 [submodule "ffmpeg"]
 	path = ffmpeg
 	url = git://source.ffmpeg.org/ffmpeg.git
+	ignore = untracked
 [submodule "opus"]
 	path = opus
 	url = git://git.opus-codec.org/opus.git
+	ignore = untracked
