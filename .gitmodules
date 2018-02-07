@@ -12,8 +12,7 @@
 	ignore = untracked
 [submodule "imagemagick"]
 	path = imagemagick
-	url = https://github.com/mgba-emu/ImageMagick.git
-	branch = ImageMagick-6
+	url = https://github.com/ImageMagick/ImageMagick.git
 	ignore = untracked
 [submodule "libpng"]
 	path = libpng
