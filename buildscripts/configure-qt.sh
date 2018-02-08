@@ -43,10 +43,10 @@ FreeBSD)
 	HOST=freebsd-clang
 	;;
 Linux)
-	OS=linux-g++
+	HOST=linux-g++
 	;;
 Darwin)
-	OS=macx-clang
+	HOST=macx-clang
 	;;
 esac
 
