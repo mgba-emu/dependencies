@@ -44,8 +44,7 @@ $(foreach PROJECT, $(PROJECTS),$(PROJECT)): TARGET=all
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)):
 	cd $(BASEDIR) && $(CONFIGURE) && $(MAKE) $(TARGET) && $(MAKE) install
 
-imagemagick: CONFIGURE_FLAGS=--with-quantum-depth=8 --with-x=no --with-bzlib=no --without-magick-plus-plus
-imagemagick: TARGET=install-libLTLIBRARIES install-data
+imagemagick: CONFIGURE_FLAGS=--with-quantum-depth=8 --with-x=no --with-bzlib=no --without-magick-plus-plus --without-threads LDFLAGS=-lws2_32
 imagemagick: libpng
 
 ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh "$(CROSS_PREFIX)" $(ROOT)
