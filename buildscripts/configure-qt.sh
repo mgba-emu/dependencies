@@ -56,7 +56,8 @@ export INCPATH
 export LIBDIR
 ./configure -prefix $ROOT -opensource -confirm-license -xplatform $OS-$COMPILER \
 	-device-option CROSS_COMPILE=$CROSS_COMPILE -device-option QMAKE_LIBS=-lz \
-	-release -platform $HOST -system-libpng -opengl desktop \
+	-release -platform $HOST -optimize-size -system-libpng -system-sqlite \
+	-opengl desktop -no-pch -no-avx2 \
 	-skip 3d -skip activeqt -skip canvas3d -skip connectivity -skip declarative \
 	-skip doc -skip docgallery -skip enginio -skip feedback -skip graphicaleffects \
 	-skip imageformats -skip location -skip pim -skip qa -skip quick1 \
@@ -78,6 +79,6 @@ export LIBDIR
 	-no-feature-lcdnumber \
 	-no-feature-printpreviewdialog \
 	-no-feature-textodfwriter \
-	-no-pch -no-freetype \
+	-no-freetype \
 	-no-icu -no-gif -no-sql-odbc -no-harfbuzz -no-openssl -no-dbus \
-	-I $ROOT/include -L $ROOT/lib -v -static -c++std c++11
+	-I $ROOT/include -L $ROOT/lib -v -static -c++std c++14

@@ -53,7 +53,7 @@ ffmpeg: clean-ffmpeg
 
 lame: CONFIGURE_FLAGS=--disable-frontend
 
-libepoxy: CONFIGURE_FLAGS=CFLAGS+="-DEPOXY_STATIC_LIB=ON"
+libepoxy: CONFIGURE_FLAGS=CFLAGS="$(CFLAGS) -DEPOXY_STATIC_LIB=ON"
 
 libpng: zlib
 libpng: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared --disable-cli --enable-strip
@@ -63,12 +63,12 @@ libvpx: MAKEFLAGS+=-j1
 libvpx: clean-libvpx
 
 libzip: zlib
-libzip: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared CFLAGS+="-DZIP_STATIC"
+libzip: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared CFLAGS="$(CFLAGS) -DZIP_STATIC"
 
 opus: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared
 
 qt5: CONFIGURE=../buildscripts/configure-qt.sh "$(CROSS_PREFIX)" $(ROOT)
-qt5: libpng
+qt5: libpng sqlite3
 qt5: TARGET=first
 
 clean-qt5:
