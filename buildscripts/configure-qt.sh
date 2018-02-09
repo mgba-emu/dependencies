@@ -54,17 +54,37 @@ INCPATH=-I$ROOT/include
 LIBDIR=-L$ROOT/lib
 export INCPATH
 export LIBDIR
-./configure -prefix $ROOT -opensource -confirm-license -xplatform $OS-$COMPILER \
-	-device-option CROSS_COMPILE=$CROSS_COMPILE -device-option QMAKE_LIBS=-lz \
-	-release -platform $HOST -optimize-size -system-libpng -system-sqlite \
-	-opengl desktop -no-pch -no-avx2 \
-	-skip 3d -skip activeqt -skip canvas3d -skip connectivity -skip declarative \
-	-skip doc -skip docgallery -skip enginio -skip feedback -skip graphicaleffects \
-	-skip imageformats -skip location -skip pim -skip qa -skip quick1 \
-	-skip quickcontrols -skip repotools -skip script -skip sensors \
-	-skip serialport -skip svg -skip systems -skip wayland \
-	-skip webchannel -skip webengine -skip websockets -skip xmlpatterns \
-	-nomake examples -nomake tools -nomake tests -no-compile-examples \
+
+$BASEDIR/clean-extra.sh
+
+./configure \
+	-prefix $ROOT \
+	-opensource \
+	-confirm-license \
+	-platform $HOST \
+	-xplatform $OS-$COMPILER \
+	-device-option CROSS_COMPILE=$CROSS_COMPILE \
+	-device-option QMAKE_LIBS=-lz \
+	-release \
+	-optimize-size \
+	-I $ROOT/include \
+	-L $ROOT/lib \
+	-v \
+	-static \
+	-c++std c++14 \
+	-system-libpng \
+	-system-sqlite \
+	-opengl desktop \
+	-no-pch \
+	-no-avx2 \
+	-nomake examples \
+	-nomake tools \
+	-nomake tests \
+	-no-compile-examples \
 	-no-freetype \
-	-no-icu -no-gif -no-sql-odbc -no-harfbuzz -no-openssl -no-dbus \
-	-I $ROOT/include -L $ROOT/lib -v -static -c++std c++14
+	-no-icu \
+	-no-gif \
+	-no-sql-odbc \
+	-no-harfbuzz \
+	-no-openssl \
+	-no-dbus \
