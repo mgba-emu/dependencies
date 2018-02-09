@@ -53,6 +53,8 @@ ffmpeg: clean-ffmpeg
 
 lame: CONFIGURE_FLAGS=--disable-frontend
 
+libelf: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared
+
 libepoxy: CONFIGURE_FLAGS=CFLAGS="$(CFLAGS) -DEPOXY_STATIC_LIB=ON"
 
 libpng: zlib
