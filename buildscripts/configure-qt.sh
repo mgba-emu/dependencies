@@ -63,8 +63,7 @@ export LIBDIR
 	-skip imageformats -skip location -skip pim -skip qa -skip quick1 \
 	-skip quickcontrols -skip repotools -skip script -skip sensors \
 	-skip serialport -skip svg -skip systems -skip wayland \
-	-skip webchannel -skip webengine -skip webkit -skip webkit-examples \
-	-skip websockets -skip xmlpatterns \
+	-skip webchannel -skip webengine -skip websockets -skip xmlpatterns \
 	-nomake examples -nomake tools -nomake tests -no-compile-examples \
 	-no-feature-printer -no-feature-printpreviewwidget -no-feature-printdialog \
 	-no-feature-ftp -no-feature-udpsocket -no-feature-socks5 \
