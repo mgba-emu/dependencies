@@ -10,10 +10,16 @@ RUN curl -L \
     -O https://downloads.sourceforge.net/project/devkitpro/devkitPPC/devkitPPC_r29-1/devkitPPC_r29-1-x86_64-linux.tar.bz2 \
     -O https://downloads.sourceforge.net/project/devkitpro/libogc/1.8.17/libogc-1.8.17.tar.bz2 \
     -O https://downloads.sourceforge.net/project/devkitpro/libfat/1.1.2/libfat-ogc-1.1.2.tar.bz2
-RUN mkdir -p devkitPro/libogc && \
-    tar xf devkitPPC*.tar.* -C devkitPro && \
-    tar xf libogc-*.tar.* -C devkitPro/libogc && \
-    tar xf libfat-*.tar.* -C devkitPro/libogc
+RUN mkdir -p /opt/devkitPro/libogc && \
+    tar xf devkitPPC*.tar.* -C /opt/devkitPro && \
+    tar xf libogc-*.tar.* -C /opt/devkitPro/libogc && \
+    tar xf libfat-*.tar.* -C /opt/devkitPro/libogc
 
-ENV DEVKITPRO=/root/devkitPro
-ENV DEVKITPPC=/root/devkitPro/devkitPPC
+ENV DEVKITPRO=/opt/devkitPro
+ENV DEVKITPPC=/opt/devkitPro/devkitPPC
+
+RUN useradd mgba -m
+VOLUME /home/mgba/src
+USER mgba
+WORKDIR /home/mgba/src
+CMD mkdir -p build-wii && cd build-wii && cmake .. -DCMAKE_TOOLCHAIN_FILE=../src/platform/wii/CMakeToolchain.txt && make install DESTDIR=install

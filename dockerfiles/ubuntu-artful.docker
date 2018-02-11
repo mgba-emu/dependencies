@@ -7,3 +7,9 @@ RUN apt-get update && \
         libqt5opengl5-dev libsdl2-dev libsqlite3-dev libswscale-dev \
         libzip-dev qtmultimedia5-dev && \
     apt-get autoremove -y && apt-get clean
+
+RUN useradd mgba -m
+VOLUME /home/mgba/src
+USER mgba
+WORKDIR /home/mgba/src
+CMD mkdir -p build-artful && cd build-artful && cmake .. && make install DESTDIR=install
