@@ -1,0 +1,16 @@
+FROM ubuntu:xenial
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends build-essential bzip2 \
+        ca-certificates cmake curl git m4 texinfo wget xz-utils && \
+    apt-get autoremove -y && apt-get clean
+
+WORKDIR /root
+ENV VITASDK=/root/vitasdk
+ENV PATH=$VITASDK/bin:$PATH
+
+RUN git clone https://github.com/vitasdk/buildscripts
+RUN cd buildscripts && mkdir build && cd build && \
+    cmake .. && make && mv vitasdk $VITASDK && \
+    cd .. && rm -rf build
+RUN vdpm zlib && vdpm libzip && vdpm libpng && vdpm libvita2d
