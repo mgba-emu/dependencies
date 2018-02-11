@@ -1,0 +1,19 @@
+FROM ubuntu:xenial
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends bzip2 ca-certificates cmake \
+        curl git make && \
+    apt-get autoremove -y && apt-get clean
+
+WORKDIR /root
+RUN curl -L \
+    -O https://downloads.sourceforge.net/project/devkitpro/devkitPPC/devkitPPC_r29-1/devkitPPC_r29-1-x86_64-linux.tar.bz2 \
+    -O https://downloads.sourceforge.net/project/devkitpro/libogc/1.8.17/libogc-1.8.17.tar.bz2 \
+    -O https://downloads.sourceforge.net/project/devkitpro/libfat/1.1.2/libfat-ogc-1.1.2.tar.bz2
+RUN mkdir -p devkitPro/libogc && \
+    tar xf devkitPPC*.tar.* -C devkitPro && \
+    tar xf libogc-*.tar.* -C devkitPro/libogc && \
+    tar xf libfat-*.tar.* -C devkitPro/libogc
+
+ENV DEVKITPRO=/root/devkitPro
+ENV DEVKITPPC=/root/devkitPro/devkitPPC
