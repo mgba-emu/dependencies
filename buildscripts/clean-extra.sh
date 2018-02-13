@@ -36,7 +36,6 @@ serialport
 speech
 svg
 systems
-tools
 virtualkeyboard
 wayland
 webchannel
