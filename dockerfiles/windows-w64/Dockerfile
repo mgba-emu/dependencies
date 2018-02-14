@@ -2,7 +2,7 @@ FROM mgba/windows:base
 
 WORKDIR /root/dependencies
 
-RUN ROOT=/opt/win64 HOST=x86_64-w64-mingw32 make && \
+RUN ROOT=/opt/win64 HOST=x86_64-w64-mingw32 make -j2 && \
     git clean -dfx && git submodule foreach --recursive git clean -dfx
 
 COPY CMakeToolchain.txt /opt/win64
