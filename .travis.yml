@@ -1,0 +1,21 @@
+sudo: required
+services:
+  - docker
+git:
+  depth: 1
+  submodules: false
+env:
+  - BUILDS="windows:base windows:w32 windows:w64"
+  - BUILDS=ubuntu:xenial
+  - BUILDS=ubuntu:artful
+  - BUILDS=3ds
+  - BUILDS=vita
+  - BUILDS=wii
+install:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+script:
+  - |
+    for build in $BUILDS; do
+      docker build -t mgba/$build - < dockerfiles/$(echo $build | sed -e 's/:/-/').docker &&
+      docker push mgba/$build
+    done
