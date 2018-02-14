@@ -16,7 +16,7 @@ install:
 script:
   - |
     for build in $BUILDS; do
-      docker build -t mgba/$build dockerfiles/$(echo $build | sed -e 's/:/-/') |
-        awk '{ printf "." } NR%79==0 { print "" }' &&
+      echo "Building $build"
+      travis_wait 60 docker build -q -t mgba/$build dockerfiles/$(echo $build | sed -e 's/:/-/') &&
         docker push mgba/$build || exit 1
     done
