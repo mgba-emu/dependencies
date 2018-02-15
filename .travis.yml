@@ -5,8 +5,6 @@ git:
   depth: 1
   submodules: false
 env:
-  - BUILDS=windows:w32
-  - BUILDS=windows:w64
   - BUILDS=ubuntu:xenial
   - BUILDS=ubuntu:artful
   - BUILDS=3ds
