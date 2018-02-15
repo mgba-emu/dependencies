@@ -19,4 +19,4 @@ RUN useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
 WORKDIR /home/mgba/src
-CMD mkdir -p build-vita && cd build-vita && cmake .. -DCMAKE_TOOLCHAIN_FILE=../src/platform/psp2/CMakeToolchain.vitasdk && make install DESTDIR=install
+CMD mkdir -p build-vita && cd build-vita && cmake .. -DCMAKE_TOOLCHAIN_FILE=../src/platform/psp2/CMakeToolchain.vitasdk -DCMAKE_INSTALL_PREFIX=// && make install DESTDIR=install

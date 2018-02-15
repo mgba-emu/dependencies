@@ -28,4 +28,4 @@ RUN useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
 WORKDIR /home/mgba/src
-CMD mkdir -p build-3ds && cd build-3ds && cmake .. -DCMAKE_TOOLCHAIN_FILE=../src/platform/3ds/CMakeToolchain.txt && make install DESTDIR=install
+CMD mkdir -p build-3ds && cd build-3ds && cmake .. -DCMAKE_TOOLCHAIN_FILE=../src/platform/3ds/CMakeToolchain.txt -DCMAKE_INSTALL_PREFIX=// && make install DESTDIR=install
