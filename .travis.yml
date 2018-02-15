@@ -5,7 +5,8 @@ git:
   depth: 1
   submodules: false
 env:
-  - BUILDS="windows:base windows:w32 windows:w64"
+  - BUILDS=windows:w32
+  - BUILDS=windows:w64
   - BUILDS=ubuntu:xenial
   - BUILDS=ubuntu:artful
   - BUILDS=3ds
@@ -13,10 +14,13 @@ env:
   - BUILDS=wii
 install:
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  - pip install docker-squash
 script:
   - |
     for build in $BUILDS; do
       echo "Building $build"
-      travis_wait 60 docker build -q -t mgba/$build dockerfiles/$(echo $build | sed -e 's/:/-/') &&
-        docker push mgba/$build || exit 1
+      DOCKERFILE=dockerfiles/$(echo $build | sed -e 's/:/-/')/Dockerfile
+      (travis_wait 60 docker build -q -t mgba/$build . -f $DOCKERFILE &&
+        docker-squash mgba/$build -f $(head -n1 $DOCKERFILE | cut -d ' ' -f2) -t mgba/$build &&
+        docker push mgba/$build) || exit 1
     done
