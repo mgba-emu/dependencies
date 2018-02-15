@@ -14,7 +14,7 @@ env:
   - BUILDS=wii
 install:
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-  - pip install docker-squash
+  - pip install --user docker-squash
 script:
   - |
     for build in $BUILDS; do
