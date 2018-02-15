@@ -27,5 +27,9 @@ Windows*)
 	;;
 esac
 
+git reset --hard
+git apply ../patches/libvpx/*
+
 ./configure --prefix=$ROOT --target=$OS --disable-examples --disable-docs \
-	--disable-unit-tests --disable-decode-perf-tests --disable-encode-perf-tests
+	--disable-tools --disable-unit-tests --disable-decode-perf-tests \
+	--disable-encode-perf-tests
