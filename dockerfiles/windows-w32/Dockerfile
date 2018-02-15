@@ -3,7 +3,7 @@ FROM ubuntu:artful
 RUN apt-get update && \
     apt-get install -y --no-install-recommends autoconf automake \
         ca-certificates cmake g++ g++-mingw-w64-i686 git libtool make \
-        pkg-config python wine-development yasm && \
+        nasm pkg-config python wine-development yasm && \
     apt-get autoremove -y && apt-get clean
 
 COPY . /root/dependencies
