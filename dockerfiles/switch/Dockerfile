@@ -12,7 +12,7 @@ RUN mkdir -p /opt/devkitPro/libnx && \
     7zr x devkitA64*.7z -o/opt/devkitPro
 
 ENV DEVKITPRO=/opt/devkitPro
-ENV DEVKITPPC=/opt/devkitPro/devkitA64
+ENV DEVKITA64=/opt/devkitPro/devkitA64
 
 RUN git clone https://github.com/switchbrew/libnx.git && cd libnx && make install
 
