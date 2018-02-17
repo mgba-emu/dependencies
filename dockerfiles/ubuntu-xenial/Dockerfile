@@ -12,4 +12,4 @@ RUN useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
 WORKDIR /home/mgba/src
-CMD mkdir -p build-xenial && cd build-xenial && cmake .. && make install DESTDIR=install
+CMD mkdir -p build-xenial && cd build-xenial && cmake .. $CMAKE_FLAGS && make install DESTDIR=install

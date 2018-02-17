@@ -12,4 +12,4 @@ RUN useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
 WORKDIR /home/mgba/src
-CMD mkdir -p build-artful && cd build-artful && cmake .. && make install DESTDIR=install
+CMD mkdir -p build-artful && cd build-artful && cmake .. $CMAKE_FLAGS && make install DESTDIR=install

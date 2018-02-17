@@ -24,5 +24,5 @@ VOLUME /home/mgba/src
 USER mgba
 WORKDIR /home/mgba/src
 CMD mkdir -p build-win32 && cd build-win32 && \
-    cmake .. -DCMAKE_TOOLCHAIN_FILE=/opt/win32/CMakeToolchain.txt -DCMAKE_INSTALL_PREFIX=// -DBUILD_SHARED=OFF -DBUILD_STATIC=ON && \
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=/opt/win32/CMakeToolchain.txt -DCMAKE_INSTALL_PREFIX=// -DBUILD_SHARED=OFF -DBUILD_STATIC=ON $CMAKE_FLAGS && \
     make install DESTDIR=install

@@ -12,4 +12,4 @@ RUN useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
 WORKDIR /home/mgba/src
-CMD mkdir -p build-bionic && cd build-bionic && cmake .. && make install DESTDIR=install
+CMD mkdir -p build-bionic && cd build-bionic && cmake .. $CMAKE_FLAGS && make install DESTDIR=install
