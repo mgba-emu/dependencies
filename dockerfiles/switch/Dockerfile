@@ -20,4 +20,5 @@ RUN useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
 WORKDIR /home/mgba/src
-CMD mkdir -p build-switch && cd build-switch && cmake .. -DCMAKE_TOOLCHAIN_FILE=../src/platform/switch/CMakeToolchain.txt -DCMAKE_INSTALL_PREFIX=// $CMAKE_FLAGS && make install DESTDIR=install
+ENV BUILD_DIR=build-switch
+CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && cmake .. -DCMAKE_TOOLCHAIN_FILE=../src/platform/switch/CMakeToolchain.txt -DCMAKE_INSTALL_PREFIX=// $CMAKE_FLAGS && make install DESTDIR=install

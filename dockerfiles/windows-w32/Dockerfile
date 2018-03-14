@@ -23,6 +23,7 @@ RUN useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
 WORKDIR /home/mgba/src
-CMD mkdir -p build-win32 && cd build-win32 && \
+ENV BUILD_DIR=build-win32
+CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && \
     cmake .. -DCMAKE_TOOLCHAIN_FILE=/opt/win32/CMakeToolchain.txt -DCMAKE_INSTALL_PREFIX=// -DBUILD_SHARED=OFF -DBUILD_STATIC=ON $CMAKE_FLAGS && \
     make install DESTDIR=install
