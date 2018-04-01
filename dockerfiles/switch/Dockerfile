@@ -7,9 +7,9 @@ RUN apt-get update && \
 
 WORKDIR /root
 RUN curl -L \
-    -O https://downloads.sourceforge.net/project/devkitpro/devkitA64/alpha6/devkitA64_a6-x86_64-linux.7z
+    -O https://github.com/devkitPro/buildscripts/releases/download/devkitA64_r8/devkitA64_r8-x86_64-linux.tar.xz
 RUN mkdir -p /opt/devkitPro/libnx && \
-    7zr x devkitA64*.7z -o/opt/devkitPro
+    tar xf devkitA64*.tar* -o/opt/devkitPro
 
 ENV DEVKITPRO=/opt/devkitPro
 ENV DEVKITA64=/opt/devkitPro/devkitA64
