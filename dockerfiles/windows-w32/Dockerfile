@@ -19,7 +19,8 @@ RUN git clean -dfx && \
 RUN ROOT=/opt/win32 HOST=i686-w64-mingw32 make -j2 && cd .. && rm -rf dependencies
 
 COPY dockerfiles/windows-w32/CMakeToolchain.txt /opt/win32
-RUN useradd mgba -m
+RUN chmod 644 /opt/win32/CMakeToolchain.txt && \
+    useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
 WORKDIR /home/mgba/src
