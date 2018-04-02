@@ -18,9 +18,5 @@ install:
 script:
   - |
     for build in $BUILDS; do
-      echo "Building $build"
-      DOCKERFILE=dockerfiles/$(echo $build | sed -e 's/:/-/')/Dockerfile
-      (travis_wait 60 docker build -q -t mgba/$build . -f $DOCKERFILE &&
-        docker-squash mgba/$build -f $(head -n1 $DOCKERFILE | cut -d ' ' -f2) -t mgba/$build &&
-        docker push mgba/$build) || exit 1
+      travis_wait 60 ./buildscripts/docker-build.sh -q $build || exit 1
     done
