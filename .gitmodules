@@ -16,7 +16,7 @@
 	ignore = untracked
 [submodule "libpng"]
 	path = libpng
-	url = git://git.code.sf.net/p/libpng/code
+	url = https://github.com/glennrp/libpng.git
 	ignore = untracked
 [submodule "libvpx"]
 	path = libvpx
