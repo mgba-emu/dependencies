@@ -2,14 +2,14 @@ FROM ubuntu:xenial
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends bzip2 ca-certificates cmake \
-        curl git make p7zip && \
+        curl git make xz-utils && \
     apt-get autoremove -y && apt-get clean
 
 WORKDIR /root
 RUN curl -L \
     -O https://github.com/devkitPro/buildscripts/releases/download/devkitA64_r8/devkitA64_r8-x86_64-linux.tar.xz
 RUN mkdir -p /opt/devkitPro/libnx && \
-    tar xf devkitA64*.tar* -o/opt/devkitPro
+    tar xf devkitA64*.tar.* -C /opt/devkitPro
 
 ENV DEVKITPRO=/opt/devkitPro
 ENV DEVKITA64=/opt/devkitPro/devkitA64
