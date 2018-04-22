@@ -26,5 +26,5 @@ USER mgba
 WORKDIR /home/mgba/src
 ENV BUILD_DIR=build-win64
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && \
-    cmake .. -DCMAKE_TOOLCHAIN_FILE=/opt/win64/CMakeToolchain.txt -DCMAKE_INSTALL_PREFIX=/ -DBUILD_SHARED=OFF -DBUILD_STATIC=ON $CMAKE_FLAGS && \
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=/opt/win64/CMakeToolchain.txt -DBUILD_SHARED=OFF -DBUILD_STATIC=ON $CMAKE_FLAGS && \
     make install DESTDIR=install
