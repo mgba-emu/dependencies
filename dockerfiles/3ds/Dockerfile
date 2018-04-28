@@ -18,7 +18,7 @@ RUN mkdir -p /opt/devkitPro/libctru && \
 ENV DEVKITPRO=/opt/devkitPro
 ENV DEVKITARM=/opt/devkitPro/devkitARM
 
-RUN git clone --recursive https://github.com/Steveice10/bannertool.git
+RUN git clone --recursive https://github.com/Steveice10/bannertool.git -b 1.0.0
 RUN (cd bannertool && make && install output/*/bannertool $DEVKITARM/bin)
 
 RUN git clone https://github.com/profi200/Project_CTR.git
