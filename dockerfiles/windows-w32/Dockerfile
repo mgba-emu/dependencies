@@ -21,10 +21,10 @@ RUN ROOT=/opt/win32 HOST=i686-w64-mingw32 make -j2 && cd .. && rm -rf dependenci
 COPY dockerfiles/windows-w32/CMakeToolchain.txt /opt/win32
 RUN chmod 644 /opt/win32/CMakeToolchain.txt && \
     useradd mgba -m
+COPY licenses /home/mgba/licenses
 VOLUME /home/mgba/src
 USER mgba
 WORKDIR /home/mgba/src
-COPY licenses /home/mgba/licenses
 ENV BUILD_DIR=build-win32
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && \
     cmake .. -DCMAKE_TOOLCHAIN_FILE=/opt/win32/CMakeToolchain.txt -DBUILD_SHARED=OFF -DBUILD_STATIC=ON $CMAKE_FLAGS && \
