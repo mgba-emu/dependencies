@@ -1,9 +1,9 @@
-FROM ubuntu:artful
+FROM ubuntu:bionic
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends autoconf automake \
         ca-certificates cmake g++ g++-mingw-w64-x86-64 git libtool make \
-        nasm pkg-config python wine-development yasm && \
+        markdown nasm pkg-config python wine-development yasm && \
     apt-get autoremove -y && apt-get clean
 
 COPY . /root/dependencies
