@@ -7,9 +7,9 @@ RUN apt-get update && \
 
 WORKDIR /root
 RUN curl -L \
-    -O https://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r47/devkitARM_r47-x86_64-linux.tar.bz2 \
-    -O https://downloads.sourceforge.net/project/devkitpro/libctru/1.4.0/libctru-1.4.0.tar.bz2 \
-    -O https://downloads.sourceforge.net/project/devkitpro/citro3d/1.3.1/citro3d-1.3.1.tar.bz2
+    -O https://github.com/devkitPro/buildscripts/releases/download/devkitARM_r47/devkitARM_r47-x86_64-linux.tar.bz2 \
+    -O https://github.com/smealum/ctrulib/releases/download/v1.4.0/libctru-1.4.0.tar.bz2 \
+    -O https://github.com/fincs/citro3d/releases/download/v1.3.1/citro3d-1.3.1.tar.bz2
 RUN mkdir -p /opt/devkitPro/libctru && \
     tar xf devkitARM*.tar.* -C /opt/devkitPro && \
     tar xf libctru-*.tar.* -C /opt/devkitPro/libctru && \

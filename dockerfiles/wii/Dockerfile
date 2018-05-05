@@ -7,9 +7,9 @@ RUN apt-get update && \
 
 WORKDIR /root
 RUN curl -L \
-    -O https://downloads.sourceforge.net/project/devkitpro/devkitPPC/devkitPPC_r29-1/devkitPPC_r29-1-x86_64-linux.tar.bz2 \
-    -O https://downloads.sourceforge.net/project/devkitpro/libogc/1.8.17/libogc-1.8.17.tar.bz2 \
-    -O https://downloads.sourceforge.net/project/devkitpro/libfat/1.1.2/libfat-ogc-1.1.2.tar.bz2
+    -O https://github.com/devkitPro/buildscripts/releases/download/devkitPPC_r29-1/devkitPPC_r29-1-x86_64-linux.tar.bz2 \
+    -O https://github.com/devkitPro/libogc/releases/download/v1.8.17/libogc-1.8.17.tar.bz2 \
+    -O https://github.com/devkitPro/libfat/releases/download/v1.1.2/libfat-ogc-1.1.2.tar.bz2
 RUN mkdir -p /opt/devkitPro/libogc && \
     tar xf devkitPPC*.tar.* -C /opt/devkitPro && \
     tar xf libogc-*.tar.* -C /opt/devkitPro/libogc && \
