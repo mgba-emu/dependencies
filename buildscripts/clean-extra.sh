@@ -2,7 +2,7 @@
 
 BASEDIR=$(dirname $0)
 
-pushd $BASEDIR/../qt5
+pushd $BASEDIR/../libraries/qt5
 REMOVE_QT="
 3d
 activeqt

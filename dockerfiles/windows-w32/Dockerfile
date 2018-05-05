@@ -6,17 +6,12 @@ RUN apt-get update && \
         markdown nasm pkg-config python wine-development yasm && \
     apt-get autoremove -y && apt-get clean
 
-COPY . /root/dependencies
+COPY libraries /root/dependencies/
+COPY patches /root/dependencies/patches
+COPY buildscripts /root/dependencies/buildscripts
 WORKDIR /root/dependencies
 
-RUN git clean -dfx && \
-    git submodule update --init && \
-    git submodule foreach --recursive git submodule init && \
-    ./buildscripts/clean-extra.sh && \
-	git submodule foreach git clean -dfx && \
-    git submodule update --recursive
-
-RUN ROOT=/opt/win32 HOST=i686-w64-mingw32 make -j2 && cd .. && rm -rf dependencies
+RUN ROOT=/opt/win32 HOST=i686-w64-mingw32 make -j4 && cd .. && rm -rf dependencies
 
 COPY dockerfiles/windows-w32/CMakeToolchain.txt /opt/win32
 COPY licenses /opt/licenses
