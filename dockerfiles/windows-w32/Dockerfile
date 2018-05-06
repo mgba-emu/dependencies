@@ -23,7 +23,7 @@ WORKDIR /home/mgba/src
 ENV BUILD_DIR=build-win32
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && \
     cmake .. \
-        -DEXTRA_LICENSES=$(ls /opt/licenses | tr $'\n' ';') \
+        -DEXTRA_LICENSES=$(ls /opt/licenses/* | tr $'\n' ';') \
         -DCMAKE_TOOLCHAIN_FILE=/opt/win32/CMakeToolchain.txt \
         -DBUILD_SHARED=OFF -DBUILD_STATIC=ON $CMAKE_FLAGS && \
     make install DESTDIR=install
