@@ -15,7 +15,7 @@ RUN ROOT=/opt/win64 HOST=x86_64-w64-mingw32 make -j4 && cd .. && rm -rf dependen
 
 COPY dockerfiles/windows-w64/CMakeToolchain.txt /opt/win64
 COPY licenses /opt/licenses
-RUN chmod 644 /opt/win64/CMakeToolchain.txt /opt/licenses/* && \
+RUN chmod -R go+r /opt && \
     useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
