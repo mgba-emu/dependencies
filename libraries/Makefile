@@ -17,11 +17,11 @@ ifneq ($(HOST),)
 CROSS_PREFIX := $(HOST)-
 endif
 
-CC := $(shell buildscripts/identify-toolchain.sh $(CROSS_PREFIX) CC)
-CXX := $(shell buildscripts/identify-toolchain.sh $(CROSS_PREFIX) CXX)
-AR := $(shell buildscripts/identify-toolchain.sh $(CROSS_PREFIX) AR)
-RANLIB := $(shell buildscripts/identify-toolchain.sh $(CROSS_PREFIX) RANLIB)
-STRIP := $(shell buildscripts/identify-toolchain.sh $(CROSS_PREFIX) STRIP)
+CC := $(shell buildscripts/identify-toolchain.sh "$(CROSS_PREFIX)" CC)
+CXX := $(shell buildscripts/identify-toolchain.sh "$(CROSS_PREFIX)" CXX)
+AR := $(shell buildscripts/identify-toolchain.sh "$(CROSS_PREFIX)" AR)
+RANLIB := $(shell buildscripts/identify-toolchain.sh "$(CROSS_PREFIX)" RANLIB)
+STRIP := $(shell buildscripts/identify-toolchain.sh "$(CROSS_PREFIX)" STRIP)
 export CC
 export CXX
 export AR

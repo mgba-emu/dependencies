@@ -23,9 +23,11 @@ OSX*)
 Windows64)
 	OS=win64
 	ARCH=x86_64
+	NVENC="--enable-encoder=h264_nvenc --enable-nvenc"
 	;;
 Windows*)
 	OS=win32
+	NVENC="--enable-encoder=h264_nvenc --enable-nvenc"
 	;;
 esac
 
@@ -39,7 +41,6 @@ esac
 	--enable-encoder=ffvhuff \
 	--enable-encoder=flac \
 	--enable-encoder=flv \
-	--enable-encoder=h264_nvenc \
 	--enable-encoder=huffyuv \
 	--enable-encoder=libmp3lame \
 	--enable-encoder=libvpx_vp8 \
@@ -168,4 +169,4 @@ esac
 	--enable-bsf=mp3_header_decompress \
 	\
 	--arch=$ARCH --target-os=$OS --enable-gpl --cross-prefix=$CROSS_COMPILE --pkg-config=pkg-config --prefix=$ROOT --disable-programs --enable-static --disable-shared \
-	--enable-libvpx --enable-libmp3lame --enable-libx264 --enable-avresample --enable-libopus --enable-nvenc --cc="$CC" --cxx="$CXX"
+	--enable-libvpx --enable-libmp3lame --enable-libx264 --enable-avresample --enable-libopus $NVENC --cc="$CC" --cxx="$CXX"

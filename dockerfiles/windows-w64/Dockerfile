@@ -7,8 +7,6 @@ RUN apt-get update && \
     apt-get autoremove -y && apt-get clean
 
 COPY libraries /root/dependencies/
-COPY patches /root/dependencies/patches
-COPY buildscripts /root/dependencies/buildscripts
 WORKDIR /root/dependencies
 
 RUN ROOT=/opt/win64 HOST=x86_64-w64-mingw32 make -j4 && cd .. && rm -rf dependencies
