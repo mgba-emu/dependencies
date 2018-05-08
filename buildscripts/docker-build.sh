@@ -27,7 +27,7 @@ echo "Building mgba/$BUILD for $DOCKERFILE"
 if [ -n "$(echo $BUILD | grep windows)" ]; then
     git submodule update --init
     git submodule foreach --recursive git submodule init
-    $(dirname $0)/clean-extra.sh
+    (cd libraries && buildscripts/clean-extra.sh)
     git submodule update --recursive
 fi
 docker build $QUIET -t mgba/$BUILD . -f $DOCKERFILE || exit 1
