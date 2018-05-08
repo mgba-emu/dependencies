@@ -44,7 +44,7 @@ $(foreach PROJECT, $(PROJECTS),$(PROJECT)): TARGET=all
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)):
 	cd $(BASEDIR) && $(CONFIGURE) && $(MAKE) $(TARGET) && $(MAKE) install
 
-imagemagick: CONFIGURE_FLAGS=--with-quantum-depth=8 --with-x=no --with-bzlib=no --without-magick-plus-plus --without-threads LDFLAGS=-lws2_32
+imagemagick: CONFIGURE_FLAGS=--with-quantum-depth=8 --enable-hdri=no --with-bzlib=no -with-djvu=no --with-fftw=no --with-freetype=no --with-fontconfig=no --with-gvc=no --with-jpeg=no --with-lcms=no --with-lzma=no --with-openexr=no --with-pango=no --with-tiff=no -with-webp=no --with-x=no --with-xml=no --without-magick-plus-plus --without-threads LDFLAGS=-lws2_32
 imagemagick: libpng
 
 ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh "$(CROSS_PREFIX)" $(ROOT)
