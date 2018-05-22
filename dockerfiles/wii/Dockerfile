@@ -1,8 +1,9 @@
 FROM ubuntu:xenial
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends bzip2 ca-certificates cmake \
-        curl git make xz-utils && \
+    apt-get install -y --no-install-recommends automake bzip2 ca-certificates \
+        cmake curl gcc g++ git libc6-dev libfreeimage-dev libtool make \
+        mesa-common-dev xz-utils && \
     apt-get autoremove -y && apt-get clean
 
 WORKDIR /root
@@ -13,10 +14,19 @@ RUN curl -L \
 RUN mkdir -p /opt/devkitPro/libogc && \
     tar xf devkitPPC*.tar.* -C /opt/devkitPro && \
     tar xf libogc-*.tar.* -C /opt/devkitPro/libogc && \
-    tar xf libfat-*.tar.* -C /opt/devkitPro/libogc
+    tar xf libfat-*.tar.* -C /opt/devkitPro/libogc && \
+    rm -f *.tar.*
 
 ENV DEVKITPRO=/opt/devkitPro
 ENV DEVKITPPC=/opt/devkitPro/devkitPPC
+
+RUN git clone https://github.com/devkitPro/general-tools.git -b v1.0.2 && \
+    (cd general-tools && ./autogen.sh && ./configure --prefix=$DEVKITPPC && make install) && rm -rf general-tools
+
+RUN git clone https://github.com/devkitPro/gamecube-tools.git -b v1.0.2 && \
+    (cd gamecube-tools && ./autogen.sh && ./configure --prefix=$DEVKITPPC && make install) && rm -rf gamecube-tools
+
+RUN apt-get autoremove -y bzip2 curl gcc g++ libc6-dev libtool mesa-common-dev
 
 RUN useradd mgba -m
 VOLUME /home/mgba/src

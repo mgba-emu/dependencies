@@ -9,7 +9,8 @@ WORKDIR /root
 RUN curl -L \
     -O https://github.com/devkitPro/buildscripts/releases/download/devkitA64_r9/devkitA64_r9-linux.tar.xz
 RUN mkdir -p /opt/devkitPro/libnx && \
-    tar xf devkitA64*.tar.* -C /opt/devkitPro
+    tar xf devkitA64*.tar.* -C /opt/devkitPro && \
+    rm -f *.tar.*
 
 ENV DEVKITPRO=/opt/devkitPro
 ENV DEVKITA64=/opt/devkitPro/devkitA64
