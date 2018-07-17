@@ -7,7 +7,7 @@ RUN apt-get update && \
 
 WORKDIR /root
 RUN curl -L \
-    -O https://github.com/devkitPro/buildscripts/releases/download/devkitARM_r48/devkitARM_r48-linux.tar.xz \
+    -O https://github.com/devkitPro/buildscripts/releases/download/devkitARM_r49/devkitARM_r49-linux.tar.xz \
     -O https://github.com/smealum/ctrulib/releases/download/v1.5.0/libctru-1.5.0.tar.bz2
 RUN mkdir -p /opt/devkitPro/libctru && \
     tar xf devkitARM*.tar.* -C /opt/devkitPro && \
@@ -15,7 +15,7 @@ RUN mkdir -p /opt/devkitPro/libctru && \
     rm -f *.tar.*
 
 ENV DEVKITPRO=/opt/devkitPro
-ENV DEVKITARM=/opt/devkitPro/devkitARM
+ENV DEVKITARM=$DEVKITPRO/devkitARM
 
 RUN git clone https://github.com/fincs/citro3d.git -b v1.4.0 && \
     (cd citro3d && make install) && rm -rf citro3d
