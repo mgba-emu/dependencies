@@ -1,11 +1,16 @@
 #!/bin/bash
 usage () {
-    echo "Usage: $0 [-q] TAG" >&2
+    echo "Usage: $0 [-Pq] TAG" >&2
     exit 1
 }
 
-while getopts q OPT; do
-   case "$OPT" in
+PUSH='yes'
+
+while getopts Pq OPT; do
+    case "$OPT" in
+        P)
+		    PUSH='no'
+			;;
         q)
             QUIET=-q
             ;;
@@ -32,4 +37,4 @@ if [ -n "$(echo $BUILD | grep windows)" ]; then
 fi
 docker build $QUIET -t mgba/$BUILD . -f $DOCKERFILE || exit 1
 docker-squash mgba/$BUILD -f $FROM -t mgba/$BUILD || exit 1
-docker push mgba/$BUILD || exit 1
+[ "$PUSH" != "yes" ] || docker push mgba/$BUILD || exit 1
