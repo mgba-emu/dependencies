@@ -1,4 +1,4 @@
-FROM ubuntu:artful
+FROM ubuntu:cosmic
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential cmake git \
@@ -12,5 +12,5 @@ RUN useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
 WORKDIR /home/mgba/src
-ENV BUILD_DIR=build-artful
+ENV BUILD_DIR=build-cosmic
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && cmake .. $CMAKE_FLAGS && make install DESTDIR=install

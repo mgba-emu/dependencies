@@ -6,7 +6,6 @@ git:
   submodules: false
 env:
   - BUILDS=ubuntu:xenial
-  - BUILDS=ubuntu:artful
   - BUILDS=ubuntu:bionic
   - BUILDS=3ds
   - BUILDS=vita
