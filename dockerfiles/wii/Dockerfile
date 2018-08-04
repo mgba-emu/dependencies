@@ -18,7 +18,7 @@ RUN mkdir -p /opt/devkitPro/libogc libogc && \
 ENV DEVKITPRO=/opt/devkitPro
 ENV DEVKITPPC=$DEVKITPRO/devkitPPC
 
-RUN git clone https://github.com/endrift/libogc.git -b extrems-timesuppfix && \
+RUN git clone https://github.com/endrift/libogc.git -b mgba-downstream && \
     (cd libogc && make install) && rm -rf libogc
 
 RUN git clone https://github.com/devkitPro/general-tools.git -b v1.0.2 && \
