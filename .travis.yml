@@ -1,4 +1,7 @@
 sudo: required
+language: python
+python:
+  - "3.6"
 services:
   - docker
 git:
@@ -13,7 +16,7 @@ env:
   - BUILDS=switch
 install:
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-  - pip install --user docker-squash docker\<3
+  - pip install docker-squash
 script:
   - |
     for build in $BUILDS; do
