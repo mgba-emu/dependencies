@@ -1,35 +1,27 @@
-FROM ubuntu:xenial
+FROM ubuntu:bionic
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends automake bzip2 ca-certificates \
-        cmake curl gcc g++ git libc6-dev liblz4-dev make pkgconf xz-utils \
-        zlib1g-dev && \
+    apt-get install -y --no-install-recommends ca-certificates cmake curl git gnupg make xz-utils && \
     apt-get autoremove -y && apt-get clean
 
 WORKDIR /root
-RUN curl -L \
-    -O https://github.com/devkitPro/buildscripts/releases/download/devkitA64_r11/devkitA64_r11-2-linux.tar.xz
-RUN mkdir -p /opt/devkitPro/libnx && \
-    tar xf devkitA64*.tar.* -C /opt/devkitPro && \
-    rm -f *.tar.*
 
-ENV DEVKITPRO=/opt/devkitPro
+ENV DEVKITPRO=/opt/devkitpro
 ENV DEVKITA64=$DEVKITPRO/devkitA64
 
-RUN git clone https://github.com/devkitPro/general-tools.git -b v1.0.2 && \
-    (cd general-tools && ./autogen.sh && ./configure --prefix=$DEVKITA64 && make install) && rm -rf general-tools
+RUN curl -LO https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.1/devkitpro-pacman.deb && \
+    dpkg -i devkitpro-pacman.deb && \
+    rm devkitpro-pacman.deb
 
-RUN git clone https://github.com/switchbrew/switch-tools.git -b v1.4.1 && \
-    (cd switch-tools && ./autogen.sh && ./configure --prefix=$DEVKITA64 && make install) && rm -rf switch-tools
+RUN dkp-pacman -Syu --noconfirm devkitA64 general-tools switch-tools libnx && \
+    dkp-pacman -Scc --noconfirm
 
-RUN git clone https://github.com/switchbrew/libnx.git -b v1.3.0 && \
-    (cd libnx && make install) && rm -rf libnx
-
-RUN apt-get autoremove -y automake bzip2 curl gcc g++ libc6-dev pkgconf
+RUN apt-get autoremove -y curl gnupg
 
 RUN useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
 WORKDIR /home/mgba/src
 ENV BUILD_DIR=build-switch
+ENV PATH=${DEVKITPRO}/tools/bin:$PATH
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && cmake .. -DCMAKE_TOOLCHAIN_FILE=../src/platform/switch/CMakeToolchain.txt $CMAKE_FLAGS && make install DESTDIR=install
