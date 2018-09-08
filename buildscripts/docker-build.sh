@@ -44,4 +44,4 @@ fi
 docker build $QUIET -t mgba/$BUILD . -f $DOCKERFILE
 docker-squash mgba/$BUILD -f $FROM -t mgba/$BUILD
 docker tag mgba/$BUILD mgba/$BUILD$DATETAG
-[ "$PUSH" != "yes" ] || docker push mgba/$BUILD mgba/$BUILD$DATETAG
+[ "$PUSH" != "yes" ] || (docker push mgba/$BUILD && docker push mgba/$BUILD$DATETAG)
