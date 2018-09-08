@@ -27,6 +27,12 @@ fi
 BUILD=$1
 DOCKERFILE=dockerfiles/$(echo $BUILD | sed -e 's/:/-/')/Dockerfile
 FROM=$(head -n1 $DOCKERFILE | cut -d ' ' -f2)
+if [ -z "$(echo $BUILD | cut -sd : -f2)" ]; then
+	DATETAG=:$(date +%Y%m%d)
+else
+	DATETAG=-$(date +%Y%m%d)
+fi
+set -e
 
 echo "Building mgba/$BUILD for $DOCKERFILE"
 if [ -n "$(echo $BUILD | grep windows)" ]; then
@@ -35,6 +41,7 @@ if [ -n "$(echo $BUILD | grep windows)" ]; then
     (cd libraries && buildscripts/clean-extra.sh)
     git submodule update --recursive
 fi
-docker build $QUIET -t mgba/$BUILD . -f $DOCKERFILE || exit 1
-docker-squash mgba/$BUILD -f $FROM -t mgba/$BUILD || exit 1
-[ "$PUSH" != "yes" ] || docker push mgba/$BUILD || exit 1
+docker build $QUIET -t mgba/$BUILD . -f $DOCKERFILE
+docker-squash mgba/$BUILD -f $FROM -t mgba/$BUILD
+docker tag mgba/$BUILD mgba/$BUILD$DATETAG
+[ "$PUSH" != "yes" ] || docker push mgba/$BUILD mgba/$BUILD$DATETAG
