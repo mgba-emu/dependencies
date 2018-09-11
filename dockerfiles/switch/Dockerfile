@@ -13,7 +13,7 @@ RUN curl -LO https://github.com/devkitPro/pacman/releases/download/devkitpro-pac
     dpkg -i devkitpro-pacman.deb && \
     rm devkitpro-pacman.deb
 
-RUN dkp-pacman -Syu --noconfirm devkitA64 general-tools switch-tools switch-mesa libnx && \
+RUN dkp-pacman -Syu --noconfirm devkitA64 general-tools switch-tools switch-mesa switch-zlib switch-libpng libnx && \
     dkp-pacman -Scc --noconfirm
 
 RUN apt-get autoremove -y curl gnupg
