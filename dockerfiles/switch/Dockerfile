@@ -16,6 +16,14 @@ RUN curl -LO https://github.com/devkitPro/pacman/releases/download/devkitpro-pac
 RUN dkp-pacman -Syu --noconfirm devkitA64 general-tools switch-tools switch-mesa switch-zlib switch-libpng libnx && \
     dkp-pacman -Scc --noconfirm
 
+RUN [ ! \( "$(dkp-pacman -Q libnx | cut -d' ' -f2)" ">" "1.4.0-1" \) ] && \
+    git clone https://github.com/switchbrew/libnx.git && \
+    (cd libnx && make -j2 install) && rm -rf libnx
+
+RUN [ ! \( "$(dkp-pacman -Q switch-libdrm_nouveau | cut -d' ' -f2)" ">" "0.1.0-1" \) ] && \
+    git clone https://github.com/devkitPro/libdrm_nouveau.git && \
+    (cd libdrm_nouveau && make -j2 install) && rm -rf libdrm_nouveau
+
 RUN apt-get autoremove -y curl gnupg
 
 RUN useradd mgba -m
