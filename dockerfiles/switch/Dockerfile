@@ -16,6 +16,10 @@ RUN curl -LO https://github.com/devkitPro/pacman/releases/download/devkitpro-pac
 RUN dkp-pacman -Syu --noconfirm devkitA64 general-tools switch-tools switch-mesa switch-zlib switch-libpng libnx && \
     dkp-pacman -Scc --noconfirm
 
+RUN [ ! \( "$(dkp-pacman -Q libnx | cut -d' ' -f2)" ">" "1.4.1-1" \) ] && \
+    git clone https://github.com/switchbrew/libnx.git && \
+    (cd libnx && make -j2 install) && rm -rf libnx
+
 RUN apt-get autoremove -y curl gnupg
 
 RUN useradd mgba -m
