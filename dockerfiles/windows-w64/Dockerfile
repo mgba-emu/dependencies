@@ -1,9 +1,9 @@
 FROM ubuntu:bionic
 
-RUN apt-get update && \
+RUN dpkg --add-architecture i386 && apt-get update && \
     apt-get install -y --no-install-recommends autoconf automake \
-        ca-certificates cmake g++ g++-mingw-w64-x86-64 git libtool make \
-        markdown nasm pkg-config python wine-development yasm && \
+        ca-certificates cmake dos2unix g++ g++-mingw-w64-x86-64 git libtool \
+        make markdown nasm pkg-config python wine32 wine-stable:i386 yasm && \
     apt-get autoremove -y && apt-get clean
 
 COPY libraries /root/dependencies/
@@ -13,6 +13,7 @@ RUN ROOT=/opt/win64 HOST=x86_64-w64-mingw32 make -j4 && cd .. && rm -rf dependen
 
 COPY dockerfiles/windows-w64/CMakeToolchain.txt /opt/win64
 COPY licenses /opt/licenses
+COPY binaries/inno-setup /opt/inno-setup
 RUN chmod -R go+r /opt && \
     useradd mgba -m
 VOLUME /home/mgba/src
