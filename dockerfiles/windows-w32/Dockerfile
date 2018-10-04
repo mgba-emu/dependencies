@@ -15,6 +15,7 @@ COPY dockerfiles/windows-w32/CMakeToolchain.txt /opt/win32
 COPY licenses /opt/licenses
 COPY binaries/inno-setup /opt/inno-setup
 RUN chmod -R go+r /opt && \
+    find /opt -type d -exec chmod go+x {} \; && \
     useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
