@@ -13,13 +13,10 @@ RUN curl -LO https://github.com/devkitPro/pacman/releases/download/devkitpro-pac
     dpkg -i devkitpro-pacman.deb && \
     rm devkitpro-pacman.deb
 
-RUN dkp-pacman -Syu --noconfirm general-tools gamecube-tools libfat-ogc ppc-zlib ppc-libpng devkitPPC && \
+RUN dkp-pacman -Syu --noconfirm general-tools gamecube-tools libogc libfat-ogc ppc-zlib ppc-libpng devkitPPC && \
     dkp-pacman -Scc --noconfirm
 
 RUN apt-get autoremove -y curl gnupg
-
-RUN git clone https://github.com/endrift/libogc.git -b mgba-downstream && \
-    (cd libogc && make install) && rm -rf libogc
 
 RUN useradd mgba -m
 VOLUME /home/mgba/src
