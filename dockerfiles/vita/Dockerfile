@@ -2,7 +2,7 @@ FROM ubuntu:xenial
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential bzip2 \
-        ca-certificates cmake curl git m4 texinfo wget xz-utils && \
+        ca-certificates cmake curl git m4 patch texinfo wget xz-utils && \
     apt-get autoremove -y && apt-get clean
 
 WORKDIR /root
@@ -11,9 +11,12 @@ ENV PATH=$VITASDK/bin:$PATH
 
 RUN git clone https://github.com/vitasdk/buildscripts
 RUN cd buildscripts && mkdir build && cd build && \
-    cmake .. && make && mv vitasdk $VITASDK && \
+    cmake .. && make -j2 && mv vitasdk $VITASDK && \
     cd .. && rm -rf build
-RUN vdpm zlib && vdpm libzip && vdpm libpng && vdpm libvita2d
+RUN vdpm zlib && vdpm bzip2 && vdpm libzip && vdpm libpng && vdpm libvita2d
+
+COPY dockerfiles/vita/vita.cmake.patch /root
+RUN cd /opt/vitasdk/share && patch -p2 < /root/vita.cmake.patch
 
 RUN useradd mgba -m
 VOLUME /home/mgba/src
