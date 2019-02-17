@@ -34,3 +34,7 @@
 	path = libraries/opus
 	url = git://git.opus-codec.org/opus.git
 	ignore = untracked
+[submodule "libraries/luajit"]
+	path = libraries/luajit
+	url = http://luajit.org/git/luajit-2.0.git
+	branch = v2.1

@@ -1,4 +1,4 @@
-PROJECTS := ffmpeg imagemagick lame libelf libepoxy libpng libvpx libzip opus qt5 sqlite3 sdl2 x264 xvidcore zlib
+PROJECTS := ffmpeg imagemagick lame libelf libepoxy libpng libvpx libzip luajit opus qt5 sqlite3 sdl2 x264 xvidcore zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 CFLAGS += -O3 -msse2 $(CPPFLAGS) -ffat-lto-objects
@@ -33,7 +33,8 @@ all: $(PROJECTS)
 clean: $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
 
 CLEAN_PROJECTS = $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
-CUSTOM_CLEAN = clean-qt5
+CUSTOM_PROJECTS = luajit
+CUSTOM_CLEAN = clean-qt5 clean-luajit
 
 $(foreach PROJECT, $(filter-out $(CUSTOM_CLEAN),$(CLEAN_PROJECTS)),$(PROJECT)):
 	-$(MAKE) -C $(subst clean-,,$@) distclean
@@ -41,7 +42,7 @@ $(foreach PROJECT, $(filter-out $(CUSTOM_CLEAN),$(CLEAN_PROJECTS)),$(PROJECT)):
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)): CONFIGURE=bash ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared SHELL=bash $(CONFIGURE_FLAGS)
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)): BASEDIR=$@
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)): TARGET=all
-$(foreach PROJECT, $(PROJECTS),$(PROJECT)):
+$(foreach PROJECT, $(filter-out $(CUSTOM_PROJECTS),$(PROJECTS)),$(PROJECT)):
 	cd $(BASEDIR) && $(CONFIGURE) && $(MAKE) $(TARGET) && $(MAKE) install
 
 imagemagick: CONFIGURE_FLAGS=--with-quantum-depth=8 --enable-hdri=no --with-bzlib=no -with-djvu=no --with-fftw=no --with-freetype=no --with-fontconfig=no --with-gvc=no --with-jpeg=no --with-lcms=no --with-lzma=no --with-openexr=no --with-pango=no --with-tiff=no -with-webp=no --with-x=no --with-xml=no --without-magick-plus-plus --without-threads LDFLAGS=-lws2_32
@@ -66,6 +67,12 @@ libvpx: clean-libvpx
 
 libzip: zlib
 libzip: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared CFLAGS="$(CFLAGS) -DZIP_STATIC"
+
+luajit:
+	cd luajit && make $(shell buildscripts/lua-flags.sh "$(CROSS_PREFIX)") PREFIX="$(ROOT)" install
+
+clean-luajit:
+	make -C luajit clean
 
 opus: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared
 

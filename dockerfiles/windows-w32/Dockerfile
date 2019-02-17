@@ -2,8 +2,9 @@ FROM ubuntu:bionic
 
 RUN dpkg --add-architecture i386 && apt-get update && \
     apt-get install -y --no-install-recommends autoconf automake \
-        ca-certificates cmake dos2unix g++ g++-mingw-w64-i686 git libtool \
-        make markdown nasm pkg-config python wine32 wine-stable:i386 yasm && \
+        ca-certificates cmake dos2unix g++ g++-mingw-w64-i686 git \
+        lib32gcc-7-dev libc6-dev:i386 libc6-dev-i386 libtool make markdown \
+        nasm pkg-config python wine32 wine-stable:i386 yasm && \
     apt-get autoremove -y && apt-get clean
 
 COPY libraries /root/dependencies/
