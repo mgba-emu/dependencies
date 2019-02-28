@@ -12,6 +12,7 @@ OS=$(identify_os $CC)
 COMPILER=$(identify_compiler $CXX)
 
 export QMAKE_CXXFLAGS=$CXXFLAGS
+OPENSSL_LIBS="-lssl -lcrypto"
 
 unset CC
 unset CXX
@@ -35,6 +36,7 @@ OSX*)
 	;;
 Windows*)
 	OS=win32
+	OPENSSL_LIBS="$OPENSSL_LIBS -lws2_32 -lcrypt32"
 	;;
 esac
 
@@ -57,6 +59,12 @@ export LIBDIR
 
 $BASEDIR/clean-extra.sh
 
+pushd qtbase
+for PATCH in $(ls $BASEDIR/../patches/qtbase/*.patch); do
+	patch -Np1 < $PATCH
+done
+popd
+
 ./configure \
 	-prefix $ROOT \
 	-opensource \
@@ -74,6 +82,7 @@ $BASEDIR/clean-extra.sh
 	-c++std c++14 \
 	-system-libpng \
 	-system-sqlite \
+	-openssl-linked OPENSSL_LIBS="$OPENSSL_LIBS"\
 	-opengl desktop \
 	-no-pch \
 	-no-avx2 \
@@ -86,5 +95,4 @@ $BASEDIR/clean-extra.sh
 	-no-gif \
 	-no-sql-odbc \
 	-no-harfbuzz \
-	-no-openssl \
 	-no-dbus \

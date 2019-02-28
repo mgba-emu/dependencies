@@ -80,7 +80,7 @@ openssl: CONFIGURE=../buildscripts/configure-openssl.sh "$(CROSS_PREFIX)" $(ROOT
 opus: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared
 
 qt5: CONFIGURE=../buildscripts/configure-qt.sh "$(CROSS_PREFIX)" $(ROOT)
-qt5: libpng sqlite3
+qt5: libpng openssl sqlite3
 qt5: TARGET=first
 
 clean-qt5:
