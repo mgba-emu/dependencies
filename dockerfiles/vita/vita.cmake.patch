@@ -17,14 +17,14 @@ index 902391e..019862b 100644
  endmacro(vita_create_self)
  ##################################################
  
-@@ -178,11 +178,11 @@ macro(vita_create_vpk target titleid eboot)
+@@ -179,11 +179,11 @@ macro(vita_create_vpk target titleid eboot)
      COMMENT "Generating param.sfo for ${target}"
    )
    separate_arguments(VITA_PACK_VPK_FLAGS)
 -  add_custom_command(OUTPUT ${target}
 +  add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${target}"
      COMMAND ${VITA_PACK_VPK} ${VITA_PACK_VPK_FLAGS} -s ${target}_param.sfo -b ${eboot} ${target}
-     DEPENDS ${target}_param.sfo ${eboot}
+     DEPENDS ${target}_param.sfo ${eboot} ${resources}
      COMMENT "Building vpk ${target}"
    )
 -  add_custom_target(${target}_ ALL DEPENDS ${target})

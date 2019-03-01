@@ -10,7 +10,9 @@ ENV VITASDK=/opt/vitasdk
 ENV PATH=$VITASDK/bin:$PATH
 
 RUN git clone https://github.com/vitasdk/buildscripts
-RUN cd buildscripts && mkdir build && cd build && \
+RUN mkdir -p buildscripts/build/downloads
+COPY binaries/libelf-0.8.13.tar.gz buildscripts/build/downloads
+RUN cd buildscripts/build && \
     cmake .. && make -j2 && mv vitasdk $VITASDK && \
     cd .. && rm -rf build
 RUN vdpm zlib && vdpm bzip2 && vdpm libzip && vdpm libpng && vdpm libvita2d
