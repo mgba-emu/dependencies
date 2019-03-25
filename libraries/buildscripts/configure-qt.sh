@@ -64,6 +64,11 @@ for PATCH in $(ls ../../patches/qtbase/*.patch); do
 	patch -Np1 < $PATCH
 done
 popd
+pushd qttools
+for PATCH in $(ls ../../patches/qttools/*.patch); do
+	patch -Np1 < $PATCH
+done
+popd
 
 ./configure \
 	-prefix $ROOT \

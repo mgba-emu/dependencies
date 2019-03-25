@@ -1,0 +1,13 @@
+diff --git a/src/src.pro b/src/src.pro
+index c954cf98..74522735 100644
+--- a/src/src.pro
++++ b/src/src.pro
+@@ -35,7 +35,7 @@ macos {
+ 
+ qtHaveModule(dbus): SUBDIRS += qdbus
+ 
+-win32|winrt:SUBDIRS += windeployqt
++!cross_compile:win32|winrt:SUBDIRS += windeployqt
+ winrt:SUBDIRS += winrtrunner
+ qtHaveModule(gui):!android:!uikit:!qnx:!winrt: SUBDIRS += qtdiag
+ 
