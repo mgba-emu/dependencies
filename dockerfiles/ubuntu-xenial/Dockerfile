@@ -13,4 +13,4 @@ VOLUME /home/mgba/src
 USER mgba
 WORKDIR /home/mgba/src
 ENV BUILD_DIR=build-xenial
-CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && cmake .. $CMAKE_FLAGS && make install DESTDIR=install
+CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && cmake .. -DCMAKE_AR=/usr/bin/gcc-ar -DCMAKE_RANLIB=/usr/bin/gcc-ranlib $CMAKE_FLAGS && make install DESTDIR=install
