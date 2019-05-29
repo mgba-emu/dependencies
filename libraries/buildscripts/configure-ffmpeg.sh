@@ -23,11 +23,11 @@ OSX*)
 Windows64)
 	OS=win64
 	ARCH=x86_64
-	NVENC="--enable-encoder=h264_nvenc --enable-nvenc"
+	NVENC="--enable-encoder=h264_nvenc --enable-encoder=hevc_nvenc --enable-nvenc"
 	;;
 Windows*)
 	OS=win32
-	NVENC="--enable-encoder=h264_nvenc --enable-nvenc"
+	NVENC="--enable-encoder=h264_nvenc --enable-encoder=hevc_nvenc --enable-nvenc"
 	;;
 esac
 
