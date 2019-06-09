@@ -17,9 +17,6 @@ RUN cd buildscripts/build && \
     cd .. && rm -rf build
 RUN vdpm zlib && vdpm bzip2 && vdpm libzip && vdpm libpng && vdpm libvita2d
 
-COPY dockerfiles/vita/vita.cmake.patch /root
-RUN cd /opt/vitasdk/share && patch -p2 < /root/vita.cmake.patch
-
 RUN useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
