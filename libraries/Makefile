@@ -1,4 +1,4 @@
-PROJECTS := ffmpeg imagemagick lame libelf libepoxy libpng libvpx libzip luajit openssl opus qt5 sqlite3 sdl2 x264 xvidcore zlib
+PROJECTS := ffmpeg imagemagick lame libelf libepoxy libpng libvpx libzip luajit nv-codec-headers openssl opus qt5 sqlite3 sdl2 x264 xvidcore zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 CFLAGS += -O3 -msse2 $(CPPFLAGS) -ffat-lto-objects
@@ -49,7 +49,7 @@ imagemagick: CONFIGURE_FLAGS=--with-quantum-depth=8 --enable-hdri=no --with-bzli
 imagemagick: libpng
 
 ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh "$(CROSS_PREFIX)" $(ROOT)
-ffmpeg: lame libvpx opus x264 xvidcore
+ffmpeg: lame libvpx nv-codec-headers opus x264 xvidcore
 ffmpeg: clean-ffmpeg
 
 lame: CONFIGURE_FLAGS=--disable-frontend
@@ -73,6 +73,9 @@ luajit:
 
 clean-luajit:
 	make -C luajit clean
+
+nv-codec-headers:
+	cd nv-codec-headers && make PREFIX="$(ROOT)" install
 
 openssl: zlib
 openssl: CONFIGURE=../buildscripts/configure-openssl.sh "$(CROSS_PREFIX)" $(ROOT)
