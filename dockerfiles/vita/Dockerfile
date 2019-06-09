@@ -1,21 +1,19 @@
 FROM ubuntu:xenial
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends build-essential bzip2 \
-        ca-certificates cmake curl git m4 patch texinfo wget xz-utils && \
+    apt-get install -y --no-install-recommends bzip2 ca-certificates cmake \
+        curl git make python wget xz-utils && \
     apt-get autoremove -y && apt-get clean
 
 WORKDIR /root
 ENV VITASDK=/opt/vitasdk
 ENV PATH=$VITASDK/bin:$PATH
 
-RUN git clone https://github.com/vitasdk/buildscripts
-RUN mkdir -p buildscripts/build/downloads
-COPY binaries/libelf-0.8.13.tar.gz buildscripts/build/downloads
-RUN cd buildscripts/build && \
-    cmake .. && make -j2 && mv vitasdk $VITASDK && \
-    cd .. && rm -rf build
+RUN git clone https://github.com/vitasdk/vdpm
+RUN mkdir -p $VITASDK && . vdpm/include/install-vitasdk.sh && \
+    install_vitasdk $VITASDK && rm -rf vdpm
 RUN vdpm zlib && vdpm bzip2 && vdpm libzip && vdpm libpng && vdpm libvita2d
+RUN apt-get autoremove -y python && apt-get clean
 
 RUN useradd mgba -m
 VOLUME /home/mgba/src
