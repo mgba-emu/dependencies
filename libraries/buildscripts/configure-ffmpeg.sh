@@ -31,7 +31,7 @@ Windows*)
 	;;
 esac
 
-./configure --disable-decoders --disable-devices --disable-outdevs --disable-demuxers --disable-filters --disable-hwaccels \
+./configure --disable-decoders --disable-devices --disable-outdevs --disable-demuxers --disable-hwaccels \
 	--disable-encoders \
 	--enable-encoder=libopus \
 	--enable-encoder=aac \
@@ -41,6 +41,7 @@ esac
 	--enable-encoder=ffvhuff \
 	--enable-encoder=flac \
 	--enable-encoder=flv \
+	--enable-encoder=gif \
 	--enable-encoder=huffyuv \
 	--enable-encoder=libmp3lame \
 	--enable-encoder=libvpx_vp8 \
@@ -161,6 +162,11 @@ esac
 	--enable-protocol=tcp \
 	--enable-protocol=udp \
 	--enable-protocol=udplite \
+	\
+	--disable-filters \
+	--enable-filter=palettegen \
+	--enable-filter=paletteuse \
+	--enable-filter=split \
 	\
 	--disable-bsfs \
 	--enable-bsf=aac_adtstoasc \
