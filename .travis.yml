@@ -12,6 +12,7 @@ env:
   - BUILDS=ubuntu:bionic
   - BUILDS=ubuntu:cosmic
   - BUILDS=ubuntu:disco
+  - BUILDS=ubuntu:eoan
   - BUILDS=3ds
   - BUILDS=vita
   - BUILDS=wii
