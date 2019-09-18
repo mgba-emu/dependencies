@@ -2,10 +2,10 @@ FROM ubuntu:disco
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential cmake git \
-        libavcodec-dev libavformat-dev libavutil-dev libedit-dev libelf-dev \
-        libmagickwand-dev libpng-dev libqt5opengl5-dev libsdl2-dev \
-        libsqlite3-dev libswresample-dev libswscale-dev libzip-dev \
-        qtmultimedia5-dev qttools5-dev-tools && \
+        libavcodec-dev libavfilter-dev libavformat-dev libavutil-dev \
+        libedit-dev libelf-dev libmagickwand-dev libpng-dev libqt5opengl5-dev \
+        libsdl2-dev libsqlite3-dev libswresample-dev libswscale-dev \
+        libzip-dev qtmultimedia5-dev qttools5-dev-tools && \
     apt-get autoremove -y && apt-get clean
 
 RUN useradd mgba -m
