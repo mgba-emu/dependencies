@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index 0f93308..eedd16b 100644
+--- a/Makefile
++++ b/Makefile
+@@ -116,7 +116,7 @@ default all $(INSTALL_DEP):
+ install: $(INSTALL_DEP)
+ 	@echo "==== Installing LuaJIT $(VERSION) to $(PREFIX) ===="
+ 	$(MKDIR) $(INSTALL_DIRS)
+-	cd src && $(INSTALL_X) $(FILE_T) $(INSTALL_T)
++	cd src && test -f $(FILE_T} && $(INSTALL_X) $(FILE_T) $(INSTALL_T) || :
+ 	cd src && test -f $(FILE_A) && $(INSTALL_F) $(FILE_A) $(INSTALL_STATIC) || :
+ 	$(RM) $(INSTALL_DYN) $(INSTALL_SHORT1) $(INSTALL_SHORT2)
+ 	cd src && test -f $(FILE_SO) && \

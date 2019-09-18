@@ -2,7 +2,7 @@
 BASEDIR=$(dirname $0)
 . $BASEDIR/identify-toolchain.sh
 OS=$(identify_os $CC)
-FLAGS=(CROSS="$1")
+FLAGS=(CROSS="$1" BUILDMODE=static)
 HOST_CC=(gcc)
 CFLAGS=()
 case $OS in
@@ -24,12 +24,14 @@ esac
 
 case $OS in
 Windows*)
-	FLAGS+=(TARGET_SYS=Windows INSTALL_TNAME=luajit.exe INSTALL_SONAME=lua51.dll FILE_T=luajit.exe FILE_SO=lua51.dll)
+	FLAGS+=(TARGET_SYS=Windows INSTALL_ANAME=liblua51.a)
 	;;
 esac
 
 if [ $BITS -eq 64 ]; then
 	CFLAGS+=(-fPIC -DLUAJIT_ENABLE_GC64)
 fi
+
+(cd $BASEDIR/../luajit && patch -Nsp1) < $BASEDIR/../patches/luajit/*
 
 echo ${FLAGS[@]} CFLAGS=\"${CFLAGS[@]}\" HOST_CC=\"${HOST_CC[@]}\"
