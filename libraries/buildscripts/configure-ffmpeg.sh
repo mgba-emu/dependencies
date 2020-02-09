@@ -37,6 +37,7 @@ esac
 	--enable-encoder=aac \
 	--enable-encoder=ac3 \
 	--enable-encoder=ac3_fixed \
+	--enable-encoder=apng \
 	--enable-encoder=ffv1 \
 	--enable-encoder=ffvhuff \
 	--enable-encoder=flac \
@@ -94,6 +95,7 @@ esac
 	\
 	--disable-muxers \
 	--enable-muxer=ac3 \
+	--enable-muxer=apng \
 	--enable-muxer=avi \
 	--enable-muxer=dirac \
 	--enable-muxer=flac \
