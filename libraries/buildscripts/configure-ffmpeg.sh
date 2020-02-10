@@ -100,6 +100,7 @@ esac
 	--enable-muxer=dirac \
 	--enable-muxer=flac \
 	--enable-muxer=flv \
+	--enable-muxer=gif \
 	--enable-muxer=h264 \
 	--enable-muxer=hls \
 	--enable-muxer=image2 \
