@@ -168,6 +168,7 @@ esac
 	--disable-filters \
 	--enable-filter=palettegen \
 	--enable-filter=paletteuse \
+	--enable-filter=scale \
 	--enable-filter=split \
 	\
 	--disable-bsfs \
