@@ -10,6 +10,7 @@ RUN apt-get update && \
 
 RUN update-ccache-symlinks
 RUN useradd mgba -m
+RUN mkdir -p /home/mgba/.ccache && chown mgba:mgba /home/mgba/.ccache
 VOLUME /home/mgba/src /home/mgba/.ccache
 USER mgba
 WORKDIR /home/mgba/src

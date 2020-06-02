@@ -19,6 +19,7 @@ RUN chmod -R go+r /opt && \
     find /opt -type d -exec chmod go+x {} \;
 RUN update-ccache-symlinks
 RUN useradd mgba -m
+RUN mkdir -p /home/mgba/.ccache && chown mgba:mgba /home/mgba/.ccache
 VOLUME /home/mgba/src /home/mgba/.ccache
 USER mgba
 WORKDIR /home/mgba/src
