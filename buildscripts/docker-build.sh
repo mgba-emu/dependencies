@@ -1,18 +1,22 @@
 #!/bin/bash
 usage () {
-    echo "Usage: $0 [-Pq] TAG" >&2
+    echo "Usage: $0 [-Pqs] TAG" >&2
     exit 1
 }
 
 PUSH='yes'
+SQUASH='no'
 
-while getopts Pq OPT; do
+while getopts Pqs OPT; do
     case "$OPT" in
         P)
-		    PUSH='no'
-			;;
+            PUSH='no'
+            ;;
         q)
             QUIET=-q
+            ;;
+        s)
+            SQUASH='yes'
             ;;
         *)
             usage
@@ -28,9 +32,9 @@ BUILD=$1
 DOCKERFILE=dockerfiles/$(echo $BUILD | sed -e 's/:/-/')/Dockerfile
 FROM=$(head -n1 $DOCKERFILE | cut -d ' ' -f2)
 if [ -z "$(echo $BUILD | cut -sd : -f2)" ]; then
-	DATETAG=:$(date +%Y%m%d)
+    DATETAG=:$(date +%Y%m%d)
 else
-	DATETAG=-$(date +%Y%m%d)
+    DATETAG=-$(date +%Y%m%d)
 fi
 set -e
 
@@ -42,6 +46,6 @@ if [ -n "$(echo $BUILD | grep windows)" ]; then
     git submodule update --recursive
 fi
 docker build $QUIET -t mgba/$BUILD . -f $DOCKERFILE
-docker-squash mgba/$BUILD -f $FROM -t mgba/$BUILD
+[ "$SQUASH" != "yes" ] || docker-squash mgba/$BUILD -f $FROM -t mgba/$BUILD
 docker tag mgba/$BUILD mgba/$BUILD$DATETAG
 [ "$PUSH" != "yes" ] || (docker push mgba/$BUILD && docker push mgba/$BUILD$DATETAG)
