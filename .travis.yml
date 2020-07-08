@@ -8,20 +8,16 @@ git:
   depth: 1
   submodules: false
 env:
-  - BUILDS=ubuntu:xenial
-  - BUILDS=ubuntu:bionic
-  - BUILDS=ubuntu:eoan
-  - BUILDS=ubuntu:focal
-  - BUILDS=3ds
-  - BUILDS=vita
-  - BUILDS=wii
-  - BUILDS=switch
-  - BUILDS=wasm
+  - BUILD=ubuntu:xenial
+  - BUILD=ubuntu:bionic
+  - BUILD=ubuntu:eoan
+  - BUILD=ubuntu:focal
+  - BUILD=3ds
+  - BUILD=vita
+  - BUILD=wii
+  - BUILD=switch
+  - BUILD=wasm
 install:
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-  - pip install docker-squash
 script:
-  - |
-    for build in $BUILDS; do
-      travis_wait 60 ./buildscripts/docker-build.sh -q $build || exit 1
-    done
+  - travis_wait 60 ./buildscripts/docker-build.sh -q $BUILD
