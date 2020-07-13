@@ -1,4 +1,4 @@
-PROJECTS := ffmpeg imagemagick lame libelf libepoxy libpng libvpx libzip luajit nv-codec-headers openssl opus qt5 sqlite3 sdl2 x264 xvidcore zlib
+PROJECTS := ffmpeg lame libelf libepoxy libpng libvpx libzip luajit nv-codec-headers openssl opus qt5 sqlite3 sdl2 x264 zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 CFLAGS += -O3 -msse2 $(CPPFLAGS) -ffat-lto-objects
@@ -45,11 +45,8 @@ $(foreach PROJECT, $(PROJECTS),$(PROJECT)): TARGET=all
 $(foreach PROJECT, $(filter-out $(CUSTOM_PROJECTS),$(PROJECTS)),$(PROJECT)):
 	cd $(BASEDIR) && $(CONFIGURE) && $(MAKE) $(TARGET) && $(MAKE) install
 
-imagemagick: CONFIGURE_FLAGS=--with-quantum-depth=8 --enable-hdri=no --with-bzlib=no -with-djvu=no --with-fftw=no --with-freetype=no --with-fontconfig=no --with-gvc=no --with-jpeg=no --with-lcms=no --with-lzma=no --with-openexr=no --with-pango=no --with-tiff=no -with-webp=no --with-x=no --with-xml=no --without-magick-plus-plus --without-threads LDFLAGS=-lws2_32
-imagemagick: libpng
-
 ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh "$(CROSS_PREFIX)" $(ROOT)
-ffmpeg: lame libvpx nv-codec-headers opus x264 xvidcore
+ffmpeg: lame libvpx nv-codec-headers opus x264
 ffmpeg: clean-ffmpeg
 
 lame: CONFIGURE_FLAGS=--disable-frontend
@@ -92,12 +89,6 @@ clean-qt5:
 sdl2: CONFIGURE_FLAGS=--disable-video-x11 --disable-power
 
 x264: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-cli --enable-strip --enable-pic --cross-prefix=$(CROSS_PREFIX)
-
-xvidcore: CONFIGURE=./configure --host=$(HOST) --prefix=$(ROOT)
-xvidcore: BASEDIR=$@/build/generic
-xvidcore: TARGET=clean all
-xvidcore: MAKEFLAGS=
-xvidcore: xvidcore-clean
 
 zlib: CONFIGURE=./configure --static --prefix=$(ROOT)
 

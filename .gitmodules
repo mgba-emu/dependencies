@@ -10,10 +10,6 @@
 	path = libraries/x264
 	url = http://git.videolan.org/git/x264.git/
 	ignore = untracked
-[submodule "imagemagick"]
-	path = libraries/imagemagick
-	url = https://github.com/ImageMagick/ImageMagick.git
-	ignore = untracked
 [submodule "libpng"]
 	path = libraries/libpng
 	url = https://github.com/glennrp/libpng.git
