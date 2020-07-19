@@ -7,12 +7,13 @@ RUN dpkg --add-architecture i386 && apt-get update && \
         yasm && \
     apt-get autoremove -y && apt-get clean
 
+RUN mkdir -p /opt/win64
+COPY dockerfiles/windows-w64/CMakeToolchain.txt /opt/win64
 COPY libraries /root/dependencies/
 WORKDIR /root/dependencies
 
-RUN ROOT=/opt/win64 HOST=x86_64-w64-mingw32 make -j4 && cd .. && rm -rf dependencies
+RUN ROOT=/opt/win64 HOST=x86_64-w64-mingw32 CMAKE_TOOLCHAIN_FILE=/opt/win64/CMakeToolchain.txt make -j4 && cd .. && rm -rf dependencies
 
-COPY dockerfiles/windows-w64/CMakeToolchain.txt /opt/win64
 COPY licenses /opt/licenses
 COPY binaries/inno-setup /opt/inno-setup
 RUN chmod -R go+r /opt && \

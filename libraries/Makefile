@@ -63,7 +63,7 @@ libvpx: MAKEFLAGS+=-j1
 libvpx: clean-libvpx
 
 libzip: zlib
-libzip: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared CFLAGS="$(CFLAGS) -DZIP_STATIC"
+libzip: CONFIGURE=../buildscripts/configure-libzip.sh
 
 luajit:
 	cd luajit && make $(shell buildscripts/lua-flags.sh "$(CROSS_PREFIX)") PREFIX="$(ROOT)" install
