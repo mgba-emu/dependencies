@@ -44,3 +44,6 @@
 [submodule "libzip"]
 	path = libraries/libzip
 	url = https://github.com/nih-at/libzip.git
+[submodule "libwebp"]
+	path = libraries/libwebp
+	url = https://chromium.googlesource.com/webm/libwebp

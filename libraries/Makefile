@@ -1,4 +1,4 @@
-PROJECTS := ffmpeg lame libelf libepoxy libpng libvpx libzip luajit nv-codec-headers openssl opus qt5 sqlite3 sdl2 x264 zlib
+PROJECTS := ffmpeg lame libelf libepoxy libpng libvpx libwebp libzip luajit nv-codec-headers openssl opus qt5 sqlite3 sdl2 x264 zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 CFLAGS += -O3 -msse2 $(CPPFLAGS) -ffat-lto-objects
@@ -46,7 +46,7 @@ $(foreach PROJECT, $(filter-out $(CUSTOM_PROJECTS),$(PROJECTS)),$(PROJECT)):
 	cd $(BASEDIR) && $(CONFIGURE) && $(MAKE) $(TARGET) && $(MAKE) install
 
 ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh "$(CROSS_PREFIX)" $(ROOT)
-ffmpeg: lame libvpx nv-codec-headers opus x264
+ffmpeg: lame libvpx libwebp nv-codec-headers opus x264
 ffmpeg: clean-ffmpeg
 
 lame: CONFIGURE_FLAGS=--disable-frontend
@@ -61,6 +61,8 @@ libpng: CONFIGURE=autoreconf --force --install && ./configure --enable-static --
 libvpx: CONFIGURE=../buildscripts/configure-libvpx.sh "$(CROSS_PREFIX)" $(ROOT)
 libvpx: MAKEFLAGS+=-j1
 libvpx: clean-libvpx
+
+libwebp: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared --enable-libwebpmux --disable-cwebp --disable-dwebp
 
 libzip: zlib
 libzip: CONFIGURE=../buildscripts/configure-libzip.sh

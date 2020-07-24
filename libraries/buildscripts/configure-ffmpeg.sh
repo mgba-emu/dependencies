@@ -47,6 +47,8 @@ esac
 	--enable-encoder=libmp3lame \
 	--enable-encoder=libvpx_vp8 \
 	--enable-encoder=libvpx_vp9 \
+	--enable-encoder=libwebp \
+	--enable-encoder=libwebp_anim \
 	--enable-encoder=libx264 \
 	--enable-encoder=libx264rgb \
 	--enable-encoder=mjpeg \
@@ -76,6 +78,7 @@ esac
 	--enable-encoder=vorbis \
 	--enable-encoder=yuv4 \
 	--enable-encoder=zlib \
+	--enable-encoder=zmbv \
 	\
 	--disable-parsers \
 	--enable-parser=aac \
@@ -179,4 +182,4 @@ esac
 	--enable-bsf=mp3_header_decompress \
 	\
 	--arch=$ARCH --target-os=$OS --enable-gpl --cross-prefix=$CROSS_COMPILE --pkg-config=pkg-config --prefix=$ROOT --disable-programs --enable-static --disable-shared \
-	--enable-libvpx --enable-libmp3lame --enable-libx264 --enable-avresample --enable-libopus $NVENC --cc="$CC" --cxx="$CXX"
+	--enable-libvpx --enable-libmp3lame --enable-libx264 --enable-libwebp --enable-libopus $NVENC --cc="$CC" --cxx="$CXX"
