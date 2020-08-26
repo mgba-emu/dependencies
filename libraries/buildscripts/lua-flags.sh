@@ -24,7 +24,7 @@ esac
 
 case $OS in
 Windows*)
-	FLAGS+=(TARGET_SYS=Windows INSTALL_ANAME=liblua51.a)
+	FLAGS+=(TARGET_SYS=Windows INSTALL_ANAME=liblua51.a FILE_T=luajit.exe)
 	;;
 esac
 
