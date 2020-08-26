@@ -182,4 +182,4 @@ esac
 	--enable-bsf=mp3_header_decompress \
 	\
 	--arch=$ARCH --target-os=$OS --enable-gpl --cross-prefix=$CROSS_COMPILE --pkg-config=pkg-config --prefix=$ROOT --disable-programs --enable-static --disable-shared \
-	--enable-libvpx --enable-libmp3lame --enable-libx264 --enable-libwebp --enable-libopus $NVENC --cc="$CC" --cxx="$CXX"
+	--enable-libvpx --enable-libmp3lame --enable-libx264 --enable-libwebp --enable-libopus $NVENC --cc="$CC" --cxx="$CXX" --pkg_config_flags=--static
