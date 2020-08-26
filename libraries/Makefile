@@ -1,21 +1,27 @@
 PROJECTS := ffmpeg lame libelf libepoxy libpng libvpx libwebp libzip luajit nv-codec-headers openssl opus qt5 sqlite3 sdl2 x264 zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
-CFLAGS += -O3 -msse2 $(CPPFLAGS) -ffat-lto-objects
-CXXFLAGS += -O3 -msse2 $(CPPFLAGS)
 LDFLAGS += -L$(ROOT)/lib
 PKG_CONFIG_LIBDIR := $(ROOT)/lib/pkgconfig
 PKG_CONFIG_SYSROOT_DIR := /.
+
+ifneq ($(HOST),)
+CROSS_PREFIX := $(HOST)-
+ifneq ($(findstring x86_64,$(HOST)),)
+ARCHFLAGS += -msse2 -msse3 -msse4
+else ifneq ($(findstring i686,$(HOST)),)
+ARCHFLAGS += -msse2
+endif
+endif
+
+CFLAGS += -O3 $(ARCHFLAGS) $(CPPFLAGS) -ffat-lto-objects
+CXXFLAGS += -O3 $(ARCHFLAGS) $(CPPFLAGS)
 export CPPFLAGS
 export CFLAGS
 export CXXFLAGS
 export LDFLAGS
 export PKG_CONFIG_LIBDIR
 export PKG_CONFIG_SYSROOT_DIR
-
-ifneq ($(HOST),)
-CROSS_PREFIX := $(HOST)-
-endif
 
 CC := $(shell buildscripts/identify-toolchain.sh "$(CROSS_PREFIX)" CC)
 CXX := $(shell buildscripts/identify-toolchain.sh "$(CROSS_PREFIX)" CXX)
