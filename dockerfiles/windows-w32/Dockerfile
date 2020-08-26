@@ -1,10 +1,12 @@
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
+ENV DEBIAN_FRONTEND=noninteractive
 RUN dpkg --add-architecture i386 && apt-get update && \
+    apt-get install -y --no-install-recommends libc6:i386 && \
     apt-get install -y --no-install-recommends autoconf automake \
-        ca-certificates ccache cmake dos2unix g++ g++-mingw-w64-i686 git \
-        lib32gcc-7-dev libc6-dev:i386 libc6-dev-i386 libtool make markdown \
-        nasm pkg-config python wine32 wine-stable:i386 yasm && \
+        ca-certificates ccache cmake dos2unix gcc-multilib g++ \
+        g++-mingw-w64-i686 git libtool make markdown nasm patch pkg-config \
+        python wine wine32 yasm && \
     apt-get autoremove -y && apt-get clean
 
 RUN mkdir -p /opt/win32
