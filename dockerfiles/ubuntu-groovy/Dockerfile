@@ -1,5 +1,6 @@
-FROM ubuntu:eoan
+FROM ubuntu:groovy
 
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential cmake ccache \
         git libavcodec-dev libavfilter-dev libavformat-dev libavutil-dev \
@@ -15,5 +16,5 @@ VOLUME /home/mgba/src /home/mgba/.ccache
 USER mgba
 WORKDIR /home/mgba/src
 ENV PATH=/usr/lib/ccache:$PATH
-ENV BUILD_DIR=build-eoan
+ENV BUILD_DIR=build-groovy
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && cmake .. $CMAKE_FLAGS && make install DESTDIR=install
