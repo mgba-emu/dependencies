@@ -10,8 +10,8 @@ git:
 env:
   - BUILD=ubuntu:xenial
   - BUILD=ubuntu:bionic
-  - BUILD=ubuntu:eoan
   - BUILD=ubuntu:focal
+  - BUILD=ubuntu:groovy
   - BUILD=3ds
   - BUILD=vita
   - BUILD=wii
