@@ -51,6 +51,7 @@ esac
 	--enable-encoder=libwebp_anim \
 	--enable-encoder=libx264 \
 	--enable-encoder=libx264rgb \
+	--enable-encoder=libx265 \
 	--enable-encoder=mjpeg \
 	--enable-encoder=mpeg4 \
 	--enable-encoder=pcm_alaw \
@@ -181,5 +182,13 @@ esac
 	--enable-bsf=h264_mp4toannexb \
 	--enable-bsf=mp3_header_decompress \
 	\
-	--arch=$ARCH --target-os=$OS --enable-gpl --cross-prefix=$CROSS_COMPILE --pkg-config=pkg-config --prefix=$ROOT --disable-programs --enable-static --disable-shared \
-	--enable-libvpx --enable-libmp3lame --enable-libx264 --enable-libwebp --enable-libopus $NVENC --cc="$CC" --cxx="$CXX" --pkg_config_flags=--static
+	--enable-libmp3lame \
+	--enable-libopus \
+	--enable-libvpx \
+	--enable-libwebp \
+	--enable-libx264 \
+	--enable-libx265 \
+	$NVENC \
+	\
+	--arch=$ARCH --target-os=$OS --cross-prefix=$CROSS_COMPILE --cc="$CC" --cxx="$CXX" --ld="$CXX" --prefix=$ROOT \
+	--enable-gpl --disable-programs --enable-static --disable-shared --pkg-config=pkg-config --pkg_config_flags=--static

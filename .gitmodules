@@ -47,3 +47,6 @@
 [submodule "libwebp"]
 	path = libraries/libwebp
 	url = https://chromium.googlesource.com/webm/libwebp
+[submodule "libraries/x265"]
+	path = libraries/x265
+	url = https://github.com/videolan/x265

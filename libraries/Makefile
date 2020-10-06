@@ -1,4 +1,4 @@
-PROJECTS := ffmpeg lame libelf libepoxy libpng libvpx libwebp libzip luajit nv-codec-headers openssl opus qt5 sqlite3 sdl2 x264 zlib
+PROJECTS := ffmpeg lame libelf libepoxy libpng libvpx libwebp libzip luajit nv-codec-headers openssl opus qt5 sqlite3 sdl2 x264 x265 zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 LDFLAGS += -L$(ROOT)/lib
@@ -52,7 +52,7 @@ $(foreach PROJECT, $(filter-out $(CUSTOM_PROJECTS),$(PROJECTS)),$(PROJECT)):
 	cd $(BASEDIR) && $(CONFIGURE) && $(MAKE) $(TARGET) && $(MAKE) install
 
 ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh "$(CROSS_PREFIX)" $(ROOT)
-ffmpeg: lame libpng libvpx libwebp nv-codec-headers opus x264 zlib
+ffmpeg: lame libpng libvpx libwebp nv-codec-headers opus x264 x265 zlib
 ffmpeg: clean-ffmpeg
 
 lame: CONFIGURE_FLAGS=--disable-frontend
@@ -98,6 +98,8 @@ clean-qt5:
 sdl2: CONFIGURE_FLAGS=--disable-video-x11 --disable-power
 
 x264: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-cli --enable-strip --enable-pic --cross-prefix=$(CROSS_PREFIX)
+
+x265: CONFIGURE=../buildscripts/configure-x265.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT)
 
 zlib: CONFIGURE=./configure --static --prefix=$(ROOT)
 

@@ -13,6 +13,7 @@ RUN mkdir -p /opt/win32
 COPY dockerfiles/windows-w32/CMakeToolchain.txt /opt/win32
 COPY libraries /root/dependencies/
 WORKDIR /root/dependencies
+RUN find x265 -name .git -delete
 
 RUN ROOT=/opt/win32 HOST=i686-w64-mingw32 CMAKE_TOOLCHAIN_FILE=/opt/win32/CMakeToolchain.txt make -j4 && cd .. && rm -rf dependencies
 

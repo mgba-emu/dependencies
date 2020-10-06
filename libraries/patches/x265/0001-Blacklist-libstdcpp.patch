@@ -1,0 +1,13 @@
+diff --git a/source/CMakeLists.txt b/source/CMakeLists.txt
+index 1d1a613aa..dc2f7c68a 100644
+--- a/source/CMakeLists.txt
++++ b/source/CMakeLists.txt
+@@ -704,7 +704,7 @@ if(X265_LATEST_TAG)
+         # blacklist of libraries that should not be in Libs.private
+         list(REMOVE_ITEM PLIBLIST "-lc" "-lpthread" "-lmingwex" "-lmingwthrd"
+             "-lmingw32" "-lmoldname" "-lmsvcrt" "-ladvapi32" "-lshell32"
+-            "-luser32" "-lkernel32")
++            "-luser32" "-lkernel32" "-lstdc++" "-lgcc")
+         string(REPLACE ";" " " PRIVATE_LIBS "${PLIBLIST}")
+     else()
+         set(PRIVATE_LIBS "")
