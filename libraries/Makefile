@@ -48,8 +48,9 @@ $(foreach PROJECT, $(filter-out $(CUSTOM_CLEAN),$(CLEAN_PROJECTS)),$(PROJECT)):
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)): CONFIGURE=bash ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared SHELL=bash $(CONFIGURE_FLAGS)
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)): BASEDIR=$@
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)): TARGET=all
+$(foreach PROJECT, $(PROJECTS),$(PROJECT)): INSTALL=install
 $(foreach PROJECT, $(filter-out $(CUSTOM_PROJECTS),$(PROJECTS)),$(PROJECT)):
-	cd $(BASEDIR) && $(CONFIGURE) && $(MAKE) $(TARGET) && $(MAKE) install
+	cd $(BASEDIR) && $(CONFIGURE) && $(MAKE) $(TARGET) && $(MAKE) $(INSTALL)
 
 ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh "$(CROSS_PREFIX)" $(ROOT)
 ffmpeg: lame libpng libvpx libwebp nv-codec-headers opus x264 x265 zlib
@@ -71,7 +72,7 @@ libvpx: clean-libvpx
 libwebp: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared --enable-libwebpmux --disable-cwebp --disable-dwebp
 
 libzip: zlib
-libzip: CONFIGURE=../buildscripts/configure-libzip.sh
+libzip: CONFIGURE=../buildscripts/configure-libzip.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT)
 
 luajit:
 	cd luajit && make $(shell buildscripts/lua-flags.sh "$(CROSS_PREFIX)") PREFIX="$(ROOT)" install
@@ -79,11 +80,12 @@ luajit:
 clean-luajit:
 	make -C luajit clean
 
-nv-codec-headers:
-	cd nv-codec-headers && make PREFIX="$(ROOT)" install
+nv-codec-headers: CONFIGURE=:
+nv-codec-headers: INSTALL=PREFIX="$(ROOT)" install
 
 openssl: zlib
 openssl: CONFIGURE=../buildscripts/configure-openssl.sh "$(CROSS_PREFIX)" $(ROOT)
+openssl: INSTALL=install_sw
 
 opus: CFLAGS+=-D_FORTIFY_SOURCE=0
 opus: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared --disable-extra-programs
