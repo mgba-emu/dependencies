@@ -29,23 +29,29 @@ if [ $# -ne 1 ]; then
 fi
 
 BUILD=$1
-DOCKERFILE=dockerfiles/$(echo $BUILD | sed -e 's/:/-/')/Dockerfile
-FROM=$(head -n1 $DOCKERFILE | cut -d ' ' -f2)
-if [ -z "$(echo $BUILD | cut -sd : -f2)" ]; then
-    DATETAG=:$(date +%Y%m%d)
-else
+DOCKERFILE=dockerfiles/${BUILD//:/-}/Dockerfile
+FROM=$(grep ^FROM $DOCKERFILE | awk '{print $2}')
+if [[ "$BUILD" =~ : ]]; then
     DATETAG=-$(date +%Y%m%d)
+else
+    DATETAG=:$(date +%Y%m%d)
 fi
 set -e
 
 echo "Building mgba/$BUILD for $DOCKERFILE"
-if [ -n "$(echo $BUILD | grep windows)" ]; then
+if [[ "$BUILD" =~ windows ]]; then
     git submodule update --init
     git submodule foreach --recursive git submodule init
     (cd libraries && buildscripts/clean-extra.sh)
     git submodule update --recursive
 fi
 docker build $QUIET -t mgba/$BUILD . -f $DOCKERFILE
-[ "$SQUASH" != "yes" ] || docker-squash mgba/$BUILD -f $FROM -t mgba/$BUILD
-docker tag mgba/$BUILD mgba/$BUILD$DATETAG
-[ "$PUSH" != "yes" ] || (docker push mgba/$BUILD && docker push mgba/$BUILD$DATETAG)
+if [ "$SQUASH" = yes ]; then
+	docker-squash mgba/$BUILD -f $FROM -t mgba/$BUILD
+fi
+if [ "$PUSH" = yes ]; then
+	docker push mgba/$BUILD
+	docker tag mgba/$BUILD mgba/$BUILD$DATETAG
+	docker push mgba/$BUILD$DATETAG
+	docker rmi mgba/$BUILD$DATETAG
+fi
