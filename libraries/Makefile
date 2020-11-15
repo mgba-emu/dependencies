@@ -8,7 +8,7 @@ PKG_CONFIG_SYSROOT_DIR := /.
 ifneq ($(HOST),)
 CROSS_PREFIX := $(HOST)-
 ifneq ($(findstring x86_64,$(HOST)),)
-ARCHFLAGS += -msse2 -msse3 -mssse3 -msse4.1
+ARCHFLAGS += -msse2 -msse3
 else ifneq ($(findstring i686,$(HOST)),)
 ARCHFLAGS += -msse2
 endif
