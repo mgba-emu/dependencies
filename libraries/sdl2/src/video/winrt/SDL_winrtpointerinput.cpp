@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2021 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -26,7 +26,6 @@
 #include "SDL_winrtevents_c.h"
 #include "SDL_winrtmouse_c.h"
 #include "SDL_winrtvideo_cpp.h"
-#include "SDL_assert.h"
 #include "SDL_system.h"
 
 extern "C" {
@@ -115,16 +114,6 @@ WINRT_TransformCursorPosition(SDL_Window * window,
     }
 
     return outputPosition;
-}
-
-static inline int
-_lround(float arg)
-{
-    if (arg >= 0.0f) {
-        return (int)floor(arg + 0.5f);
-    } else {
-        return (int)ceil(arg - 0.5f);
-    }
 }
 
 Uint8
@@ -233,6 +222,7 @@ void WINRT_ProcessPointerPressedEvent(SDL_Window *window, Windows::UI::Input::Po
         SDL_SendTouch(
             WINRT_TouchID,
             (SDL_FingerID) pointerPoint->PointerId,
+            window,
             SDL_TRUE,
             normalizedPoint.X,
             normalizedPoint.Y,
@@ -256,6 +246,7 @@ WINRT_ProcessPointerMovedEvent(SDL_Window *window, Windows::UI::Input::PointerPo
         SDL_SendTouchMotion(
             WINRT_TouchID,
             (SDL_FingerID) pointerPoint->PointerId,
+            window,
             normalizedPoint.X,
             normalizedPoint.Y,
             pointerPoint->Properties->Pressure);
@@ -278,6 +269,7 @@ void WINRT_ProcessPointerReleasedEvent(SDL_Window *window, Windows::UI::Input::P
         SDL_SendTouch(
             WINRT_TouchID,
             (SDL_FingerID) pointerPoint->PointerId,
+            window,
             SDL_FALSE,
             normalizedPoint.X,
             normalizedPoint.Y,
@@ -387,8 +379,8 @@ WINRT_ProcessMouseMovedEvent(SDL_Window * window, Windows::Devices::Input::Mouse
         window,
         0,
         1,
-        _lround(mouseDeltaInSDLWindowCoords.X),
-        _lround(mouseDeltaInSDLWindowCoords.Y));
+        SDL_lroundf(mouseDeltaInSDLWindowCoords.X),
+        SDL_lroundf(mouseDeltaInSDLWindowCoords.Y));
 }
 
 #endif // SDL_VIDEO_DRIVER_WINRT
