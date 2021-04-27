@@ -50,3 +50,6 @@
 [submodule "libraries/x265"]
 	path = libraries/x265
 	url = https://github.com/videolan/x265
+[submodule "libraries/sdl2"]
+	path = libraries/sdl2
+	url = https://github.com/libsdl-org/SDL.git
