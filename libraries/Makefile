@@ -10,7 +10,7 @@ CROSS_PREFIX := $(HOST)-
 ifneq ($(findstring x86_64,$(HOST)),)
 ARCHFLAGS += -msse2 -msse3
 else ifneq ($(findstring i686,$(HOST)),)
-ARCHFLAGS += -msse2
+ARCHFLAGS += -msse2 -mfpmath=sse
 endif
 endif
 
