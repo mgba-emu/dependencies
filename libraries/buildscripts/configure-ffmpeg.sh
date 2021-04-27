@@ -45,6 +45,7 @@ esac
 	--enable-encoder=gif \
 	--enable-encoder=huffyuv \
 	--enable-encoder=libmp3lame \
+	--enable-encoder=libopus \
 	--enable-encoder=libvpx_vp8 \
 	--enable-encoder=libvpx_vp9 \
 	--enable-encoder=libwebp \
