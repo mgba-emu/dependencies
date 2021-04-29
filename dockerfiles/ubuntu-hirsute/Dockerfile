@@ -6,7 +6,8 @@ RUN apt-get update && \
         git libavcodec-dev libavfilter-dev libavformat-dev libavutil-dev \
         libcmocka-dev libedit-dev libelf-dev libpng-dev libqt5opengl5-dev \
         libsdl2-dev libsqlite3-dev libswresample-dev libswscale-dev \
-        libzip-dev qtmultimedia5-dev qttools5-dev qttools5-dev-tools && \
+        libzip-dev qtmultimedia5-dev qttools5-dev qttools5-dev-tools zipcmp \
+        zipmerge ziptool && \
     apt-get autoremove -y && apt-get clean
 
 RUN update-ccache-symlinks
