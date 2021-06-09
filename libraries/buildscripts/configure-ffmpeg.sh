@@ -19,6 +19,9 @@ Linux*)
 	;;
 OSX*)
 	OS=darwin
+	if [ $(arch) == arm64 ]; then
+		ARCH=arm64
+	fi
 	;;
 Windows64)
 	OS=win64

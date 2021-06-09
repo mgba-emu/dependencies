@@ -24,6 +24,8 @@ unset CFLAGS
 unset CXXFLAGS
 unset LDFLAGS
 
+OVERRIDES=()
+SSL=-openssl-linked
 case $OS in
 FreeBSD*)
 	OS=freebsd
@@ -33,6 +35,14 @@ Linux*)
 	;;
 OSX*)
 	OS=macx
+	SSL=-securetransport
+	OPENSSL_LIBS=""
+	if [ $(arch) == arm64 ]; then
+		OVERRIDES=(
+			"QMAKE_MACOSX_DEPLOYMENT_TARGET=11.0"
+			"QMAKE_APPLE_DEVICE_ARCHS=arm64"
+		)
+	fi
 	;;
 Windows*)
 	OS=win32
@@ -51,6 +61,14 @@ Darwin)
 	HOST=macx-clang
 	;;
 esac
+
+CROSS_FLAGS=()
+if [ -n "$CROSS_COMPILE" ]; then
+	CROSS_FLAGS=(
+		"-xplatform" "$OS-$COMPILER"
+		"-device-option" "CROSS_COMPILE=$CROSS_COMPILE"
+	)
+fi
 
 INCPATH=-I$ROOT/include
 LIBDIR=-L$ROOT/lib
@@ -75,11 +93,10 @@ popd
 	-opensource \
 	-confirm-license \
 	-platform $HOST \
-	-xplatform $OS-$COMPILER \
-	-device-option CROSS_COMPILE=$CROSS_COMPILE \
-	-device-option QMAKE_LIBS=-lz \
+	${CROSS_FLAGS[*]} \
 	-release \
 	-optimize-size \
+	QMAKE_LIBS=-lz \
 	-I $ROOT/include \
 	-L $ROOT/lib \
 	-v \
@@ -87,7 +104,7 @@ popd
 	-c++std c++14 \
 	-system-libpng \
 	-system-sqlite \
-	-openssl-linked OPENSSL_LIBS="$OPENSSL_LIBS"\
+	$SSL OPENSSL_LIBS="$OPENSSL_LIBS"\
 	-opengl desktop \
 	-no-pch \
 	-no-avx2 \
@@ -101,3 +118,4 @@ popd
 	-no-sql-odbc \
 	-no-harfbuzz \
 	-no-dbus \
+	${OVERRIDES[*]}

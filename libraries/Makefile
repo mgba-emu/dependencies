@@ -6,7 +6,7 @@ PKG_CONFIG_LIBDIR := $(ROOT)/lib/pkgconfig
 PKG_CONFIG_SYSROOT_DIR := /.
 
 ifneq ($(HOST),)
-CROSS_PREFIX := $(HOST)-
+CROSS_PREFIX ?= $(HOST)-
 ifneq ($(findstring x86_64,$(HOST)),)
 ARCHFLAGS += -msse2 -msse3
 else ifneq ($(findstring i686,$(HOST)),)
@@ -14,7 +14,7 @@ ARCHFLAGS += -msse2 -mfpmath=sse
 endif
 endif
 
-CFLAGS += -O3 $(ARCHFLAGS) $(CPPFLAGS) -ffat-lto-objects
+CFLAGS += -O3 $(ARCHFLAGS) $(CPPFLAGS)
 CXXFLAGS += -O3 $(ARCHFLAGS) $(CPPFLAGS)
 export CPPFLAGS
 export CFLAGS

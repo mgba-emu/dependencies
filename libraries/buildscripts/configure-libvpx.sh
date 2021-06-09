@@ -17,7 +17,11 @@ Linux*)
 	OS=x86_64-linux-gcc
 	;;
 OSX*)
-	OS=x86_64-darwin13-gcc
+	if [ $(arch) == arm64 ]; then
+		OS=arm64-darwin20-gcc
+	else
+		OS=x86_64-darwin13-gcc
+	fi
 	;;
 Windows64)
 	OS=x86_64-win64-gcc
