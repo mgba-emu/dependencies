@@ -27,8 +27,6 @@ Windows*)
 	;;
 esac
 
-patch -Np1 < $BASEDIR/../patches/libvpx/*
-
 export LD=$CC
 ./configure --prefix=$ROOT --target=$OS --disable-examples --disable-docs \
 	--disable-tools --disable-unit-tests --disable-decode-perf-tests \

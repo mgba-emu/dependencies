@@ -19,13 +19,16 @@ gamepad
 graphicaleffects
 imageformats
 location
+lottie
 networkauth
 pim
 purchasing
 qa
 quick1
+quick3d
 quickcontrols
 quickcontrols2
+quicktimeline
 remoteobjects
 repotools
 script
@@ -40,6 +43,7 @@ virtualkeyboard
 wayland
 webchannel
 webengine
+webglplugin
 webkit
 webkit-examples
 websockets

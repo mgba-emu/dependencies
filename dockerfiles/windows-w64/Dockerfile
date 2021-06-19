@@ -9,6 +9,8 @@ RUN dpkg --add-architecture i386 && apt-get update && \
         yasm && \
     apt-get autoremove -y && apt-get clean
 
+RUN update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix && \
+    update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
 RUN mkdir -p /opt/win64
 COPY dockerfiles/windows-w64/CMakeToolchain.txt /opt/win64
 COPY libraries /root/dependencies/

@@ -9,6 +9,8 @@ RUN dpkg --add-architecture i386 && apt-get update && \
         python wine wine32 yasm && \
     apt-get autoremove -y && apt-get clean
 
+RUN update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix && \
+    update-alternatives --set i686-w64-mingw32-g++ /usr/bin/i686-w64-mingw32-g++-posix
 RUN mkdir -p /opt/win32
 COPY dockerfiles/windows-w32/CMakeToolchain.txt /opt/win32
 COPY libraries /root/dependencies/
