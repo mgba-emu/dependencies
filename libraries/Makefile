@@ -39,7 +39,7 @@ all: $(PROJECTS)
 clean: $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
 
 CLEAN_PROJECTS = $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
-CUSTOM_PROJECTS = luajit
+CUSTOM_PROJECTS = luajit sdl2
 CUSTOM_CLEAN = clean-qt5 clean-luajit
 
 $(foreach PROJECT, $(filter-out $(CUSTOM_CLEAN),$(CLEAN_PROJECTS)),$(PROJECT)):
@@ -97,7 +97,8 @@ qt5: TARGET=first
 clean-qt5:
 	(cd qt5 && git clean -dfx && git submodule foreach git clean -dfx)
 
-sdl2: CONFIGURE_FLAGS=--disable-video-x11 --disable-power
+sdl2:
+	cd sdl2 && ../buildscripts/configure-sdl2.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT) && cd build && make install
 
 x264: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-cli --enable-strip --enable-pic --cross-prefix=$(CROSS_PREFIX)
 
