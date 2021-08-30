@@ -12,7 +12,7 @@ ENV PATH=$VITASDK/bin:$PATH
 RUN git clone https://github.com/vitasdk/vdpm
 RUN mkdir -p $VITASDK && . vdpm/include/install-vitasdk.sh && \
     install_vitasdk $VITASDK && rm -rf vdpm
-RUN vdpm zlib && vdpm bzip2 && vdpm libzip && vdpm libpng && vdpm libvita2d
+RUN vdpm zlib && vdpm libpng && vdpm libvita2d
 RUN apt-get autoremove -y python && apt-get clean
 
 RUN useradd mgba -m
