@@ -1,5 +1,6 @@
-FROM ubuntu:xenial
+FROM ubuntu:focal
 
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y --no-install-recommends bzip2 ca-certificates cmake \
         curl git make python wget xz-utils && \
