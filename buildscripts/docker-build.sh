@@ -45,7 +45,7 @@ if [[ "$BUILD" =~ windows ]]; then
     (cd libraries && buildscripts/clean-extra.sh)
     git submodule update --recursive
 fi
-docker build $QUIET -t mgba/$BUILD . -f $DOCKERFILE
+docker build --pull $QUIET -t mgba/$BUILD . -f $DOCKERFILE
 if [ "$SQUASH" = yes ]; then
 	docker-squash mgba/$BUILD -f $FROM -t mgba/$BUILD
 fi
