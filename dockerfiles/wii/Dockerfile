@@ -1,7 +1,7 @@
 FROM devkitpro/devkitppc
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends cmake git make unzip && \
+    apt-get install -y --no-install-recommends unzip && \
     apt-get autoremove -y && apt-get clean
 
 WORKDIR /root
@@ -13,5 +13,4 @@ VOLUME /home/mgba/src
 USER mgba
 WORKDIR /home/mgba/src
 ENV BUILD_DIR=build-wii
-ENV PATH=${DEVKITPRO}/tools/bin:$PATH
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && cmake .. -DCMAKE_TOOLCHAIN_FILE=../src/platform/wii/CMakeToolchain.txt $CMAKE_FLAGS && make install DESTDIR=install
