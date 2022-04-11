@@ -13,6 +13,7 @@ COMPILER=$(identify_compiler $CXX)
 
 export QMAKE_CXXFLAGS=$CXXFLAGS
 OPENSSL_LIBS="-lssl -lcrypto"
+LIBS="-lz"
 
 unset CC
 unset CXX
@@ -26,12 +27,16 @@ unset LDFLAGS
 
 OVERRIDES=()
 SSL=-openssl-linked
+FREETYPE="-no-freetype -no-harfbuzz"
 case $OS in
 FreeBSD*)
 	OS=freebsd
 	;;
 Linux*)
 	OS=linux
+	FREETYPE=""
+	OVERRIDES=("QMAKE_LFLAGS=-pthread")
+	LIBS="$LIBS -ldl"
 	;;
 OSX*)
 	OS=macx
@@ -96,7 +101,7 @@ popd
 	${CROSS_FLAGS[*]} \
 	-release \
 	-optimize-size \
-	QMAKE_LIBS=-lz \
+	QMAKE_LIBS="$LIBS" \
 	-I $ROOT/include \
 	-L $ROOT/lib \
 	-v \
@@ -112,10 +117,9 @@ popd
 	-nomake tools \
 	-nomake tests \
 	-no-compile-examples \
-	-no-freetype \
 	-no-icu \
 	-no-gif \
 	-no-sql-odbc \
-	-no-harfbuzz \
 	-no-dbus \
+	$FREETYPE \
 	${OVERRIDES[*]}

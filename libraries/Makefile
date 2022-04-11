@@ -1,4 +1,4 @@
-PROJECTS := ffmpeg lame libelf libepoxy libpng libvpx libwebp libzip luajit nv-codec-headers openssl opus qt5 sqlite3 sdl2 x264 x265 zlib
+PROJECTS := ffmpeg lame libelf libpng libvpx libwebp libzip luajit nv-codec-headers openssl opus qt5 sqlite3 sdl2 x264 x265 zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 LDFLAGS += -L$(ROOT)/lib
@@ -6,11 +6,17 @@ PKG_CONFIG_LIBDIR := $(ROOT)/lib/pkgconfig
 PKG_CONFIG_SYSROOT_DIR := /.
 
 ifneq ($(HOST),)
+PROJECTS += libepoxy
 CROSS_PREFIX ?= $(HOST)-
 ifneq ($(findstring x86_64,$(HOST)),)
 ARCHFLAGS += -msse2 -msse3
 else ifneq ($(findstring i686,$(HOST)),)
 ARCHFLAGS += -msse2 -mfpmath=sse
+endif
+else
+PKG_CONFIG_LIBDIR := $(PKG_CONFIG_LIBDIR):/usr/lib/pkgconfig
+ifneq ($(findstring x86_64,$(shell uname -m)),)
+ARCHFLAGS += -msse2 -msse3
 endif
 endif
 
