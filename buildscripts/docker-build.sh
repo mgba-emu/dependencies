@@ -39,7 +39,7 @@ fi
 set -e
 
 echo "Building mgba/$BUILD for $DOCKERFILE"
-if [[ "$BUILD" =~ windows ]]; then
+if [[ "$BUILD" =~ appimage|windows ]]; then
     git submodule update --init
     git submodule foreach --recursive git submodule init
     (cd libraries && buildscripts/clean-extra.sh)
