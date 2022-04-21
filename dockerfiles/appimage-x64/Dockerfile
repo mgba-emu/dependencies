@@ -35,7 +35,9 @@ ENV PATH=/usr/lib/ccache:$PATH:/usr/local/bin:/opt/squashfs-root/usr/bin
 ENV BUILD_DIR=build-appimage
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && \
     cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED=OFF -DBUILD_STATIC=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON $CMAKE_FLAGS && \
-    make && BINARY_NAME=$(cmake -DPRINT_STRING=BINARY_NAME -P ../version.cmake) && \
+    BINARY_NAME=$(cmake -DPRINT_STRING=BINARY_NAME -P ../version.cmake) && \
+    cmake . -DDATADIR="../share/${BINARY_NAME}" $CMAKE_FLAGS && \
+    make && \
     cmake --install . --prefix AppDir/usr --component $BINARY_NAME && \
     cmake --install . --prefix AppDir/usr --component $BINARY_NAME-qt && \
-    VERSION=$(cmake -DPRINT_STRING=VERSION_STRING -P ../version.cmake) linuxdeploy -o appimage -v2 --appdir=AppDir
+    OUTPUT=build.appimage linuxdeploy -o appimage -v2 --appdir=AppDir
