@@ -115,6 +115,5 @@ popd
 	-no-icu \
 	-no-gif \
 	-no-sql-odbc \
-	-no-dbus \
 	$FREETYPE \
 	${OVERRIDES[*]}
