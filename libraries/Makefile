@@ -1,4 +1,4 @@
-PROJECTS := ffmpeg lame libelf libpng libvpx libwebp libzip luajit nv-codec-headers openssl opus qt5 sqlite3 sdl2 x264 x265 zlib
+PROJECTS := ffmpeg lame libelf libpng libvpx libwebp libzip lua nv-codec-headers openssl opus qt5 sqlite3 sdl2 x264 x265 zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 LDFLAGS += -L$(ROOT)/lib
@@ -45,7 +45,7 @@ all: $(PROJECTS)
 clean: $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
 
 CLEAN_PROJECTS = $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
-CUSTOM_PROJECTS = luajit sdl2
+CUSTOM_PROJECTS = lua luajit sdl2
 CUSTOM_CLEAN = clean-qt5 clean-luajit
 
 $(foreach PROJECT, $(filter-out $(CUSTOM_CLEAN),$(CLEAN_PROJECTS)),$(PROJECT)):
@@ -79,6 +79,9 @@ libwebp: CONFIGURE=autoreconf --force --install && ./configure --enable-static -
 
 libzip: zlib
 libzip: CONFIGURE=../buildscripts/configure-libzip.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT)
+
+lua:
+	cd lua && make CFLAGS="$(CFLAGS)" CC="$(CC)" AR="$(AR) rc" RANLIB="$(RANLIB)" liblua.a && cp liblua.a $(ROOT)/lib && cp lua*.h lauxlib.h $(ROOT)/include
 
 luajit:
 	cd luajit && make $(shell buildscripts/lua-flags.sh "$(CROSS_PREFIX)") PREFIX="$(ROOT)" install

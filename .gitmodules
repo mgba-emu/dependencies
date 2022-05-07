@@ -53,3 +53,6 @@
 [submodule "libraries/sdl2"]
 	path = libraries/sdl2
 	url = https://github.com/libsdl-org/SDL.git
+[submodule "libraries/lua"]
+	path = libraries/lua
+	url = https://github.com/lua/lua
