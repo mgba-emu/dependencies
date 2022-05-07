@@ -1,0 +1,36 @@
+diff --git a/src/corelib/global/qrandom.h b/src/corelib/global/qrandom.h
+index 445b520c76..c8351b807f 100644
+--- a/src/corelib/global/qrandom.h
++++ b/src/corelib/global/qrandom.h
+@@ -43,6 +43,7 @@
+ #include <QtCore/qglobal.h>
+ #include <algorithm>    // for std::generate
+ #include <random>       // for std::mt19937
++#include <limits>
+ 
+ #ifdef min
+ #  undef min
+diff --git a/src/corelib/text/qbytearraymatcher.h b/src/corelib/text/qbytearraymatcher.h
+index 0eedfc1d20..ee415e336d 100644
+--- a/src/corelib/text/qbytearraymatcher.h
++++ b/src/corelib/text/qbytearraymatcher.h
+@@ -41,6 +41,7 @@
+ #define QBYTEARRAYMATCHER_H
+ 
+ #include <QtCore/qbytearray.h>
++#include <limits>
+ 
+ QT_BEGIN_NAMESPACE
+ 
+diff --git a/src/corelib/tools/qoffsetstringarray_p.h b/src/corelib/tools/qoffsetstringarray_p.h
+index 4dd9e9603b..e26a57ff43 100644
+--- a/src/corelib/tools/qoffsetstringarray_p.h
++++ b/src/corelib/tools/qoffsetstringarray_p.h
+@@ -55,6 +55,7 @@
+ 
+ #include <tuple>
+ #include <array>
++#include <limits>
+ 
+ QT_BEGIN_NAMESPACE
+ 
