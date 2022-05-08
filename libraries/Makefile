@@ -14,7 +14,7 @@ else ifneq ($(findstring i686,$(HOST)),)
 ARCHFLAGS += -msse2 -mfpmath=sse
 endif
 else
-PKG_CONFIG_LIBDIR := $(PKG_CONFIG_LIBDIR):/usr/lib/pkgconfig
+PKG_CONFIG_LIBDIR := $(PKG_CONFIG_LIBDIR):/usr/lib/pkgconfig:/usr/lib/$(shell gcc -print-multiarch)/pkgconfig
 ifneq ($(findstring x86_64,$(shell uname -m)),)
 ARCHFLAGS += -msse2 -msse3
 endif
