@@ -32,8 +32,8 @@ RUN useradd mgba -m
 RUN mkdir -p /home/mgba/.ccache && chown mgba:mgba /home/mgba/.ccache
 VOLUME /home/mgba/src /home/mgba/.ccache
 USER mgba
-RUN git config --global --add safe.directory /home/mgba/src
 WORKDIR /home/mgba/src
+RUN git config --global --add safe.directory /home/mgba/src
 ENV PATH=/usr/lib/ccache:$PATH:/usr/local/bin:/opt/squashfs-root/usr/bin
 ENV BUILD_DIR=build-appimage
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && \

@@ -11,7 +11,7 @@ RUN unzip libwiidrc.zip "Library/*" && mv Library/lib/libwiidrc.a ${DEVKITPRO}/p
 RUN useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
-RUN git config --global --add safe.directory /home/mgba/src
 WORKDIR /home/mgba/src
+RUN git config --global --add safe.directory /home/mgba/src
 ENV BUILD_DIR=build-wii
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && cmake .. -DCMAKE_TOOLCHAIN_FILE=../src/platform/wii/CMakeToolchain.txt $CMAKE_FLAGS && make install DESTDIR=install
