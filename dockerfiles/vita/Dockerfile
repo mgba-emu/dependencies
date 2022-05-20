@@ -19,6 +19,7 @@ RUN apt-get autoremove -y python && apt-get clean
 RUN useradd mgba -m
 VOLUME /home/mgba/src
 USER mgba
+RUN git config --global --add safe.directory /home/mgba/src
 WORKDIR /home/mgba/src
 ENV BUILD_DIR=build-vita
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && cmake .. -DCMAKE_TOOLCHAIN_FILE=../src/platform/psp2/CMakeToolchain.vitasdk $CMAKE_FLAGS && make install DESTDIR=install

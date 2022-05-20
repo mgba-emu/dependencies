@@ -29,6 +29,7 @@ RUN mkdir -p /home/mgba/.ccache && chown mgba:mgba /home/mgba/.ccache
 VOLUME /home/mgba/src /home/mgba/.ccache
 USER mgba
 WORKDIR /home/mgba/src
+RUN git config --global --add safe.directory /home/mgba/src
 ENV PATH=/usr/lib/ccache:$PATH
 ENV BUILD_DIR=build-win64
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && \
