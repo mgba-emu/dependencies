@@ -12,6 +12,9 @@ ifneq ($(HOST),)
     PROJECTS += libepoxy openssl
     CROSS_PREFIX ?= $(HOST)-
   endif
+  ifeq ($(findstring mingw,$(HOST)),)
+    PROJECTS += libedit
+  endif
   ifneq ($(findstring x86_64,$(HOST)),)
     ARCHFLAGS += -msse2 -msse3
     ifeq ($(DARWIN),1)

@@ -56,3 +56,6 @@
 [submodule "libraries/lua"]
 	path = libraries/lua
 	url = https://github.com/lua/lua
+[submodule "libraries/libedit"]
+	path = libraries/libedit
+	url = https://salsa.debian.org/debian/libedit.git
