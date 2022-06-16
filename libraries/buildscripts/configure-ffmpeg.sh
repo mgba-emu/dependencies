@@ -20,9 +20,16 @@ Linux*)
 	;;
 OSX*)
 	OS=darwin
-	if [ $(arch) == arm64 ]; then
-		ARCH=arm64
+	ARCH=${HOST%%-*}
+	if [ -z "$ARCH" ]; then
+		ARCH=$(arch)
 	fi
+	if [ $ARCH == arm64 -o $ARCH == aarch64 ]; then
+		ARCH=arm64
+	else
+		ARCH=x86_64
+	fi
+	FLAGS="--extra-ldflags=-arch $ARCH"
 	;;
 Windows64)
 	OS=win64
@@ -35,6 +42,7 @@ Windows*)
 	;;
 esac
 
+set -x
 ./configure --disable-decoders --disable-devices --disable-outdevs --disable-demuxers --disable-hwaccels \
 	--disable-encoders \
 	--enable-encoder=libopus \
@@ -195,5 +203,5 @@ esac
 	--enable-libx265 \
 	$NVENC \
 	\
-	--arch=$ARCH --target-os=$OS --cross-prefix=$CROSS_COMPILE --cc="$CC" --cxx="$CXX" --ld="$CXX" --prefix=$ROOT $FLAGS \
+	--arch=$ARCH --target-os=$OS --cross-prefix=$CROSS_COMPILE --cc="$CC" --cxx="$CXX" --ld="$CXX" --prefix=$ROOT "$FLAGS" \
 	--enable-gpl --disable-programs --enable-static --disable-shared --pkg-config=pkg-config --pkg_config_flags=--static

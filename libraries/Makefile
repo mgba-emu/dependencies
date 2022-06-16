@@ -1,4 +1,4 @@
-PROJECTS := ffmpeg lame libelf libpng libvpx libwebp libzip lua nv-codec-headers openssl opus qt5 sqlite3 sdl2 x264 x265 zlib
+PROJECTS := ffmpeg lame libelf libpng libvpx libwebp libzip lua nv-codec-headers opus qt5 sqlite3 sdl2 x264 x265 zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 LDFLAGS += -L$(ROOT)/lib
@@ -6,18 +6,31 @@ PKG_CONFIG_LIBDIR := $(ROOT)/lib/pkgconfig
 PKG_CONFIG_SYSROOT_DIR := /.
 
 ifneq ($(HOST),)
-PROJECTS += libepoxy
-CROSS_PREFIX ?= $(HOST)-
-ifneq ($(findstring x86_64,$(HOST)),)
-ARCHFLAGS += -msse2 -msse3
-else ifneq ($(findstring i686,$(HOST)),)
-ARCHFLAGS += -msse2 -mfpmath=sse
-endif
+  ifneq ($(findstring darwin,$(HOST)),)
+    DARWIN := 1
+  else
+    PROJECTS += libepoxy openssl
+    CROSS_PREFIX ?= $(HOST)-
+  endif
+  ifneq ($(findstring x86_64,$(HOST)),)
+    ARCHFLAGS += -msse2 -msse3
+    ifeq ($(DARWIN),1)
+      ARCHFLAGS += -arch x86_64
+      LDFLAGS += -arch x86_64
+    endif
+  else ifneq ($(findstring i686,$(HOST)),)
+    ARCHFLAGS += -msse2 -mfpmath=sse
+  else ifneq ($(findstring aarch64,$(HOST)),)
+    ifeq ($(DARWIN),1)
+      ARCHFLAGS += -arch arm64
+      LDFLAGS += -arch arm64
+    endif
+  endif
 else
-PKG_CONFIG_LIBDIR := $(PKG_CONFIG_LIBDIR):/usr/lib/pkgconfig:/usr/lib/$(shell gcc -print-multiarch)/pkgconfig
-ifneq ($(findstring x86_64,$(shell uname -m)),)
-ARCHFLAGS += -msse2 -msse3
-endif
+  PKG_CONFIG_LIBDIR := $(PKG_CONFIG_LIBDIR):/usr/lib/pkgconfig:/usr/lib/$(shell gcc -print-multiarch)/pkgconfig
+  ifneq ($(findstring x86_64,$(shell uname -m)),)
+    ARCHFLAGS += -msse2 -msse3
+  endif
 endif
 
 CFLAGS += -O3 $(ARCHFLAGS) $(CPPFLAGS)

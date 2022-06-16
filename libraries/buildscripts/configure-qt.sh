@@ -42,10 +42,19 @@ OSX*)
 	OS=macx
 	SSL=-securetransport
 	OPENSSL_LIBS=""
-	if [ $(arch) == arm64 ]; then
+	ARCH=${HOST%%-*}
+	if [ -z "$ARCH" ]; then
+		ARCH=$(arch)
+	fi
+	if [ $ARCH == arm64 -o $ARCH == aarch64 ]; then
 		OVERRIDES=(
 			"QMAKE_MACOSX_DEPLOYMENT_TARGET=11.0"
 			"QMAKE_APPLE_DEVICE_ARCHS=arm64"
+		)
+	else
+		OVERRIDES=(
+			"QMAKE_MACOSX_DEPLOYMENT_TARGET=10.13"
+			"QMAKE_APPLE_DEVICE_ARCHS=x86_64"
 		)
 	fi
 	;;
@@ -94,6 +103,7 @@ for PATCH in $(ls ../../patches/qttools/*.patch); do
 done
 popd
 
+set -x
 ./configure \
 	-prefix $ROOT \
 	-opensource \

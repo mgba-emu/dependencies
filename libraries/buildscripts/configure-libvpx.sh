@@ -17,7 +17,11 @@ Linux*)
 	OS=x86_64-linux-gcc
 	;;
 OSX*)
-	if [ $(arch) == arm64 ]; then
+	ARCH=${HOST%%-*}
+	if [ -z "$ARCH" ]; then
+		ARCH=$(arch)
+	fi
+	if [ $ARCH == arm64 -o $ARCH == aarch64 ]; then
 		OS=arm64-darwin20-gcc
 	else
 		OS=x86_64-darwin13-gcc
