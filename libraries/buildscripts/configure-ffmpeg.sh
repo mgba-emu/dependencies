@@ -16,7 +16,7 @@ FreeBSD*)
 	;;
 Linux*)
 	OS=linux
-	FLAGS="--extra-ldflags=-pthread"
+	ELDFLAGS="-pthread"
 	;;
 OSX*)
 	OS=darwin
@@ -29,7 +29,7 @@ OSX*)
 	else
 		ARCH=x86_64
 	fi
-	FLAGS="--extra-ldflags=-arch $ARCH"
+	ELDFLAGS="-arch $ARCH"
 	;;
 Windows64)
 	OS=win64
@@ -203,5 +203,7 @@ set -x
 	--enable-libx265 \
 	$NVENC \
 	\
-	--arch=$ARCH --target-os=$OS --cross-prefix=$CROSS_COMPILE --cc="$CC" --cxx="$CXX" --ld="$CXX" --prefix=$ROOT "$FLAGS" \
-	--enable-gpl --disable-programs --enable-static --disable-shared --pkg-config=pkg-config --pkg_config_flags=--static
+	--arch=$ARCH --target-os=$OS --cross-prefix=$CROSS_COMPILE \
+	--cc="$CC" --cxx="$CXX" --ld="$CXX" --prefix=$ROOT --extra-ldflags="$ELDFLAGS" \
+	--enable-gpl --disable-programs --enable-static --disable-shared --enable-small \
+	--pkg-config=pkg-config --pkg_config_flags=--static
