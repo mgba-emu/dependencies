@@ -1,4 +1,4 @@
-PROJECTS := ffmpeg lame libelf libpng libvpx libwebp libzip lua nv-codec-headers opus qt5 sqlite3 sdl2 x264 x265 zlib
+PROJECTS := ffmpeg lame libpng libvpx libwebp libzip lua nv-codec-headers opus qt5 sqlite3 sdl2 x264 x265 zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 LDFLAGS += -L$(ROOT)/lib
@@ -6,6 +6,7 @@ PKG_CONFIG_LIBDIR := $(ROOT)/lib/pkgconfig
 PKG_CONFIG_SYSROOT_DIR := /.
 
 ifneq ($(HOST),)
+  PROJECTS += libelf
   ifneq ($(findstring darwin,$(HOST)),)
     DARWIN := 1
   else
@@ -31,6 +32,7 @@ ifneq ($(HOST),)
   endif
 else
   PKG_CONFIG_LIBDIR := $(PKG_CONFIG_LIBDIR):/usr/lib/pkgconfig:/usr/lib/$(shell gcc -print-multiarch)/pkgconfig
+  PROJECTS += libedit
   ifneq ($(findstring x86_64,$(shell uname -m)),)
     ARCHFLAGS += -msse2 -msse3
   endif
