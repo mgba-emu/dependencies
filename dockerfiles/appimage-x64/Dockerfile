@@ -8,9 +8,9 @@ RUN echo 'deb http://deb.debian.org/debian buster-backports main' >> /etc/apt/so
         build-essential ca-certificates ccache cmake/buster-backports curl \
         file git libasound2-dev libatspi2.0-dev libcmocka-dev libedit-dev \
         libegl1-mesa-dev libfontconfig-dev libgl1-mesa-dev libglu1-mesa-dev \
-        libinput-dev libpulse-dev libtool libx11-dev libx11-xcb-dev \
-        '^libxcb.*-dev'  libxext-dev libxi-dev  libxkbcommon-dev \
-        libxkbcommon-x11-dev libxrender-dev nasm pkg-config && \
+        libinput-dev libpulse-dev libssl-dev libtool libx11-dev \
+        libx11-xcb-dev '^libxcb.*-dev' libxext-dev libxi-dev \
+        libxkbcommon-dev libxkbcommon-x11-dev libxrender-dev nasm pkg-config && \
     apt-get autoremove -y && apt-get clean
 
 RUN mkdir -p /usr/local/bin /opt

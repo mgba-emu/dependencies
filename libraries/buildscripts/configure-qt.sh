@@ -37,6 +37,7 @@ Linux*)
 	FREETYPE=""
 	OVERRIDES=("QMAKE_LFLAGS=-pthread")
 	LIBS="$LIBS -ldl"
+	SSL=-openssl-runtime
 	;;
 OSX*)
 	OS=macx
