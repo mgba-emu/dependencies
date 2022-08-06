@@ -90,6 +90,7 @@ set -x
 	--enable-encoder=pcm_u32le \
 	--enable-encoder=png \
 	--enable-encoder=vorbis \
+	--enable-encoder=wavpack \
 	--enable-encoder=yuv4 \
 	--enable-encoder=zlib \
 	--enable-encoder=zmbv \
