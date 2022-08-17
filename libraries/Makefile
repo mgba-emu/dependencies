@@ -32,7 +32,7 @@ ifneq ($(HOST),)
   endif
 else
   PKG_CONFIG_LIBDIR := $(PKG_CONFIG_LIBDIR):/usr/lib/pkgconfig:/usr/lib/$(shell gcc -print-multiarch)/pkgconfig
-  PROJECTS += libedit
+  PROJECTS += libedit openssl
   ifneq ($(findstring x86_64,$(shell uname -m)),)
     ARCHFLAGS += -msse2 -msse3
   endif
