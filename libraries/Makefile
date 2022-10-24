@@ -99,7 +99,7 @@ libvpx: CONFIGURE=../buildscripts/configure-libvpx.sh "$(CROSS_PREFIX)" $(ROOT)
 libvpx: MAKEFLAGS+=-j1
 libvpx: clean-libvpx
 
-libwebp: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared --enable-libwebpmux --disable-cwebp --disable-dwebp
+libwebp: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared --enable-libwebpmux --disable-libwebpdemux
 
 libzip: zlib
 libzip: CONFIGURE=../buildscripts/configure-libzip.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT)
