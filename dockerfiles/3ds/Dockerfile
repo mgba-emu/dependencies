@@ -12,7 +12,7 @@ RUN git clone https://github.com/Steveice10/bannertool.git -b 1.0.0 && \
     git -C bannertool submodule update && \
     (cd bannertool && make && install output/*/bannertool $DEVKITPRO/tools/bin) && rm -rf bannertool
 
-RUN git clone https://github.com/profi200/Project_CTR.git && \
+RUN git clone https://github.com/3DSGuy/Project_CTR.git && \
     (cd Project_CTR/makerom && make && install makerom $DEVKITPRO/tools/bin) && rm -rf Project_CTR
 
 RUN apt-get autoremove -y gcc g++ libc6-dev zip
