@@ -1,4 +1,4 @@
-PROJECTS := ffmpeg lame libpng libvpx libwebp libzip lua nv-codec-headers opus qt5 sqlite3 sdl2 x264 x265 zlib
+PROJECTS := curl ffmpeg lame libpng libvpx libwebp libzip lua nv-codec-headers opus qt5 sqlite3 sdl2 x264 x265 zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 LDFLAGS += -L$(ROOT)/lib
@@ -9,9 +9,11 @@ ifneq ($(HOST),)
   PROJECTS += libelf
   ifneq ($(findstring darwin,$(HOST)),)
     DARWIN := 1
+    CURL_SSL := secure-transport
   else
     PROJECTS += libepoxy openssl
     CROSS_PREFIX ?= $(HOST)-
+    CURL_SSL := openssl
   endif
   ifeq ($(findstring mingw,$(HOST)),)
     PROJECTS += libedit
@@ -33,6 +35,7 @@ ifneq ($(HOST),)
 else
   PKG_CONFIG_LIBDIR := $(PKG_CONFIG_LIBDIR):/usr/lib/pkgconfig:/usr/lib/$(shell gcc -print-multiarch)/pkgconfig
   PROJECTS += libedit openssl
+  CURL_SSL := openssl
   ifneq ($(findstring x86_64,$(shell uname -m)),)
     ARCHFLAGS += -msse2 -msse3
   endif
@@ -63,7 +66,7 @@ all: $(PROJECTS)
 clean: $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
 
 CLEAN_PROJECTS = $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
-CUSTOM_PROJECTS = lua luajit sdl2
+CUSTOM_PROJECTS = curl lua luajit sdl2
 CUSTOM_CLEAN = clean-qt5 clean-luajit
 
 $(foreach PROJECT, $(filter-out $(CUSTOM_CLEAN),$(CLEAN_PROJECTS)),$(PROJECT)):
@@ -75,6 +78,9 @@ $(foreach PROJECT, $(PROJECTS),$(PROJECT)): TARGET=all
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)): INSTALL=install
 $(foreach PROJECT, $(filter-out $(CUSTOM_PROJECTS),$(PROJECTS)),$(PROJECT)):
 	cd $(BASEDIR) && $(CONFIGURE) && $(MAKE) $(TARGET) && $(MAKE) $(INSTALL)
+
+curl: $(CURL_SSL)
+	cd curl && ../buildscripts/configure-curl.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT) && cd build && $(MAKE) install
 
 ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh "$(CROSS_PREFIX)" $(ROOT)
 ffmpeg: lame libpng libvpx libwebp nv-codec-headers opus x264 x265 zlib
@@ -133,4 +139,5 @@ x265: CONFIGURE=../buildscripts/configure-x265.sh "$(CMAKE_TOOLCHAIN_FILE)" $(RO
 
 zlib: CONFIGURE=./configure --static --prefix=$(ROOT)
 
-.PHONY: clean $(foreach PROJECT, $(PROJECTS),$(PROJECT)-clean) $(foreach PROJECT, $(PROJECTS),$(PROJECT))
+secure-transport:
+.PHONY: clean $(foreach PROJECT, $(PROJECTS),$(PROJECT)-clean) $(foreach PROJECT, $(PROJECTS),$(PROJECT)) secure-transport
