@@ -105,13 +105,13 @@ libzip: zlib
 libzip: CONFIGURE=../buildscripts/configure-libzip.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT)
 
 lua:
-	cd lua && make CFLAGS="$(CFLAGS)" CC="$(CC)" AR="$(AR) rc" RANLIB="$(RANLIB)" liblua.a && cp liblua.a $(ROOT)/lib && cp lua*.h lauxlib.h $(ROOT)/include
+	cd lua && $(MAKE) CFLAGS="$(CFLAGS)" CC="$(CC)" AR="$(AR) rc" RANLIB="$(RANLIB)" liblua.a && cp liblua.a $(ROOT)/lib && cp lua*.h lauxlib.h $(ROOT)/include
 
 luajit:
-	cd luajit && make $(shell buildscripts/lua-flags.sh "$(CROSS_PREFIX)") PREFIX="$(ROOT)" install
+	cd luajit && $(MAKE) $(shell buildscripts/lua-flags.sh "$(CROSS_PREFIX)") PREFIX="$(ROOT)" install
 
 clean-luajit:
-	make -C luajit clean
+	$(MAKE) -C luajit clean
 
 nv-codec-headers: CONFIGURE=:
 nv-codec-headers: INSTALL=PREFIX="$(ROOT)" install
@@ -131,7 +131,7 @@ clean-qt5:
 	(cd qt5 && git clean -dfx && git submodule foreach git clean -dfx)
 
 sdl2:
-	cd sdl2 && ../buildscripts/configure-sdl2.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT) && cd build && make install
+	cd sdl2 && ../buildscripts/configure-sdl2.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT) && cd build && $(MAKE) install
 
 x264: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-cli --enable-strip --enable-pic --cross-prefix=$(CROSS_PREFIX)
 
