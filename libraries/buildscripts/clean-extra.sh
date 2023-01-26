@@ -40,7 +40,6 @@ speech
 svg
 systems
 virtualkeyboard
-wayland
 webchannel
 webengine
 webglplugin
