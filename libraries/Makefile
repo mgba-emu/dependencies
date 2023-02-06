@@ -1,4 +1,4 @@
-PROJECTS := curl ffmpeg lame libpng libvpx libwebp libzip lua nv-codec-headers opus qt5 sqlite3 sdl2 x264 x265 zlib
+PROJECTS := curl ffmpeg json-c lame libpng libvpx libwebp libzip lua nv-codec-headers opus qt5 sqlite3 sdl2 x264 x265 zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 LDFLAGS += -L$(ROOT)/lib
@@ -85,6 +85,8 @@ curl: $(CURL_SSL)
 ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh "$(CROSS_PREFIX)" $(ROOT)
 ffmpeg: lame libpng libvpx libwebp nv-codec-headers opus x264 x265 zlib
 ffmpeg: clean-ffmpeg
+
+json-c: CONFIGURE=cmake . -DBUILD_STATIC_LIBS=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" -DCMAKE_INSTALL_PREFIX="$(ROOT)"
 
 lame: CONFIGURE_FLAGS=--disable-frontend
 

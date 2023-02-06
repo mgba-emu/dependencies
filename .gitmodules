@@ -62,3 +62,6 @@
 [submodule "libraries/curl"]
 	path = libraries/curl
 	url = https://github.com/curl/curl.git
+[submodule "libraries/json-c"]
+	path = libraries/json-c
+	url = https://github.com/json-c/json-c.git
