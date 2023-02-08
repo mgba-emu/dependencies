@@ -48,7 +48,7 @@ OSX*)
 	fi
 	if [ $ARCH == arm64 -o $ARCH == aarch64 ]; then
 		OVERRIDES=(
-			"QMAKE_MACOSX_DEPLOYMENT_TARGET=11.0"
+			"QMAKE_MACOSX_DEPLOYMENT_TARGET=11.3"
 			"QMAKE_APPLE_DEVICE_ARCHS=arm64"
 		)
 	else
