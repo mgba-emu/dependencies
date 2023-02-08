@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -z "$CROSS_COMPILE" ]; then
+if [ -z "$CROSS_COMPILE" ] && [ "$1" != "$CMAKE_TOOLCHAIN_FILE" ]; then
 	CROSS_COMPILE=$1
 	export CROSS_COMPILE
 fi

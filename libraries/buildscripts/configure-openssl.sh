@@ -28,6 +28,15 @@ Windows*)
 	export SYSTEM
 	export MACHINE
 	;;
+OSX*)
+	MACHINE=${HOST%%-*}
+	if [ -z "$MACHINE" ]; then
+		MACHINE=$(arch)
+	fi
+	if [ $ARCH == aarch64 ]; then
+		MACHINE=arm64
+	fi
+	export MACHINE
 esac
 
 CFLAGS=-I$ROOT/include

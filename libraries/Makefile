@@ -41,6 +41,14 @@ else
   endif
 endif
 
+ifneq ($(findstring darwin,$(HOST)),)
+  ifneq ($(findstring aarch64,$(HOST)),)
+    ARCHFLAGS += -mmacosx-version-min=11.3
+  else ifneq ($(findstring x86_64,$(HOST)),)
+    ARCHFLAGS += -mmacosx-version-min=10.13
+  endif
+endif
+
 CFLAGS += -O3 $(ARCHFLAGS) $(CPPFLAGS)
 CXXFLAGS += -O3 $(ARCHFLAGS) $(CPPFLAGS)
 export CPPFLAGS
@@ -80,7 +88,7 @@ $(foreach PROJECT, $(PROJECTS),$(PROJECT)): INSTALL=install
 $(foreach PROJECT, $(filter-out $(CUSTOM_PROJECTS),$(PROJECTS)),$(PROJECT)):
 	cd $(BASEDIR) && $(AUTORECONF) && $(CONFIGURE) && $(MAKE) $(TARGET) && $(MAKE) $(INSTALL)
 
-curl: $(CURL_SSL)
+curl: $(CURL_SSL) zlib
 	cd curl && ../buildscripts/configure-curl.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT) && cd build && $(MAKE) install
 
 ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh "$(CROSS_PREFIX)" $(ROOT)
