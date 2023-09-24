@@ -1,4 +1,4 @@
-FROM ubuntu:kinetic
+FROM ubuntu:mantic
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
@@ -11,12 +11,12 @@ RUN apt-get update && \
     apt-get autoremove -y && apt-get clean
 
 RUN update-ccache-symlinks
-RUN useradd mgba -m
-RUN mkdir -p /home/mgba/.ccache && chown mgba:mgba /home/mgba/.ccache
+RUN usermod ubuntu -l mgba -d /home/mgba && groupmod -n mgba ubuntu
+RUN mkdir -p /home/mgba/.ccache && chown -R mgba:mgba /home/mgba/
 VOLUME /home/mgba/src /home/mgba/.ccache
 USER mgba
 WORKDIR /home/mgba/src
 RUN git config --global --add safe.directory /home/mgba/src
 ENV PATH=/usr/lib/ccache:$PATH
-ENV BUILD_DIR=build-kinetic
+ENV BUILD_DIR=build-mantic
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && cmake .. $CMAKE_FLAGS && make install DESTDIR=install
