@@ -135,6 +135,8 @@ clean-qt5:
 sdl2:
 	cd sdl2 && ../buildscripts/configure-sdl2.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT) && cd build && $(MAKE) install
 
+sqlite3: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared
+
 x264: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-cli --enable-strip --enable-pic --cross-prefix=$(CROSS_PREFIX)
 
 x265: CONFIGURE=../buildscripts/configure-x265.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT)
