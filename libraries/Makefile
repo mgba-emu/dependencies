@@ -72,12 +72,13 @@ CUSTOM_CLEAN = clean-qt5 clean-luajit
 $(foreach PROJECT, $(filter-out $(CUSTOM_CLEAN),$(CLEAN_PROJECTS)),$(PROJECT)):
 	-$(MAKE) -C $(subst clean-,,$@) distclean
 
+$(foreach PROJECT, $(PROJECTS),$(PROJECT)): AUTORECONF=[ ! -r configure.ac -a ! -r configure.in ] || autoreconf --force --install
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)): CONFIGURE=bash ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared SHELL=bash $(CONFIGURE_FLAGS)
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)): BASEDIR=$@
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)): TARGET=all
 $(foreach PROJECT, $(PROJECTS),$(PROJECT)): INSTALL=install
 $(foreach PROJECT, $(filter-out $(CUSTOM_PROJECTS),$(PROJECTS)),$(PROJECT)):
-	cd $(BASEDIR) && $(CONFIGURE) && $(MAKE) $(TARGET) && $(MAKE) $(INSTALL)
+	cd $(BASEDIR) && $(AUTORECONF) && $(CONFIGURE) && $(MAKE) $(TARGET) && $(MAKE) $(INSTALL)
 
 curl: $(CURL_SSL)
 	cd curl && ../buildscripts/configure-curl.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT) && cd build && $(MAKE) install
@@ -88,20 +89,21 @@ ffmpeg: clean-ffmpeg
 
 json-c: CONFIGURE=cmake . -DBUILD_STATIC_LIBS=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" -DCMAKE_INSTALL_PREFIX="$(ROOT)"
 
+lame: AUTORECONF=:
 lame: CONFIGURE_FLAGS=--disable-frontend
 
-libelf: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared
+libelf: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared
 
 libepoxy: CONFIGURE_FLAGS=CFLAGS="$(CFLAGS) -DEPOXY_STATIC_LIB=ON"
 
 libpng: zlib
-libpng: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared --disable-cli --enable-strip
+libpng: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared --disable-cli --enable-strip
 
 libvpx: CONFIGURE=../buildscripts/configure-libvpx.sh "$(CROSS_PREFIX)" $(ROOT)
 libvpx: MAKEFLAGS+=-j1
 libvpx: clean-libvpx
 
-libwebp: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared --enable-libwebpmux --disable-libwebpdemux
+libwebp: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared --enable-libwebpmux --disable-libwebpdemux
 
 libzip: zlib
 libzip: CONFIGURE=../buildscripts/configure-libzip.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT)
@@ -134,8 +136,6 @@ clean-qt5:
 
 sdl2:
 	cd sdl2 && ../buildscripts/configure-sdl2.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT) && cd build && $(MAKE) install
-
-sqlite3: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared
 
 x264: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-cli --enable-strip --enable-pic --cross-prefix=$(CROSS_PREFIX)
 
