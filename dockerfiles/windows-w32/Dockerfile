@@ -6,7 +6,7 @@ RUN dpkg --add-architecture i386 && apt-get update && \
     apt-get install -y --no-install-recommends autoconf automake \
         ca-certificates ccache cmake dos2unix gcc-multilib g++ \
         g++-mingw-w64-i686 git libtool make markdown nasm patch pkg-config \
-        python-is-python3 wine wine32 yasm && \
+        python-is-python3 wine wine32 xutils-dev yasm && \
     apt-get autoremove -y && apt-get clean
 
 RUN update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix && \
