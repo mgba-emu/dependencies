@@ -72,6 +72,7 @@ export STRIP
 all: $(PROJECTS)
 
 clean: $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
+	-git submodule foreach --recursive git clean -dfx
 
 CLEAN_PROJECTS = $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
 CUSTOM_PROJECTS = curl lua luajit sdl2
