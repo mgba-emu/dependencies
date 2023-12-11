@@ -206,5 +206,5 @@ set -x
 	\
 	--arch=$ARCH --target-os=$OS --cross-prefix=$CROSS_COMPILE \
 	--cc="$CC" --cxx="$CXX" --ld="$CXX" --prefix=$ROOT --extra-ldflags="$ELDFLAGS" \
-	--enable-gpl --disable-programs --enable-static --disable-shared --enable-small \
-	--pkg-config=pkg-config --pkg_config_flags=--static
+	--enable-gpl --disable-programs --disable-doc --enable-static --disable-shared \
+	--enable-small --pkg-config=pkg-config --pkg_config_flags=--static
