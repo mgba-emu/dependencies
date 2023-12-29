@@ -3,15 +3,26 @@ FROM debian:bullseye
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends autoconf automake \
+    apt-get install -y --no-install-recommends gnupg && \
+    echo 'deb-src http://archive.ubuntu.com/ubuntu/ jammy main' >> /etc/apt/sources.list && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C && \
+    apt-get update
+RUN apt-get build-dep -y --no-install-recommends libffi8/jammy && \
+    apt-get source --compile libffi8/jammy && \
+    apt-get install -y --no-install-recommends ./libffi8_*.deb
+RUN apt-get build-dep -y --no-install-recommends wayland/jammy && \
+    apt-get source --compile wayland/jammy && \
+    apt-get install -y --no-install-recommends ./libwayland*.deb
+RUN apt-get install -y --no-install-recommends autoconf automake \
         build-essential ca-certificates ccache cmake curl file git \
-        libasound2-dev libatspi2.0-dev libcmocka-dev libedit-dev \
+        libasound2-dev libatspi2.0-dev libcmocka-dev libdrm-dev libedit-dev \
         libegl1-mesa-dev libelf-dev libfontconfig-dev libgl1-mesa-dev \
         libglu1-mesa-dev libinput-dev libpulse-dev libtool libx11-dev \
         libx11-xcb-dev '^libxcb.*-dev' libxext-dev libxi-dev \
-        libxkbcommon-dev libxkbcommon-x11-dev libxrender-dev libwayland-dev \
+        libxkbcommon-dev libxkbcommon-x11-dev libxrender-dev \
         nasm pkg-config && \
     apt-get autoremove -y && apt-get clean
+
 
 RUN mkdir -p /usr/local/bin /opt
 RUN LINUXDEPLOY_URL=https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage && \
@@ -35,7 +46,7 @@ USER mgba
 WORKDIR /home/mgba/src
 RUN git config --global --add safe.directory /home/mgba/src
 ENV PATH=/usr/lib/ccache:$PATH:/usr/local/bin:/opt/squashfs-root/usr/bin
-ENV BUILD_DIR=build-appimage
+ENV BUILD_DIR=build-appimage-x64
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && \
     cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED=OFF -DBUILD_STATIC=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON $CMAKE_FLAGS && \
     BINARY_NAME=$(cmake -DPRINT_STRING=BINARY_NAME -P ../version.cmake) && \
