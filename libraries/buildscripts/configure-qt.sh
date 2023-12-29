@@ -103,6 +103,12 @@ for PATCH in $(ls ../../patches/qttools/*.patch); do
 done
 popd
 
+pushd qtwayland
+for PATCH in $(ls ../../patches/qtwayland/*.patch); do
+	patch -Np1 < $PATCH
+done
+popd
+
 set -x
 ./configure \
 	-prefix $ROOT \

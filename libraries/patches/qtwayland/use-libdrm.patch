@@ -1,0 +1,22 @@
+diff --git a/src/compositor/configure.json b/src/compositor/configure.json
+index bcfd5215..ff97517a 100644
+--- a/src/compositor/configure.json
++++ b/src/compositor/configure.json
+@@ -152,7 +152,7 @@
+                 ]
+             },
+             "libs": "-ldrm",
+-            "use": "egl"
++            "use": "drm egl"
+         },
+         "dmabuf-client-buffer": {
+             "label": "Linux Client dma-buf Buffer Sharing",
+@@ -177,7 +177,7 @@
+                 ]
+             },
+             "libs": "-ldrm",
+-            "use": "egl"
++            "use": "drm egl"
+         },
+         "vulkan-server-buffer": {
+             "label": "Vulkan Buffer Sharing",
