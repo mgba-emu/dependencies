@@ -28,6 +28,7 @@ unset LDFLAGS
 OVERRIDES=()
 SSL=-openssl-linked
 FREETYPE="-no-freetype -no-harfbuzz"
+OPENGL=desktop
 case $OS in
 FreeBSD*)
 	OS=freebsd
@@ -70,6 +71,10 @@ FreeBSD)
 	;;
 Linux)
 	HOST=linux-g++
+	ARCH=$(arch)
+	if [ $ARCH == arm64 -o $ARCH == aarch64 ]; then
+		OPENGL=es2
+	fi
 	;;
 Darwin)
 	HOST=macx-clang
@@ -127,7 +132,7 @@ set -x
 	-system-libpng \
 	-system-sqlite \
 	$SSL OPENSSL_LIBS="$OPENSSL_LIBS"\
-	-opengl desktop \
+	-opengl $OPENGL \
 	-no-pch \
 	-no-avx2 \
 	-nomake examples \

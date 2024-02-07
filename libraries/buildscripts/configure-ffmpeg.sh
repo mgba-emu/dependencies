@@ -16,6 +16,17 @@ FreeBSD*)
 	;;
 Linux*)
 	OS=linux
+	case $(uname -m) in
+	aarch64)
+		ARCH=arm64
+		;;
+	x86_64)
+		ARCH=x86_64
+		;;
+	i*86)
+		ARCH=x86
+		;;
+	esac
 	ELDFLAGS="-pthread"
 	;;
 OSX*)

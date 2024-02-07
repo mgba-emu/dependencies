@@ -14,7 +14,18 @@ FreeBSD*)
 	OS=generic-gnu
 	;;
 Linux*)
-	OS=x86_64-linux-gcc
+	case $(uname -m) in
+	aarch64)
+		ARCH=arm64
+		;;
+	i*86)
+		ARCH=x86
+		;;
+	*)
+		ARCH=$(uname -m)
+		;;
+	esac
+	OS=$ARCH-linux-gcc
 	;;
 OSX*)
 	ARCH=${HOST%%-*}
