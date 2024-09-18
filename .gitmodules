@@ -49,7 +49,7 @@
 	url = https://chromium.googlesource.com/webm/libwebp
 [submodule "libraries/x265"]
 	path = libraries/x265
-	url = https://github.com/videolan/x265
+	url = https://bitbucket.org/multicoreware/x265_git.git
 [submodule "libraries/sdl2"]
 	path = libraries/sdl2
 	url = https://github.com/libsdl-org/SDL.git
