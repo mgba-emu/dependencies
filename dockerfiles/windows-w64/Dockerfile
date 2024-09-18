@@ -1,13 +1,19 @@
-FROM ubuntu:jammy
+FROM ubuntu:noble
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN dpkg --add-architecture i386 && apt-get update && \
     apt-get install -y --no-install-recommends libc6:i386 && \
     apt-get install -y --no-install-recommends autoconf automake \
-        ca-certificates ccache cmake dos2unix g++ g++-mingw-w64-x86-64 git \
-        libtool make markdown nasm patch pkg-config python-is-python3 wine \
-        wine32 xutils-dev yasm && \
-    apt-get autoremove -y && apt-get clean
+        ca-certificates ccache cmake curl dos2unix g++ g++-mingw-w64-x86-64 \
+        git libtool make markdown nasm patch pkg-config python-is-python3 \
+        wine wine32 xutils-dev yasm && \
+    curl -Lo /tmp/mingw-dev.deb \
+        https://mirrors.kernel.org/ubuntu/pool/universe/m/mingw-w64/mingw-w64-x86-64-dev_12.0.0-3_all.deb && \
+    curl -Lo /tmp/mingw-common.deb \
+        https://mirrors.kernel.org/ubuntu/pool/universe/m/mingw-w64/mingw-w64-common_12.0.0-3_all.deb && \
+    dpkg -i /tmp/mingw-common.deb && \
+    dpkg -i /tmp/mingw-dev.deb && \
+    apt-get autoremove -y && apt-get clean && rm /tmp/mingw-*.deb
 
 RUN update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix && \
     update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
@@ -24,8 +30,8 @@ COPY binaries/inno-setup /opt/inno-setup
 RUN chmod -R go+r /opt && \
     find /opt -type d -exec chmod go+x {} \;
 RUN update-ccache-symlinks
-RUN useradd mgba -m
-RUN mkdir -p /home/mgba/.ccache && chown mgba:mgba /home/mgba/.ccache
+run usermod ubuntu -l mgba -d /home/mgba && groupmod -n mgba ubuntu
+run mkdir -p /home/mgba/.ccache && chown -R mgba:mgba /home/mgba/
 VOLUME /home/mgba/src /home/mgba/.ccache
 USER mgba
 WORKDIR /home/mgba/src
