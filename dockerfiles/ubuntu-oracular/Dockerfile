@@ -1,4 +1,4 @@
-FROM ubuntu:mantic
+FROM ubuntu:oracular
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
@@ -18,5 +18,5 @@ USER mgba
 WORKDIR /home/mgba/src
 RUN git config --global --add safe.directory /home/mgba/src
 ENV PATH=/usr/lib/ccache:$PATH
-ENV BUILD_DIR=build-mantic
+ENV BUILD_DIR=build-oracular
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && cmake .. $CMAKE_FLAGS && make install DESTDIR=install
