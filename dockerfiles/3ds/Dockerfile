@@ -6,10 +6,9 @@ RUN apt-get update && \
 
 WORKDIR /root
 
-RUN git clone https://github.com/Steveice10/bannertool.git -b 1.2.0 && \
-    git -C bannertool submodule init && \
-    git -C bannertool/buildtools config --local --replace-all submodule.buildtools.url https://github.com/Steveice10/buildtools && \
-    git -C bannertool submodule update && \
+RUN git clone https://github.com/iamcco/bannertool.git && \
+    git -C bannertool submodule update --init && \
+    git -C bannertool checkout 1.2.0 && \
     (cd bannertool && make && install output/*/bannertool $DEVKITPRO/tools/bin) && rm -rf bannertool
 
 RUN git clone https://github.com/3DSGuy/Project_CTR.git && \
