@@ -17,26 +17,17 @@ unset STRIP
 
 case $OS in
 Windows64)
-	SYSTEM=MINGW64
-	MACHINE=x86_64
-	export SYSTEM
-	export MACHINE
+	TARGET=mingw64
 	;;
 Windows*)
-	SYSTEM=MINGW32
-	MACHINE=i686
-	export SYSTEM
-	export MACHINE
+	TARGET=mingw
 	;;
 OSX*)
-	MACHINE=${HOST%%-*}
-	if [ -z "$MACHINE" ]; then
-		MACHINE=$(arch)
-	fi
 	if [ $ARCH == aarch64 ]; then
-		MACHINE=arm64
+		TARGET=darwin64-arm64
+	else
+		TARGET=darwin64-x86_64
 	fi
-	export MACHINE
 esac
 
 CFLAGS=-I$ROOT/include
@@ -44,4 +35,8 @@ LDFLAGS=-L$ROOT/lib
 export CFLAGS
 export LDFLAGS
 
-./config --prefix=$ROOT --openssldir=$ROOT no-shared no-ssl2 no-ssl3 no-idea
+for PATCH in $(ls ../../patches/openssl/*.patch); do
+	patch -Np1 < $PATCH
+done
+
+./config --prefix=$ROOT --openssldir=$ROOT --libdir=$ROOT/lib no-asm no-docs no-idea no-shared no-ssl3 $TARGET

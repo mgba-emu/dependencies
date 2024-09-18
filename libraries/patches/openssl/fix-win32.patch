@@ -1,0 +1,13 @@
+diff --git a/include/openssl/types.h b/include/openssl/types.h
+index c28028681f..083e08c605 100644
+--- a/include/openssl/types.h
++++ b/include/openssl/types.h
+@@ -12,6 +12,8 @@
+  * See https://github.com/openssl/openssl/issues/9981
+  */
+ #ifdef _WIN32
++# include <winsock2.h>
++# include <wincrypt.h>
+ # define WINCRYPT_USE_SYMBOL_PREFIX
+ # undef X509_NAME
+ # undef X509_EXTENSIONS
