@@ -73,7 +73,7 @@ clean: $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
 	-git submodule foreach --recursive git clean -dfx
 
 CLEAN_PROJECTS = $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
-CUSTOM_PROJECTS = curl lua luajit sdl2
+CUSTOM_PROJECTS = curl lua luajit
 CUSTOM_CLEAN = clean-qt5 clean-luajit
 
 $(foreach PROJECT, $(filter-out $(CUSTOM_CLEAN),$(CLEAN_PROJECTS)),$(PROJECT)):
@@ -141,7 +141,10 @@ qt5: TARGET=first
 clean-qt5:
 	(cd qt5 && git clean -dfx && git submodule foreach git clean -dfx)
 
-sdl2: CONFIGURE=cmake . -DSDL_STATIC=ON -DSDL_SHARED=OFF -DLIBC=ON -DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" -DCMAKE_INSTALL_PREFIX="$(ROOT)" $(CMAKE_FLAGS)
+#sdl2:
+#	cd sdl2 && ../buildscripts/configure-sdl2.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT) && cd build && $(MAKE) install
+sdl2: AUTORECONF=:
+sdl2: CONFIGURE=cmake -B build -DSDL_STATIC=ON -DSDL_SHARED=OFF -DLIBC=ON -DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" -DCMAKE_INSTALL_PREFIX="$(ROOT)" $(CMAKE_FLAGS) && cd build
 
 x264: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-cli --enable-strip --enable-pic --cross-prefix=$(CROSS_PREFIX) --extra-asflags="$(ASFLAGS)"
 
