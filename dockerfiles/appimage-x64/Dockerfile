@@ -58,4 +58,4 @@ CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && \
     make && \
     cmake --install . --prefix AppDir/usr --component $BINARY_NAME && \
     cmake --install . --prefix AppDir/usr --component $BINARY_NAME-qt && \
-    OUTPUT=build.appimage linuxdeploy -o appimage -v2 --appdir=AppDir
+    OUTPUT=build.appimage linuxdeploy -o appimage -v2 --appdir=AppDir --exclude-library=libwayland-client.so*
