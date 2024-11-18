@@ -9,19 +9,10 @@ fi
 BASEDIR=$(dirname $0)
 . $BASEDIR/identify-toolchain.sh
 OS=$(identify_os $CC)
-CMAKE_EXTRA=""
+CMAKE_EXTRA="$CMAKE_FLAGS"
 case $OS in
 OSX*)
-	ARCH=${HOST%%-*}
-	if [ -z "$ARCH" ]; then
-		ARCH=$(arch)
-	fi
-	if [ $ARCH == aarch64 ]; then
-		ARCH=arm64
-	else
-		CMAKE_EXTRA="-DCMAKE_OSX_DEPLOYMENT_TARGET=10.13"
-	fi
-	CMAKE_EXTRA="$CMAKE_EXTRA -DCMAKE_OSX_ARCHITECTURES=$ARCH -DCURL_USE_SECTRANSP=ON"
+	CMAKE_EXTRA="$CMAKE_EXTRA -DCURL_USE_SECTRANSP=ON"
 	;;
 Windows*)
 	CMAKE_EXTRA="-DCURL_STATIC_CRT=ON -DENABLE_UNICODE=ON"

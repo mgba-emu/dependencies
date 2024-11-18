@@ -15,4 +15,6 @@ cmake source \
 	-DENABLE_CLI=OFF \
 	-DENABLE_SHARED=OFF \
 	-DSTATIC_LINK_CRT=ON \
-	-DCMAKE_ASM_NASM_FLAGS=-w-macro-params-legacy
+	-DCMAKE_ASM_NASM_FLAGS=-w-macro-params-legacy \
+	-DASM_FLAGS="$ASFLAGS" \
+	$CMAKE_FLAGS

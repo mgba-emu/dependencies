@@ -37,8 +37,10 @@ OSX*)
 	fi
 	if [ $ARCH == arm64 -o $ARCH == aarch64 ]; then
 		ARCH=arm64
+		ECFLAGS="-mmacosx-version-min=11.3"
 	else
 		ARCH=x86_64
+		ECFLAGS="-mmacosx-version-min=10.13"
 	fi
 	ELDFLAGS="-arch $ARCH"
 	;;
@@ -216,6 +218,6 @@ set -x
 	$NVENC \
 	\
 	--arch=$ARCH --target-os=$OS --cross-prefix=$CROSS_COMPILE \
-	--cc="$CC" --cxx="$CXX" --ld="$CXX" --prefix=$ROOT --extra-ldflags="$ELDFLAGS" \
+	--cc="$CC" --cxx="$CXX" --ld="$CXX" --prefix=$ROOT --extra-cflags="$ECFLAGS" --extra-ldflags="$ELDFLAGS" \
 	--enable-gpl --disable-programs --disable-doc --enable-static --disable-shared \
 	--enable-small --pkg-config=pkg-config --pkg_config_flags=--static

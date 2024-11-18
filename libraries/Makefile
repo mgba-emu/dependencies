@@ -4,6 +4,7 @@ CPPFLAGS += -I$(ROOT)/include
 LDFLAGS += -L$(ROOT)/lib
 PKG_CONFIG_LIBDIR := $(ROOT)/lib/pkgconfig
 PKG_CONFIG_SYSROOT_DIR := /.
+CMAKE_FLAGS :=
 
 ifneq ($(HOST),)
   PROJECTS += libelf
@@ -21,15 +22,18 @@ ifneq ($(HOST),)
   ifneq ($(findstring x86_64,$(HOST)),)
     ARCHFLAGS += -msse2 -msse3
     ifeq ($(DARWIN),1)
-      ARCHFLAGS += -arch x86_64
+      ARCHFLAGS += -arch x86_64 -mmacosx-version-min=10.13
       LDFLAGS += -arch x86_64
+      CMAKE_FLAGS += -DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13
     endif
   else ifneq ($(findstring i686,$(HOST)),)
     ARCHFLAGS += -msse2 -mfpmath=sse
   else ifneq ($(findstring aarch64,$(HOST)),)
     ifeq ($(DARWIN),1)
-      ARCHFLAGS += -arch arm64
+      ARCHFLAGS += -arch arm64 -mmacosx-version-min=11.3
+      ASFLAGS += -mmacosx-version-min=11.3
       LDFLAGS += -arch arm64
+      CMAKE_FLAGS += -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_DEPLOYMENT_TARGET=11.3
     endif
   endif
 else
@@ -41,22 +45,16 @@ else
   endif
 endif
 
-ifneq ($(findstring darwin,$(HOST)),)
-  ifneq ($(findstring aarch64,$(HOST)),)
-    ARCHFLAGS += -mmacosx-version-min=11.3
-  else ifneq ($(findstring x86_64,$(HOST)),)
-    ARCHFLAGS += -mmacosx-version-min=10.13
-  endif
-endif
-
 CFLAGS += -O3 $(ARCHFLAGS) $(CPPFLAGS)
 CXXFLAGS += -O3 $(ARCHFLAGS) $(CPPFLAGS)
+export ASFLAGS
 export CPPFLAGS
 export CFLAGS
 export CXXFLAGS
 export LDFLAGS
 export PKG_CONFIG_LIBDIR
 export PKG_CONFIG_SYSROOT_DIR
+export CMAKE_FLAGS
 
 CC := $(shell buildscripts/identify-toolchain.sh "$(CROSS_PREFIX)" CC)
 CXX := $(shell buildscripts/identify-toolchain.sh "$(CROSS_PREFIX)" CXX)
@@ -96,7 +94,7 @@ ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh "$(CROSS_PREFIX)" $(ROOT)
 ffmpeg: lame libpng libvpx libwebp nv-codec-headers opus x264 x265 zlib
 ffmpeg: clean-ffmpeg
 
-json-c: CONFIGURE=cmake . -DBUILD_STATIC_LIBS=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" -DCMAKE_INSTALL_PREFIX="$(ROOT)"
+json-c: CONFIGURE=cmake . -DBUILD_STATIC_LIBS=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" -DCMAKE_INSTALL_PREFIX="$(ROOT)" $(CMAKE_FLAGS)
 
 lame: AUTORECONF=:
 lame: CONFIGURE_FLAGS=--disable-frontend
@@ -143,10 +141,9 @@ qt5: TARGET=first
 clean-qt5:
 	(cd qt5 && git clean -dfx && git submodule foreach git clean -dfx)
 
-sdl2:
-	cd sdl2 && ../buildscripts/configure-sdl2.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT) && cd build && $(MAKE) install
+sdl2: CONFIGURE=cmake . -DSDL_STATIC=ON -DSDL_SHARED=OFF -DLIBC=ON -DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" -DCMAKE_INSTALL_PREFIX="$(ROOT)" $(CMAKE_FLAGS)
 
-x264: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-cli --enable-strip --enable-pic --cross-prefix=$(CROSS_PREFIX)
+x264: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-cli --enable-strip --enable-pic --cross-prefix=$(CROSS_PREFIX) --extra-asflags="$(ASFLAGS)"
 
 x265: CONFIGURE=../buildscripts/configure-x265.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT)
 

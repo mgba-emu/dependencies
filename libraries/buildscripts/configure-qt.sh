@@ -128,7 +128,7 @@ set -x
 	-L $ROOT/lib \
 	-v \
 	-static \
-	-c++std c++17 \
+	-c++std c++14 \
 	-system-libpng \
 	-system-sqlite \
 	$SSL OPENSSL_LIBS="$OPENSSL_LIBS"\
