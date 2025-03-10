@@ -102,6 +102,7 @@ set -x
 	--enable-encoder=pcm_u32be \
 	--enable-encoder=pcm_u32le \
 	--enable-encoder=png \
+	--enable-encoder=utvideo \
 	--enable-encoder=vorbis \
 	--enable-encoder=wavpack \
 	--enable-encoder=yuv4 \
