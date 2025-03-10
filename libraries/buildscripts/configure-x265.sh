@@ -17,4 +17,5 @@ cmake source \
 	-DSTATIC_LINK_CRT=ON \
 	-DCMAKE_ASM_NASM_FLAGS=-w-macro-params-legacy \
 	-DASM_FLAGS="$ASFLAGS" \
+	-DENABLE_SVE2=OFF \
 	$CMAKE_FLAGS
