@@ -30,7 +30,9 @@ RUN apt-get install -y --no-install-recommends automake build-essential \
 
 RUN mkdir -p /usr/local/bin /opt
 RUN LINUXDEPLOY_URL=https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage && \
-    curl -L "${LINUXDEPLOY_URL}" -o /opt/linuxdeploy-x86_64.AppImage
+    RUNTIME_URL=https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-x86_64 && \
+    curl -L "${LINUXDEPLOY_URL}" -o /opt/linuxdeploy-x86_64.AppImage && \
+    curl -L "${RUNTIME_URL}" -o /opt/appimage-runtime
 RUN chmod +x /opt/linuxdeploy*.AppImage
 RUN cd /opt && ./linuxdeploy-x86_64.AppImage --appimage-extract
 
@@ -58,4 +60,4 @@ CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && \
     make && \
     cmake --install . --prefix AppDir/usr --component $BINARY_NAME && \
     cmake --install . --prefix AppDir/usr --component $BINARY_NAME-qt && \
-    OUTPUT=build.appimage linuxdeploy -o appimage -v2 --appdir=AppDir --exclude-library=libwayland-client.so*
+    OUTPUT=build.appimage LDAI_RUNTIME_FILE=/opt/appimage-runtime linuxdeploy -o appimage -v2 --appdir=AppDir --exclude-library=libwayland-client.so*
