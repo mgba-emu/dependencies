@@ -27,7 +27,7 @@ unset LDFLAGS
 
 OVERRIDES=()
 SSL=-openssl-linked
-FREETYPE="-no-freetype -no-harfbuzz"
+FREETYPE="-system-freetype -no-harfbuzz"
 OPENGL=desktop
 case $OS in
 FreeBSD*)

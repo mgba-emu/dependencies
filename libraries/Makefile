@@ -1,4 +1,4 @@
-PROJECTS := curl ffmpeg json-c lame libpng libvpx libwebp libzip lua nv-codec-headers opus qt5 sqlite3 sdl2 x264 x265 zlib
+PROJECTS := curl ffmpeg freetype json-c lame libpng libvpx libwebp libzip lua nv-codec-headers opus qt5 sqlite3 sdl2 x264 x265 zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 LDFLAGS += -L$(ROOT)/lib
@@ -94,6 +94,9 @@ ffmpeg: CONFIGURE=../buildscripts/configure-ffmpeg.sh "$(CROSS_PREFIX)" $(ROOT)
 ffmpeg: lame libpng libvpx libwebp nv-codec-headers opus x264 x265 zlib
 ffmpeg: clean-ffmpeg
 
+freetype: CONFIGURE=cmake -B build -DFT_REQUIRE_ZLIB=ON -DFT_DISABLE_BZIP2=ON -DFT_DISABLE_PNG=ON -DFT_DISABLE_HARFBUZZ=ON -DFT_DISABLE_BROTLI=ON -DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" -DCMAKE_INSTALL_PREFIX="$(ROOT)" $(CMAKE_FLAGS) && cd build
+freetype: zlib
+
 json-c: CONFIGURE=cmake . -DBUILD_STATIC_LIBS=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" -DCMAKE_INSTALL_PREFIX="$(ROOT)" $(CMAKE_FLAGS)
 
 lame: AUTORECONF=:
@@ -135,7 +138,7 @@ opus: CFLAGS+=-D_FORTIFY_SOURCE=0
 opus: CONFIGURE=autoreconf --force --install && ./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-shared --disable-extra-programs
 
 qt5: CONFIGURE=../buildscripts/configure-qt.sh "$(CROSS_PREFIX)" $(ROOT)
-qt5: libpng openssl sqlite3
+qt5: freetype libpng openssl sqlite3
 qt5: TARGET=first
 
 clean-qt5:

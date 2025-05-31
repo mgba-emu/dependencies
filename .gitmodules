@@ -65,3 +65,6 @@
 [submodule "libraries/json-c"]
 	path = libraries/json-c
 	url = https://github.com/json-c/json-c.git
+[submodule "libraries/freetype"]
+	path = libraries/freetype
+	url = https://gitlab.freedesktop.org/freetype/freetype.git
