@@ -45,6 +45,8 @@ if [[ "$BUILD" =~ appimage|windows ]]; then
     (cd libraries && buildscripts/clean-extra.sh)
     git submodule update --recursive
 fi
+export BUILDKIT_PROGRESS=plain
+export BUILDKIT_STEP_LOG_MAX_SPEED=-1
 docker build --pull $QUIET -t mgba/$BUILD . -f $DOCKERFILE
 if [ "$SQUASH" = yes ]; then
 	docker-squash mgba/$BUILD -f $FROM -t mgba/$BUILD
