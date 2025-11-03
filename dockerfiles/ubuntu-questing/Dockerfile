@@ -1,13 +1,13 @@
-FROM ubuntu:oracular
+FROM ubuntu:questing
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential ccache cmake \
         git libavcodec-dev libavfilter-dev libavformat-dev libavutil-dev \
         libcmocka-dev libedit-dev libelf-dev libjson-c-dev liblua5.4-dev \
-        libpng-dev libqt5opengl5-dev libsdl2-dev libsqlite3-dev \
-        libswresample-dev libswscale-dev libzip-dev qtmultimedia5-dev \
-        qttools5-dev qttools5-dev-tools zipcmp zipmerge ziptool && \
+        libpng-dev libsdl2-dev libsqlite3-dev libswresample-dev \
+        libswscale-dev libzip-dev qt6-multimedia-dev qt6-tools-dev zipcmp \
+        zipmerge ziptool && \
     apt-get autoremove -y && apt-get clean
 
 RUN update-ccache-symlinks
