@@ -47,6 +47,9 @@
 [submodule "libwebp"]
 	path = libraries/libwebp
 	url = https://chromium.googlesource.com/webm/libwebp
+[submodule "sqlite3"]
+	path = libraries/sqlite3
+	url = https://github.com/sqlite/sqlite
 [submodule "libraries/x265"]
 	path = libraries/x265
 	url = https://bitbucket.org/multicoreware/x265_git.git
