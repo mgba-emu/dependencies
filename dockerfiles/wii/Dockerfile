@@ -5,8 +5,9 @@ RUN apt-get update && \
     apt-get autoremove -y && apt-get clean
 
 WORKDIR /root
-RUN curl -L https://github.com/FIX94/libwiidrc/releases/download/v1.3/libwiidrc-v1.3.zip -o libwiidrc.zip
-RUN unzip libwiidrc.zip "Library/*" && mv Library/lib/libwiidrc.a ${DEVKITPRO}/portlibs/ppc/lib && mv Library/include/wiidrc ${DEVKITPRO}/portlibs/ppc/include && rm -r Library libwiidrc.zip
+RUN git clone https://github.com/FIX94/libwiidrc.git && \
+	(cd libwiidrc && mkdir lib && make && mv lib/libwiidrc.a ${DEVKITPRO}/portlibs/ppc/lib && mv include/wiidrc ${DEVKITPRO}/portlibs/ppc/include) && \
+	rm -rf libwiidrc
 
 RUN useradd mgba -m
 VOLUME /home/mgba/src
