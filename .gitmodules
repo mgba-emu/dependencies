@@ -53,8 +53,8 @@
 [submodule "libraries/x265"]
 	path = libraries/x265
 	url = https://bitbucket.org/multicoreware/x265_git.git
-[submodule "libraries/sdl2"]
-	path = libraries/sdl2
+[submodule "libraries/sdl"]
+	path = libraries/sdl
 	url = https://github.com/libsdl-org/SDL.git
 [submodule "libraries/lua"]
 	path = libraries/lua

@@ -1,30 +1,17 @@
-FROM debian:bullseye
+FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends ca-certificates curl gnupg && \
-    echo 'deb-src http://archive.ubuntu.com/ubuntu/ jammy main' >> /etc/apt/sources.list && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C && \
-    apt-get update
-RUN apt-get build-dep -y --no-install-recommends libffi8/jammy && \
-    apt-get source --compile libffi8/jammy && \
-    apt-get install -y --no-install-recommends ./libffi8_*.deb && \
-    rm libffi8_*.deb
-RUN apt-get build-dep -y --no-install-recommends wayland/jammy && \
-    apt-get source --compile wayland/jammy && \
-    apt-get install -y --no-install-recommends ./libwayland*.deb && \
-    rm libwayland*.deb
-RUN curl -LO https://ftp.debian.org/debian/pool/main/a/autoconf/autoconf_2.71-3_all.deb && \
-    apt-get install -y --no-install-recommends ./autoconf*.deb && \
-    rm autoconf*.deb
-RUN apt-get install -y --no-install-recommends automake build-essential \
+    apt-get install -y --no-install-recommends autoconf automake \
+        build-essential ca-certificates curl gnupg libffi-dev libwayland-dev \
         ccache cmake file git libasound2-dev libatspi2.0-dev libcmocka-dev \
-        libdrm-dev libedit-dev libegl1-mesa-dev libelf-dev libfontconfig-dev \
-        libgl1-mesa-dev libglu1-mesa-dev libinput-dev libpulse-dev libtool \
-        libx11-dev libx11-xcb-dev '^libxcb.*-dev' libxext-dev libxi-dev \
-        libxkbcommon-dev libxkbcommon-x11-dev libxrender-dev nasm \
-        pkg-config && \
+        libdecor-0-dev libdrm-dev libedit-dev libegl1-mesa-dev libelf-dev \
+        libfontconfig-dev libgl1-mesa-dev libglu1-mesa-dev libhidapi-dev \
+        libinput-dev libpulse-dev libtool libpipewire-0.3-dev libx11-dev \
+        libx11-xcb-dev '^libxcb.*-dev' libxcursor-dev libxext-dev \
+        libxfixes-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev \
+        libxrandr-dev libxss-dev libxtst-dev nasm pkg-config && \
     apt-get autoremove -y && apt-get clean
 
 

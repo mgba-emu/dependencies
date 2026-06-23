@@ -1,4 +1,4 @@
-PROJECTS := curl ffmpeg freetype json-c lame libpng libvpx libwebp libzip lua nv-codec-headers opus qt5 sqlite3 sdl2 x264 x265 zlib
+PROJECTS := curl ffmpeg freetype json-c lame libpng libvpx libwebp libzip lua nv-codec-headers opus qt5 sqlite3 sdl x264 x265 zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 LDFLAGS += -L$(ROOT)/lib
@@ -144,10 +144,8 @@ qt5: TARGET=first
 clean-qt5:
 	(cd qt5 && git clean -dfx && git submodule foreach git clean -dfx)
 
-#sdl2:
-#	cd sdl2 && ../buildscripts/configure-sdl2.sh "$(CMAKE_TOOLCHAIN_FILE)" $(ROOT) && cd build && $(MAKE) install
-sdl2: AUTORECONF=:
-sdl2: CONFIGURE=cmake -B build -DSDL_STATIC=ON -DSDL_SHARED=OFF -DLIBC=ON -DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" -DCMAKE_INSTALL_PREFIX="$(ROOT)" $(CMAKE_FLAGS) && cd build
+sdl: AUTORECONF=:
+sdl: CONFIGURE=cmake -B build -DSDL_STATIC=ON -DSDL_SHARED=OFF -DLIBC=ON -DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" -DCMAKE_INSTALL_PREFIX="$(ROOT)" $(CMAKE_FLAGS) && cd build
 
 x264: CONFIGURE=./configure --enable-static --host=$(HOST) --prefix=$(ROOT) --disable-cli --enable-strip --enable-pic --cross-prefix=$(CROSS_PREFIX) --extra-asflags="$(ASFLAGS)"
 
