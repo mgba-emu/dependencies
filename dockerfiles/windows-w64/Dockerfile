@@ -1,4 +1,4 @@
-FROM ubuntu:noble
+FROM ubuntu:resolute
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN dpkg --add-architecture i386 && apt-get update && \
@@ -30,8 +30,8 @@ COPY binaries/inno-setup /opt/inno-setup
 RUN chmod -R go+r /opt && \
     find /opt -type d -exec chmod go+x {} \;
 RUN update-ccache-symlinks
-run usermod ubuntu -l mgba -d /home/mgba && groupmod -n mgba ubuntu
-run mkdir -p /home/mgba/.ccache && chown -R mgba:mgba /home/mgba/
+RUN usermod ubuntu -l mgba -d /home/mgba && groupmod -n mgba ubuntu
+RUN mkdir -p /home/mgba/.ccache && chown -R mgba:mgba /home/mgba/
 VOLUME /home/mgba/src /home/mgba/.ccache
 USER mgba
 WORKDIR /home/mgba/src
