@@ -71,3 +71,6 @@
 [submodule "libraries/freetype"]
 	path = libraries/freetype
 	url = https://gitlab.freedesktop.org/freetype/freetype.git
+[submodule "libraries/qt6"]
+	path = libraries/qt6
+	url = https://github.com/qt/qt5

@@ -4,14 +4,15 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends autoconf automake \
-        build-essential ca-certificates curl gnupg libffi-dev libwayland-dev \
-        ccache cmake file git libasound2-dev libatspi2.0-dev libcmocka-dev \
-        libdecor-0-dev libdrm-dev libedit-dev libegl1-mesa-dev libelf-dev \
-        libfontconfig-dev libgl1-mesa-dev libglu1-mesa-dev libhidapi-dev \
-        libinput-dev libpulse-dev libtool libpipewire-0.3-dev libx11-dev \
-        libx11-xcb-dev '^libxcb.*-dev' libxcursor-dev libxext-dev \
-        libxfixes-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev \
-        libxrandr-dev libxss-dev libxtst-dev nasm pkg-config && \
+        build-essential ca-certificates ccache cmake curl file git gnupg \
+        libasound2-dev libatspi2.0-dev libcmocka-dev libdecor-0-dev \
+        libdrm-dev libedit-dev libegl1-mesa-dev libelf-dev libffi-dev \
+        libfontconfig-dev libfreetype-dev libgl1-mesa-dev libglu1-mesa-dev \
+        libharfbuzz-dev libhidapi-dev libinput-dev libpulse-dev libtool \
+        libpipewire-0.3-dev libx11-dev libx11-xcb-dev '^libxcb.*-dev' \
+        libxcursor-dev libxext-dev libxfixes-dev libxi-dev libxkbcommon-dev \
+        libxkbcommon-x11-dev libxrandr-dev libxss-dev libxtst-dev \
+        libwayland-dev nasm pkg-config && \
     apt-get autoremove -y && apt-get clean
 
 

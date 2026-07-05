@@ -1,4 +1,4 @@
-PROJECTS := curl ffmpeg freetype json-c lame libpng libvpx libwebp libzip lua nv-codec-headers opus qt5 sqlite3 sdl x264 x265 zlib
+PROJECTS := curl ffmpeg json-c lame libpng libvpx libwebp libzip lua nv-codec-headers opus sqlite3 sdl x264 x265 zlib
 ROOT ?= /
 CPPFLAGS += -I$(ROOT)/include
 LDFLAGS += -L$(ROOT)/lib
@@ -8,17 +8,35 @@ CMAKE_FLAGS :=
 
 ifneq ($(HOST),)
   PROJECTS += libelf
+
   ifneq ($(findstring darwin,$(HOST)),)
     DARWIN := 1
     CURL_SSL := secure-transport
+  else ifneq ($(findstring mingw,$(HOST)),)
+    WINDOWS := 1
   else
+    LINUX := 1
+  endif
+
+  ifneq ($(DARWIN),1)
     PROJECTS += libepoxy openssl
     CROSS_PREFIX ?= $(HOST)-
     CURL_SSL := openssl
   endif
-  ifeq ($(findstring mingw,$(HOST)),)
+  ifneq ($(WINDOWS),1)
     PROJECTS += libedit
   endif
+  ifeq ($(DARWIN),1)
+    PROJECTS += qt5
+  else ifneq ($(findstring mingw,$(HOST)),)
+    PROJECTS += qt5
+  else
+    PROJECTS += qt6
+  endif
+  ifneq ($(LINUX),1)
+    PROJECTS += freetype
+  endif
+
   ifneq ($(findstring x86_64,$(HOST)),)
     ARCHFLAGS += -msse2 -msse3
     ifeq ($(DARWIN),1)
@@ -38,7 +56,7 @@ ifneq ($(HOST),)
   endif
 else
   PKG_CONFIG_LIBDIR := $(PKG_CONFIG_LIBDIR):/usr/lib/pkgconfig:/usr/lib/$(shell gcc -print-multiarch)/pkgconfig
-  PROJECTS += libedit openssl
+  PROJECTS += libedit openssl qt6
   CURL_SSL := openssl
   ifneq ($(findstring x86_64,$(shell uname -m)),)
     ARCHFLAGS += -msse2 -msse3
@@ -67,14 +85,17 @@ export AR
 export RANLIB
 export STRIP
 
-all: $(PROJECTS)
+all: show-projects $(PROJECTS)
+
+show-projects:
+	@echo Building projects: $(PROJECTS)
 
 clean: $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
 	-git submodule foreach --recursive git clean -dfx
 
 CLEAN_PROJECTS = $(foreach PROJECT, $(PROJECTS),clean-$(PROJECT))
 CUSTOM_PROJECTS = curl lua luajit
-CUSTOM_CLEAN = clean-qt5 clean-luajit
+CUSTOM_CLEAN = clean-qt5 clean-qt6 clean-luajit
 
 $(foreach PROJECT, $(filter-out $(CUSTOM_CLEAN),$(CLEAN_PROJECTS)),$(PROJECT)):
 	-$(MAKE) -C $(subst clean-,,$@) distclean
@@ -141,8 +162,14 @@ qt5: CONFIGURE=../buildscripts/configure-qt.sh "$(CROSS_PREFIX)" $(ROOT)
 qt5: freetype libpng openssl sqlite3
 qt5: TARGET=first
 
+qt6: CONFIGURE=../buildscripts/configure-qt.sh "$(CROSS_PREFIX)" $(ROOT)
+qt6: ffmpeg libpng openssl sqlite3
+
 clean-qt5:
 	(cd qt5 && git clean -dfx && git submodule foreach git clean -dfx)
+
+clean-qt6:
+	(cd qt6 && git clean -dfx && git submodule foreach git clean -dfx)
 
 sdl: AUTORECONF=:
 sdl: CONFIGURE=cmake -B build -DSDL_STATIC=ON -DSDL_SHARED=OFF -DLIBC=ON -DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" -DCMAKE_INSTALL_PREFIX="$(ROOT)" $(CMAKE_FLAGS) && cd build

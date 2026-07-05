@@ -7,9 +7,12 @@ if [ -z "$ROOT" ]; then
 fi
 
 BASEDIR=$(dirname $0)
+QT=$(basename $PWD)
 . $BASEDIR/identify-toolchain.sh
 OS=$(identify_os $CC)
 COMPILER=$(identify_compiler $CXX)
+
+echo Configuring Qt in $PWD
 
 export QMAKE_CXXFLAGS=$CXXFLAGS
 OPENSSL_LIBS="-lssl -lcrypto"
@@ -35,7 +38,7 @@ FreeBSD*)
 	;;
 Linux*)
 	OS=linux
-	FREETYPE=""
+	FREETYPE="-system-freetype -system-harfbuzz"
 	OVERRIDES=("QMAKE_LFLAGS=-pthread")
 	LIBS="$LIBS -ldl"
 	;;
@@ -81,6 +84,45 @@ Darwin)
 	;;
 esac
 
+QTFLAGS=()
+case $QT in
+qt5)
+	QTFLAGS=(
+		"-v"
+		"-no-compile-examples"
+		"-nomake tools"
+	)
+	;;
+qt6)
+	unset PKG_CONFIG_LIBDIR
+	QTFLAGS=(
+		"-no-feature-assistant"
+		"-no-feature-designer"
+		"-no-intelcet"
+		"-no-feature-qml-animation"
+		"-no-feature-qml-debug"
+		"-no-feature-qml-delegate-model"
+		"-no-feature-qml-itemmodel"
+		"-no-feature-qml-jit"
+		"-no-feature-qml-list-model"
+		"-no-feature-qml-network"
+		"-no-feature-qml-object-model"
+		"-no-feature-qml-preview"
+		"-no-feature-qml-profiler"
+		"-no-feature-qml-sfpm-model"
+		"-no-feature-qml-ssl"
+		"-no-feature-qml-table-model"
+		"-no-feature-qml-worker-script"
+		"-no-feature-qml-xml-http-request"
+		"-no-feature-qml-xmllistmodel"
+	)
+	;;
+*)
+	echo "Unknown Qt version"
+	exit 1
+	;;
+esac
+
 CROSS_FLAGS=()
 if [ -n "$CROSS_COMPILE" ]; then
 	CROSS_FLAGS=(
@@ -114,7 +156,7 @@ set -x
 	QMAKE_LIBS="$LIBS" \
 	-I $ROOT/include \
 	-L $ROOT/lib \
-	-v \
+	${QTFLAGS[*]} \
 	-static \
 	-c++std c++17 \
 	-system-libpng \
@@ -124,9 +166,7 @@ set -x
 	-no-pch \
 	-no-avx2 \
 	-nomake examples \
-	-nomake tools \
 	-nomake tests \
-	-no-compile-examples \
 	-no-icu \
 	-no-gif \
 	-no-sql-odbc \
