@@ -1,4 +1,4 @@
-FROM ubuntu:questing
+FROM ubuntu:stonking
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
@@ -18,5 +18,5 @@ USER mgba
 WORKDIR /home/mgba/src
 RUN git config --global --add safe.directory /home/mgba/src
 ENV PATH=/usr/lib/ccache:$PATH
-ENV BUILD_DIR=build-questing
+ENV BUILD_DIR=build-resolute
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && cmake .. $CMAKE_FLAGS && make install DESTDIR=install
