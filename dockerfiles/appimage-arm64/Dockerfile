@@ -6,13 +6,13 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends autoconf automake \
         build-essential ca-certificates ccache cmake curl file git gnupg \
         libasound2-dev libatspi2.0-dev libcmocka-dev libdecor-0-dev \
-        libdrm-dev libedit-dev libegl1-mesa-dev libelf-dev libffi-dev \
-        libfontconfig-dev libfreetype-dev libgles-dev libharfbuzz-dev \
-        libhidapi-dev libinput-dev libpulse-dev libtool libpipewire-0.3-dev \
-        libx11-dev libx11-xcb-dev '^libxcb.*-dev' libxcursor-dev libxext-dev \
-        libxfixes-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev \
-        libxrandr-dev libxss-dev libxtst-dev libwayland-dev nasm \
-        pkg-config && \
+        libdrm-dev libedit-dev libegl1-mesa-dev libelf-dev libepoxy-dev \
+        libffi-dev libfontconfig-dev libfreetype-dev libgles-dev \
+        libharfbuzz-dev libhidapi-dev libinput-dev libpulse-dev libtool \
+        libpipewire-0.3-dev libx11-dev libx11-xcb-dev '^libxcb.*-dev' \
+        libxcursor-dev libxext-dev libxfixes-dev libxi-dev libxkbcommon-dev \
+        libxkbcommon-x11-dev libxrandr-dev libxss-dev libxtst-dev \
+        libwayland-dev nasm pkg-config && \
     apt-get autoremove -y && apt-get clean
 
 
