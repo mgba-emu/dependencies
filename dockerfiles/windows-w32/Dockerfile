@@ -29,8 +29,7 @@ RUN ROOT=/opt/win32 HOST=i686-w64-mingw32 CMAKE_TOOLCHAIN_FILE=/opt/win32/CMakeT
 
 COPY licenses /opt/licenses
 COPY binaries/inno-setup /opt/inno-setup
-RUN chmod -R go+r /opt && \
-    find /opt -type d -exec chmod go+x {} \;
+RUN chmod -R go=u-w /opt
 
 FROM base AS builder
 COPY --from=build /opt /opt

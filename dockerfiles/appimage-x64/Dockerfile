@@ -35,8 +35,7 @@ RUN find x265 -name .git -delete
 
 RUN ROOT=/usr/local make -j4 && cd .. && rm -rf dependencies
 COPY licenses /opt/licenses
-RUN chmod -R go+r /usr/local && \
-    find /usr/local -type d -exec chmod go+x {} \;
+RUN chmod -R go=u-w /usr/local
 
 FROM base AS builder
 COPY --from=build /opt /opt
