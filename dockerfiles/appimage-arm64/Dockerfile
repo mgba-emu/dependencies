@@ -19,10 +19,10 @@ RUN apt-get update && \
 RUN mkdir -p /usr/local/bin /opt
 RUN LINUXDEPLOY_URL=https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-aarch64.AppImage && \
     RUNTIME_URL=https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-aarch64 && \
-    curl -L "${LINUXDEPLOY_URL}" -o /opt/linuxdeploy-aarch64.AppImage && \
+    curl -L "${LINUXDEPLOY_URL}" -o /opt/linuxdeploy.AppImage && \
     curl -L "${RUNTIME_URL}" -o /opt/appimage-runtime
-RUN chmod +x /opt/linuxdeploy*.AppImage
-RUN cd /opt && ./linuxdeploy-aarch64.AppImage --appimage-extract && chmod -R go=u-w /opt/squashfs-root
+RUN chmod +x /opt/linuxdeploy.AppImage
+RUN cd /opt && ./linuxdeploy.AppImage --appimage-extract && chmod -R go=u-w /opt/squashfs-root
 
 COPY libraries /root/dependencies/
 WORKDIR /root/dependencies

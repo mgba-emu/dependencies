@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends autoconf automake \
-        build-essential ca-certificates ccache cmake curl file git gnupg \
+        build-essential ca-certificates ccache curl file git gnupg \
         libasound2-dev libatspi2.0-dev libcmocka-dev libdecor-0-dev \
         libdrm-dev libedit-dev libegl1-mesa-dev libelf-dev libffi-dev \
         libfontconfig-dev libfreetype-dev libgl1-mesa-dev libglu1-mesa-dev \
@@ -13,16 +13,20 @@ RUN apt-get update && \
         libxcursor-dev libxext-dev libxfixes-dev libxi-dev libxkbcommon-dev \
         libxkbcommon-x11-dev libxrandr-dev libxss-dev libxtst-dev \
         libwayland-dev nasm pkg-config && \
+	curl -LO http://ftp.debian.org/debian/pool/main/c/cmake/cmake_3.25.1-1_amd64.deb && \
+	curl -LO http://ftp.debian.org/debian/pool/main/c/cmake/cmake-data_3.25.1-1_all.deb && \
+	apt-get install -y --no-install-recommends ./*.deb && \
+	rm *.deb && \
     apt-get autoremove -y && apt-get clean
 
 
 RUN mkdir -p /usr/local/bin /opt
 RUN LINUXDEPLOY_URL=https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage && \
     RUNTIME_URL=https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-x86_64 && \
-    curl -L "${LINUXDEPLOY_URL}" -o /opt/linuxdeploy-x86_64.AppImage && \
+    curl -L "${LINUXDEPLOY_URL}" -o /opt/linuxdeploy.AppImage && \
     curl -L "${RUNTIME_URL}" -o /opt/appimage-runtime
-RUN chmod +x /opt/linuxdeploy*.AppImage
-RUN cd /opt && ./linuxdeploy-x86_64.AppImage --appimage-extract
+RUN chmod +x /opt/linuxdeploy.AppImage
+RUN cd /opt && ./linuxdeploy.AppImage --appimage-extract && chmod -R go=u-w /opt/squashfs-root
 
 COPY libraries /root/dependencies/
 WORKDIR /root/dependencies
