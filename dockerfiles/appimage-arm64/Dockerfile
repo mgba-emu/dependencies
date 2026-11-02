@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:bookworm AS base
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -24,6 +24,7 @@ RUN LINUXDEPLOY_URL=https://github.com/linuxdeploy/linuxdeploy/releases/download
 RUN chmod +x /opt/linuxdeploy.AppImage
 RUN cd /opt && ./linuxdeploy.AppImage --appimage-extract && chmod -R go=u-w /opt/squashfs-root
 
+FROM base AS build
 COPY libraries /root/dependencies/
 WORKDIR /root/dependencies
 RUN find x265 -name .git -delete
@@ -32,6 +33,10 @@ RUN ROOT=/usr/local make -j4 && cd .. && rm -rf dependencies
 COPY licenses /opt/licenses
 RUN chmod -R go+r /usr/local && \
     find /usr/local -type d -exec chmod go+x {} \;
+
+FROM base AS builder
+COPY --from=build /opt /opt
+COPY --from=build /usr/local /usr/local
 RUN update-ccache-symlinks
 RUN useradd mgba -m
 RUN mkdir -p /home/mgba/.ccache && chown mgba:mgba /home/mgba/.ccache

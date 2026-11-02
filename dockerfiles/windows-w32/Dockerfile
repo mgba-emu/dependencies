@@ -1,4 +1,4 @@
-FROM ubuntu:resolute
+FROM ubuntu:resolute AS base
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN dpkg --add-architecture i386 && apt-get update && \
@@ -17,6 +17,8 @@ RUN dpkg --add-architecture i386 && apt-get update && \
 
 RUN update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix && \
     update-alternatives --set i686-w64-mingw32-g++ /usr/bin/i686-w64-mingw32-g++-posix
+
+FROM base AS build
 RUN mkdir -p /opt/win32
 COPY dockerfiles/windows-w32/CMakeToolchain.txt /opt/win32
 COPY libraries /root/dependencies/
@@ -29,6 +31,9 @@ COPY licenses /opt/licenses
 COPY binaries/inno-setup /opt/inno-setup
 RUN chmod -R go+r /opt && \
     find /opt -type d -exec chmod go+x {} \;
+
+FROM base AS builder
+COPY --from=build /opt /opt
 RUN update-ccache-symlinks
 RUN usermod ubuntu -l mgba -d /home/mgba && groupmod -n mgba ubuntu
 RUN mkdir -p /home/mgba/.ccache && chown -R mgba:mgba /home/mgba/
