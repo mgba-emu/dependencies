@@ -56,4 +56,5 @@ CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && \
     make && \
     cmake --install . --prefix AppDir/usr --component $BINARY_NAME && \
     cmake --install . --prefix AppDir/usr --component $BINARY_NAME-qt && \
+    cmake --install . --prefix dbg/usr --component $BINARY_NAME-qt-dbg && \
     OUTPUT=build.appimage LDAI_RUNTIME_FILE=/opt/appimage-runtime linuxdeploy -o appimage -v2 --appdir=AppDir --exclude-library=libwayland-client.so*
