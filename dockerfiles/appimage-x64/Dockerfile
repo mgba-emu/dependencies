@@ -52,9 +52,11 @@ ENV BUILD_DIR=build-appimage-x64
 CMD mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR" && \
     cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED=OFF -DBUILD_STATIC=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON $CMAKE_FLAGS && \
     BINARY_NAME=$(cmake -DPRINT_STRING=BINARY_NAME -P ../version.cmake) && \
+    CPACK_PACKAGE_FILE_NAME=$(cmake -DPRINT_STRING=CPACK_PACKAGE_FILE_NAME -P ../version.cmake) && \
     cmake . -DDATADIR="../share/${BINARY_NAME}" $CMAKE_FLAGS && \
     make && \
     cmake --install . --prefix AppDir/usr --component $BINARY_NAME && \
     cmake --install . --prefix AppDir/usr --component $BINARY_NAME-qt && \
     cmake --install . --prefix dbg/usr --component $BINARY_NAME-qt-dbg && \
-    OUTPUT=build.appimage LDAI_RUNTIME_FILE=/opt/appimage-runtime linuxdeploy -o appimage -v2 --appdir=AppDir --exclude-library=libwayland-client.so*
+    if [ -d dbg ]; then tar cJf "$CPACK_PACKAGE_FILE_NAME-dbg.tar.xz" -C dbg .; fi && \
+    OUTPUT="$CPACK_PACKAGE_FILE_NAME.appimage" LDAI_RUNTIME_FILE=/opt/appimage-runtime linuxdeploy -o appimage -v2 --appdir=AppDir --exclude-library=libwayland-client.so*
